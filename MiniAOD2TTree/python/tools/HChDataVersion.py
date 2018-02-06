@@ -233,18 +233,18 @@ config = {
         "globalTag": "80X_mcRun2_asymptotic_2016_TrancheIV_v8",
         "signalTrigger": "HLT_LooseIsoPFTau50_Trk30_eta2p1_MET80_v1",
     },
-    "92Xdata": {
+    "94Xdata": {
         "triggerProcess": "HLT",
         "recoProcess": "RECO",                                       
         "metFilteringProcess": "RECO",
-        "globalTag": "92X_dataRun2_Prompt_v8",
+        "globalTag": "94X_dataRun2_ReReco_EOY17_v2",
     },
-    "92Xmc": {
+    "94Xmc": {
         "simProcess": "SIM",
         "triggerProcess": "HLT",
         "recoProcess": "RECO",
         "metFilteringProcess": "PAT",
-        "globalTag": "90X_upgrade2017_realistic_v20",
+        "globalTag": "94X_mc2017_realistic_v10",
         "signalTrigger": "",
     }
 }

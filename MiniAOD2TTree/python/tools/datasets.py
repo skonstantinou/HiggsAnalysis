@@ -30,12 +30,12 @@ class Dataset:
 #================================================================================================ 
 datasetsTauData = []
 das = ""
-datasetsTauData.append(Dataset('/Tau/Run2017A-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_294927-297723_13TeV_PromptReco_Collisions17_JSON_Run2017A.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017B-PromptReco-v2/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_298996-299185_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017C-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_299327-302019_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017D-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_302023-302494_13TeV_PromptReco_Collisions17_JSON_Run2017D.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017E-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_303572-304797_13TeV_PromptReco_Collisions17_JSON_Run2017E.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017F-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_305040-306462_13TeV_PromptReco_Collisions17_JSON_Run2017F.txt"))
+#datasetsTauData.append(Dataset('/Tau/Run2017A-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_294927-297723_13TeV_PromptReco_Collisions17_JSON_Run2017A.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017B-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_298996-299185_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017C-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299327-302019_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017D-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_302023-302494_13TeV_PromptReco_Collisions17_JSON_Run2017D.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017E-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303572-304797_13TeV_PromptReco_Collisions17_JSON_Run2017E.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017F-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306462_13TeV_PromptReco_Collisions17_JSON_Run2017F.txt"))
 
 datasetsJetHTData = []
 das = ""
@@ -43,73 +43,77 @@ das = ""
 
 datasetsMuonData = []
 das = ""
-#datasetsMuonData.append(Dataset('/SingleMuon/Run2017A-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_294927-297723_13TeV_PromptReco_Collisions17_JSON_Run2017A.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017B-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_297031-297101_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017B-PromptReco-v2/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_298678-299329_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_299368-299649_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-PromptReco-v2/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_299958-300676_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_300742-302029_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017D-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_302023-302494_13TeV_PromptReco_Collisions17_JSON_Run2017D.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017E-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_303572-304797_13TeV_PromptReco_Collisions17_JSON_Run2017E.txt"))
-datasetsMuonData.append(Dataset('/SingleMuon/Run2017F-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_305040-306462_13TeV_PromptReco_Collisions17_JSON_Run2017F.txt"))
-#datasetsMuonData.append(Dataset('/SingleMuon/Run2017G-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_306526-306657_13TeV_PromptReco_Collisions17_JSON_Run2017G.txt"))
-#datasetsMuonData.append(Dataset('/SingleMuon/Run2017H-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_306896-307082_13TeV_PromptReco_Collisions17_JSON_Run2017H.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017A-PromptReco-v3/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_294927-297723_13TeV_PromptReco_Collisions17_JSON_Run2017A.txt"))
+datasetsMuonData.append(Dataset('/SingleMuon/Run2017B-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_297031-297101_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017B-PromptReco-v2/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_298678-299329_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
+datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299368-299649_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-PromptReco-v2/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299958-300676_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017C-PromptReco-v3/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_300742-302029_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
+datasetsMuonData.append(Dataset('/SingleMuon/Run2017D-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_302023-302494_13TeV_PromptReco_Collisions17_JSON_Run2017D.txt"))
+datasetsMuonData.append(Dataset('/SingleMuon/Run2017E-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303572-304797_13TeV_PromptReco_Collisions17_JSON_Run2017E.txt"))
+datasetsMuonData.append(Dataset('/SingleMuon/Run2017F-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306462_13TeV_PromptReco_Collisions17_JSON_Run2017F.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017G-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_306526-306657_13TeV_PromptReco_Collisions17_JSON_Run2017G.txt"))
+#datasetsMuonData.append(Dataset('/SingleMuon/Run2017H-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_306896-307082_13TeV_PromptReco_Collisions17_JSON_Run2017H.txt"))
 
 datasetsElectronData = []
 das = ""
-datasetsElectronData.append(Dataset('/SingleElectron/Run2017C-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-datasetsElectronData.append(Dataset('/SingleElectron/Run2017D-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
+datasetsElectronData.append(Dataset('/SingleElectron/Run2017C-PromptReco-v3/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+datasetsElectronData.append(Dataset('/SingleElectron/Run2017D-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
 
 
 datasetsZeroBiasData = []
 das = ""
-#datasetsZeroBiasData.append(Dataset('/ZeroBias1/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias2/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias3/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias4/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias5/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias6/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias7/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias8/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-#datasetsZeroBiasData.append(Dataset('/ZeroBias9/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
-datasetsZeroBiasData.append(Dataset('/ZeroBias10/Run2017A-PromptReco-v1/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias1/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias2/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias3/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias4/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias5/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias6/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias7/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias8/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+#datasetsZeroBiasData.append(Dataset('/ZeroBias9/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+datasetsZeroBiasData.append(Dataset('/ZeroBias10/Run2017A-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
 
 
 
 
 
 #================================================================================================ 
-# MC, 83X
+# MC, 94X
 #================================================================================================ 
 datasetsSignalTB = []
 das = ""
 
 
 datasetsSignalTauNu = []
-#datasetsSignalTauNu.append(Dataset('', dataVersion="92Xmc", dasQuery=das))
-#datasetsSignalTauNu.append(Dataset('', dataVersion="92Xmc", dasQuery=das))
-#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_TTToHplusBWB_HplusToTauNu_M-160_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-200_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v2/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-500_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-1000_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('', dataVersion="94Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('', dataVersion="94Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_TTToHplusBWB_HplusToTauNu_M-160_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-200_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v2/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-500_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-1000_13TeV_amcatnlo_pythia8/RunIISummer17MiniAOD-NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 
 datasetsSingleTop = []
+datasetsSingleTop.append(Dataset('/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSingleTop.append(Dataset('', dataVersion="94Xmc", dasQuery=das))
 
 
 datasetsTop = []
-das = ""
-datasetsTop.append(Dataset('/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/PhaseISpring17MiniAOD-FlatPU28to62_90X_upgrade2017_realistic_v20-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das)) # new tune
 
 
 datasetsTTJets = []
-datasetsTTJets.append(Dataset('/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
+datasetsTTJets.append(Dataset('/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 datasetsDY = []
 das = ""
-datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext1"))
-datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v2/MINIAODSIM', dataVersion="92Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext2"))
+#datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext1"))
+#datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v2/MINIAODSIM', dataVersion="94Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext2"))
+datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 datasetsDYJetsToQQ = []
 
@@ -118,7 +122,7 @@ datasetsZprime = []
 
 
 datasetsWJets = []
-datasetsWJets.append(Dataset('/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
+datasetsWJets.append(Dataset('/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 
 datasetsWJetsToQQ = []
@@ -128,9 +132,9 @@ datasetsZJetsToQQ = []
 
 
 datasetsDiboson = []
-datasetsDiboson.append(Dataset('/WW_TuneCUETP8M1_13TeV-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v2/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-datasetsDiboson.append(Dataset('/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v2/MINIAODSIM', dataVersion="92Xmc", dasQuery=das))
-
+datasetsDiboson.append(Dataset('/ZZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDiboson.append(Dataset('/WZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDiboson.append(Dataset('/WW_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 datasetsDibosonToQQ = []
 
