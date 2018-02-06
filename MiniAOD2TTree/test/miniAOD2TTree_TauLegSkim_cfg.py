@@ -4,8 +4,8 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 
 process = cms.Process("TTreeDump")
 
-#dataVersion = "92Xmc"
-dataVersion = "92Xdata"
+#dataVersion = "94Xmc"
+dataVersion = "94Xdata"
 
 options, dataVersion = getOptionsDataVersion(dataVersion)
 print dataVersion
@@ -25,7 +25,7 @@ process.options = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-	'/store/data/Run2017D/Tau/MINIAOD/PromptReco-v1/000/302/031/00000/323EDA17-438F-E711-8394-02163E019E12.root',
+	'/store/data/Run2017C/SingleMuon/MINIAOD/17Nov2017-v1/40000/0015635A-0BD9-E711-A76C-02163E0133BB.root',
     ),
     secondaryFileNames = cms.untracked.vstring(
     )

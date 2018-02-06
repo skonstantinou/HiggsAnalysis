@@ -6,8 +6,8 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 
 process = cms.Process("TTreeDump")
 
-#dataVersion = "92Xmc"
-dataVersion = "92Xdata"
+#dataVersion = "94Xmc"
+dataVersion = "94Xdata"
 
 options, dataVersion = getOptionsDataVersion(dataVersion)
 
