@@ -42,7 +42,7 @@ using namespace std;
 
 HplusEventCountProducer::HplusEventCountProducer(const edm::ParameterSet& iConfig):
   eventInfoToken(consumes<GenEventInfoProduct>(edm::InputTag("generator"))) {
-  produces<edm::MergeableCounter, edm::InLumi>("Counter");
+  produces<edm::MergeableCounter, edm::Transition::EndLuminosityBlock>("Counter");
 }
 
 HplusEventCountProducer::~HplusEventCountProducer(){}
