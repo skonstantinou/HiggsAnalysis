@@ -347,7 +347,7 @@ def GetTaskStatusBool(datasetPath):
     Verbose("GetTaskStatusBool()", True)
     crabLog      = os.path.join(datasetPath,"crab.log")
     stringToGrep = "Done"
-    cmd          = "grep '%s' %s" % (stringToGrep, crabLog)
+    cmd          = "grep '%s' %s| grep --invert-match proxy" % (stringToGrep, crabLog)
 
     Verbose(cmd)
     if os.system(cmd) == 0:
