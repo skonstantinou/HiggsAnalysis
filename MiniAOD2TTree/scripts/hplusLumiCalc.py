@@ -88,8 +88,9 @@ PBARLENGTH  = 10
 minBiasXsecNominal = 69200 #from https://twiki.cern.ch/twiki/bin/viewauth/CMS/POGRecipesICHEP2016
 
 # JSON files
-NormTagJSON     = "" # FIXME, in Sept2017 normtag_DATACERT.json gives: "Failed to find data table for the requested time range." 28092017/SL
+#NormTagJSON     = "" # FIXME, in Sept2017 normtag_DATACERT.json gives: "Failed to find data table for the requested time range." 28092017/SL
 #NormTagJSON     = "/afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json"
+NormTagJSON     = "/cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_PHYSICS.json"
 PileUpJSON_2017 = "/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/PileUp/pileup_latest.txt"
 PileUpJSON_2016 = "/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt"
 PileUpJSON_2015 = "/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt"

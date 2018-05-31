@@ -30,12 +30,11 @@ class Dataset:
 #================================================================================================ 
 datasetsTauData = []
 das = ""
-#datasetsTauData.append(Dataset('/Tau/Run2017A-PromptReco-v3/MINIAOD', dataVersion="92Xdata", dasQuery=das, lumiMask="Cert_294927-297723_13TeV_PromptReco_Collisions17_JSON_Run2017A.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017B-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_298996-299185_13TeV_PromptReco_Collisions17_JSON_Run2017B.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017C-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299327-302019_13TeV_PromptReco_Collisions17_JSON_Run2017C.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017D-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_302023-302494_13TeV_PromptReco_Collisions17_JSON_Run2017D.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017E-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303572-304797_13TeV_PromptReco_Collisions17_JSON_Run2017E.txt"))
-datasetsTauData.append(Dataset('/Tau/Run2017F-17Nov2017-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306462_13TeV_PromptReco_Collisions17_JSON_Run2017F.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017B-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_297050-299329_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017B.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017C-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299368-302029_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017C.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017D-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_302031-302663_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017D.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017E-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303824-304797_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017E.txt"))
+datasetsTauData.append(Dataset('/Tau/Run2017F-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306460_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017F.txt"))
 
 datasetsJetHTData = []
 das = ""
