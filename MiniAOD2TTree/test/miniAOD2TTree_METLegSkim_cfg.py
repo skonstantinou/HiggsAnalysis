@@ -132,7 +132,7 @@ process.runEDFilter = cms.Path(process.PUInfo*
                                process.skimCounterAll*  
                                process.skim*
                                process.skimCounterPassed*
-####FIXME                               process.CustomisationsSequence*
+                               process.CustomisationsSequence*
                                process.dump)
 
 #process.output = cms.OutputModule("PoolOutputModule",
