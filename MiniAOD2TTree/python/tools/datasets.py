@@ -28,6 +28,7 @@ class Dataset:
 #================================================================================================ 
 # Data
 #================================================================================================ 
+
 datasetsTauData = []
 das = ""
 datasetsTauData.append(Dataset('/Tau/Run2017B-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_297050-299329_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017B.txt"))
@@ -53,6 +54,7 @@ datasetsElectronData = []
 das = ""
 datasetsElectronData.append(Dataset('/SingleElectron/Run2017C-PromptReco-v3/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
 datasetsElectronData.append(Dataset('/SingleElectron/Run2017D-PromptReco-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask=lumiMask))
+
 
 
 datasetsZeroBiasData = []
@@ -101,6 +103,15 @@ datasetsTop = []
 
 datasetsTTJets = []
 datasetsTTJets.append(Dataset('/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10-v3/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+
+datasetsTTJets_SingleLeptFromT = []
+das = "https://cmsweb.cern.ch/das/request?view=list&limit=150&instance=prod%2Fglobal&input=dataset%3D%2FTTJets*%2FRunII*PUMoriond17_80X_mcRun2*%2FMINIAODSIM"
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
+datasetsTTJets_SingleLeptFromT.append(Dataset('/TTJets_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM', dataVersion="80Xmc", dasQuery=das))
 
 datasetsDY = []
 das = ""
@@ -242,7 +253,8 @@ signalAnalysisDatasets.extend(datasetsDY)
 signalAnalysisDatasets.extend(datasetsTTJets)
 #signalAnalysisDatasets.extend(datasetsTop)
 signalAnalysisDatasets.extend(datasetsSingleTop)
-signalAnalysisDatasets.extend(datasetsWJets)  
+signalAnalysisDatasets.extend(datasetsWJets)
+signalAnalysisDatasets.extend(datasetsWJetsHT)  
 signalAnalysisDatasets.extend(datasetsDiboson)
 #signalAnalysisDatasets.extend(datasetsQCD)
 signalAnalysisDatasets.extend(datasetsSignalTauNu)
@@ -257,11 +269,14 @@ signalAnalysisDatasets.extend(datasetsSignalTauNu)
 #signalAnalysisDatasets.extend(datasetsSignalTauNu_reHLT)
 ##signalAnalysisDatasets.extend(datasetsSignalTB_reHLT)
 
-
+# Signal Analysis (h2tb)
 hplus2tbAnalysisDatasets = []
 hplus2tbAnalysisDatasets.extend(datasetsJetHTData)
 hplus2tbAnalysisDatasets.extend(datasetsSignalTB)
+hplus2tbAnalysisDatasets.extend(datasetsSignalTB_ext1)
 hplus2tbAnalysisDatasets.extend(datasetsTop)
+#hplus2tbAnalysisDatasets.extend(datasetsTTJets) #-ve weights
+#hplus2tbAnalysisDatasets.extend(datasetsTTJets_SingleLeptFromT)
 hplus2tbAnalysisDatasets.extend(datasetsSingleTop)
 hplus2tbAnalysisDatasets.extend(datasetsDYJetsToQQ)
 hplus2tbAnalysisDatasets.extend(datasetsWJetsToQQ)
@@ -277,7 +292,31 @@ hplus2tbAnalysisDatasets.extend(datasetsTTZToQQ)
 # hplus2tbAnalysisDatasets.extend(datasetsQCDMuEnriched)
 # hplus2tbAnalysisDatasets.extend(datasetsQCD_HT_BGenFilter) 
 # hplus2tbAnalysisDatasets.extend(datasetsQCD_HT_GenJets5) 
-# hplus2tbAnalysisDatasets.extend(datasetsTTJets) #-ve weights
+
+
+# Trigger Efficiency (h2tb)
+JetTriggersDatasets = []
+#JetTriggersDatasets.extend(datasetsJetHTData)  
+JetTriggersDatasets.extend(datasetsMuonData03Feb)
+# JetTriggersDatasets.extend(datasetsMuonData17Apr)
+#JetTriggersDatasets.extend(datasetsSignalTB) 
+JetTriggersDatasets.extend(datasetsTop)
+#JetTriggersDatasets.extend(datasetsQCD_HT)   
+JetTriggersDatasets.extend(datasetsQCDMuEnriched)
+
+# Top BDT Systematics
+TopSystBDTDatasets = []
+TopSystBDTDatasets.extend(datasetsJetHTData_03Feb2017)
+TopSystBDTDatasets.extend(datasetsTop)
+TopSystBDTDatasets.extend(datasetsTopSyst)
+#TopSystBDTDatasets.extend(datasetsDY)
+#TopSystBDTDatasets.extend(datasetsQCD_HT)
+#TopSystBDTDatasets.extend(datasetsMuonData03Feb)
+#TopSystBDTDatasets.extend(datasetsTTWJetsToLNu)
+#TopSystBDTDatasets.extend(datasetsQCDMuEnriched)
+#TopSystBDTDatasets.extend(datasetsDiboson)
+#TopSystBDTDatasets.extend(datasetsDibosonWW)
+
 
 
 #================================================================================================ 
@@ -323,7 +362,7 @@ class DatasetGroup:
         Create dataset grouping in a dictionary for easy access.
         '''
 
-        analyses = ["SignalAnalysis", "Hplus2tbAnalysis", "TauLeg", "TauLegSingleElectron", "METLeg", "L1Study", "All"]
+        analyses = ["SignalAnalysis", "Hplus2tbAnalysis", "JetTriggers", "TopSystBDT", "TauLeg", "TauLegSingleElectron", "METLeg", "L1Study", "All"]
         if self.analysis not in analyses:
             raise Exception("Unknown analysis \"%s\". Please select one of the following: \"%s" % (self.analysis, "\", \"".join(analyses) + "\".") )
 
@@ -334,6 +373,11 @@ class DatasetGroup:
         self.GroupDict["METLeg"]           = metLegDatasets
         self.GroupDict["L1Study"]          = l1Datasets
         self.GroupDict["All"]              = signalAnalysisDatasets + hplus2tbAnalysisDatasets + metLegDatasets + metLegDatasets
+        """
+        self.GroupDict["JetTriggers"]      = JetTriggersDatasets
+        self.GroupDict["TopSystBDT"]       = TopSystBDTDatasets
+        self.GroupDict["All"]              = signalAnalysisDatasets + hplus2tbAnalysisDatasets + metLegDatasets + metLegDatasets + TopSystBDTDatasets
+        """
         return
 
 

@@ -179,23 +179,41 @@ backgroundCrossSections = CrossSectionList(
             "7": 296600000.*0.0002855, # [2]
             "8": 3.64e8*3.7e-4, # [1]
             }),
+    CrossSection("QCD_Pt_15to20_MuEnrichedPt5", {
+            "13": 3.625e+06, # 3.625e+06 +- 1.780e+03 [14]
+    }),
+    CrossSection("QCD_Pt_20to30_MuEnrichedPt5", {
+            "13": 3.153e+06, # 3.153e+06 +- 5.608e+02 [14]
+    }),
+    CrossSection("QCD_Pt_30to50_MuEnrichedPt5", {
+            "13": 1.652e+06, # 1.652e+06 +- 3.005e+02 [14]
+    }),
     CrossSection("QCD_Pt_50to80_MuEnrichedPt5", {
-            "13": 4.487e+05, # 4.487e+05 +- 1.977e+02 pb [14]
+            "13": 4.488e+05, # 4.488e+05 +- 9.995e+01 [14]
     }),
     CrossSection("QCD_Pt_80to120_MuEnrichedPt5", {
-            "13": 1.052e+05, # 1.052e+05 +- 5.262e+01 [14]
+            "13": 1.052e+05, # 1.052e+05 +- 2.136e+01 [14]
     }),
     CrossSection("QCD_Pt_120to170_MuEnrichedPt5", {
-            "13": 2.549e+04, # 2.549e+04 +- 1.244e+01 [14]
+            "13": 2.549e+04, # 2.549e+04 +- 8.800e+00 [14]
     }),
     CrossSection("QCD_Pt_170to300_MuEnrichedPt5", {
-            "13": 8.644e+03, # 8.644e+03 +- 4.226e+00 [14]
+            "13": 8.639e+03, # 8.639e+03 +- 2.015e+00 [14]
     }),
     CrossSection("QCD_Pt_300to470_MuEnrichedPt5", {
-            "13": 7.967e+02, # 7.967e+02 +- 3.845e-0 [14]
+            "13": 7.961e+02, # 7.961e+02 +- 1.092e-01 [14]
     }),
     CrossSection("QCD_Pt_470to600_MuEnrichedPt5", {
-            "13": 7.921e+01, # 7.921e+01 +- 5.425e-02 [14]
+            "13": 7.920e+01, # 7.920e+01 +- 1.712e-02 [14]
+    }),
+    CrossSection("QCD_Pt_600to800_MuEnrichedPt5", {
+            "13": 2.525e+01, # 2.525e+01 +- 7.557e-03 [14]
+    }),
+    CrossSection("QCD_Pt_800to1000_MuEnrichedPt5", {
+            "13": 4.724e+00, # 4.724e+00 +- 1.000e-03 [14]
+    }),
+    CrossSection("QCD_Pt_1000toInf_MuEnrichedPt5", {
+            "13": 1.619e+00, # 1.619e+00 +- 7.617e-04
     }),
     CrossSection("SingleNeutrino", {
             "13": 1.0, # Unknown. Dummy value.                                                                                                                                           
@@ -254,6 +272,84 @@ backgroundCrossSections = CrossSectionList(
     CrossSection("TT", {
             "7": 172.0, # [10]
             "8": 245.8, # [10]
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TTGJets", {            
+            "13": 1.0, # FIXME (Marina)
+            }),
+    CrossSection("TT_fsrdown", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_fsrup", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_isrdown", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_isrup", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_hdampDOWN", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_hdampUP", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1665", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1695", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1715", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1735", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1755", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_mtop1785", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx0p2", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx0p5", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx0p8", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx2", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx4", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_widthx8", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_evtgen", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_erdON", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_TuneEE5C", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_TuneCUETP8M2T4up", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_TuneCUETP8M2T4down", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_GluonMoveCRTune", {
+            "13": 831.76, # [18] 
+            }),
+    CrossSection("TT_QCDbasedCRTune_erdON", {
             "13": 831.76, # [18] 
             }),
     CrossSection("TTJets_HT600to800", {
@@ -563,6 +659,9 @@ backgroundCrossSections = CrossSectionList(
     CrossSection("TTWJetsToQQ", {
             "13": 4.034e-01, #4.034e-01 +- 2.493e-03 pb [16] (inputFiles="2211E19A-CC1E-E611-97CC-44A84225C911.root")
             }),
+    CrossSection("TTWJetsToLNu", {
+            "13": 0.2043, #+/- 0.0020 [17]]
+            }),
     CrossSection("TTZToQQ", {
             "13": 5.297e-01, #5.297e-01 +- 7.941e-04 pb [16] (inputFiles="204FB864-5D1A-E611-9BA7-001E67A3F49D.root")
             }),
@@ -593,7 +692,7 @@ def setBackgroundCrossSectionForDataset(dataset, doWNJetsWeighting=True, quietMo
     datasetName = dataset.getName().split("_ext", 1)[0] #use only the first part of dataset name, before "_ext"
     value = backgroundCrossSections.crossSection(datasetName, dataset.getEnergy())
     if value is None:
-        if "ChargedHiggs" in dataset.getName():
+        if "ChargedHiggs" in dataset.getName() or "HplusToTauNu" in dataset.getName():
             value = 1.0 # Force signal xsection to 1 pb
         else:
             for wnJets in ["W1Jets", "W2Jets", "W3Jets", "W4Jets"]:
