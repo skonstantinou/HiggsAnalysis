@@ -89,14 +89,20 @@ datasetsSignalTauNu.append(Dataset('/ChargedHiggs_HplusTB_HplusToTauNu_M-1000_13
 
 
 datasetsSingleTop = []
-datasetsSingleTop.append(Dataset('/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-datasetsSingleTop.append(Dataset('/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-datasetsSingleTop.append(Dataset('/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-datasetsSingleTop.append(Dataset('/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsSingleTop.append(Dataset('/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSingleTop.append(Dataset('/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSingleTop.append(Dataset('/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSingleTop.append(Dataset('/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsSingleTop.append(Dataset('/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 #datasetsSingleTop.append(Dataset('', dataVersion="94Xmc", dasQuery=das))
 
 
 datasetsTop = []
+datasetsTop.append(Dataset('/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsTop.append(Dataset('/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 
 datasetsTTJets = []
@@ -107,7 +113,12 @@ das = ""
 #datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v7-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 #datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext1"))
 #datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer17MiniAOD-92X_upgrade2017_realistic_v10_ext1-v2/MINIAODSIM', dataVersion="94Xmc", dasQuery=das, name="DYJetsToLL_M-50_ext2"))
-datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsDY.append(Dataset('/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDY.append(Dataset('/DY4JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDY.append(Dataset('/DY3JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDY.append(Dataset('/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDY.append(Dataset('/DY2JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+
 
 datasetsDY_HT = []
 datasetsDY_HT.append(Dataset('/DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
@@ -138,9 +149,12 @@ datasetsZJetsToQQ = []
 
 
 datasetsDiboson = []
-datasetsDiboson.append(Dataset('/ZZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-datasetsDiboson.append(Dataset('/WZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-datasetsDiboson.append(Dataset('/WW_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDiboson.append(Dataset('/WW_TuneCP5_13TeV-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDiboson.append(Dataset('/WZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+datasetsDiboson.append(Dataset('/ZZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsDiboson.append(Dataset('/ZZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsDiboson.append(Dataset('/WZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
+#datasetsDiboson.append(Dataset('/WW_TuneCP5_13TeV-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
 datasetsDibosonToQQ = []
 
