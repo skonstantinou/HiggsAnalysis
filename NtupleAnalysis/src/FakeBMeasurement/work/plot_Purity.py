@@ -37,12 +37,14 @@ ROOT.gROOT.SetBatch(True)
 from ROOT import *
 
 import HiggsAnalysis.NtupleAnalysis.tools.dataset as dataset
+import HiggsAnalysis.NtupleAnalysis.tools.systematics as systematics
 import HiggsAnalysis.NtupleAnalysis.tools.histograms as histograms
 import HiggsAnalysis.NtupleAnalysis.tools.counter as counter
 import HiggsAnalysis.NtupleAnalysis.tools.tdrstyle as tdrstyle
 import HiggsAnalysis.NtupleAnalysis.tools.styles as styles
 import HiggsAnalysis.NtupleAnalysis.tools.plots as plots
 import HiggsAnalysis.NtupleAnalysis.tools.crosssection as xsect
+import HiggsAnalysis.NtupleAnalysis.tools.aux as aux
 import HiggsAnalysis.NtupleAnalysis.tools.multicrabConsistencyCheck as consistencyCheck
 import HiggsAnalysis.NtupleAnalysis.tools.ShellStyles as ShellStyles
 import HiggsAnalysis.NtupleAnalysis.tools.analysisModuleSelector as analysisModuleSelector
@@ -60,19 +62,11 @@ def Print(msg, printHeader=False):
         print "\t", msg
     return
 
-
-def rchop(myString, endString):
-  if myString.endswith(endString):
-    return myString[:-len(endString)]
-  return myString
-
-
 def Verbose(msg, printHeader=True, verbose=False):
     if not opts.verbose:
         return
     Print(msg, printHeader)
     return
-
 
 def GetLumi(datasetsMgr):
     lumi = 0.0
@@ -84,18 +78,7 @@ def GetLumi(datasetsMgr):
     Verbose("Luminosity = %s (pb)" % (lumi), True)
     return lumi
 
-
-def GetListOfEwkDatasets(datasetsMgr):
-    Verbose("Getting list of EWK datasets")
-    if "noTop" in datasetsMgr.getAllDatasetNames():
-        return ["TT", "noTop", "SingleTop", "ttX"]
-    else:
-        # ZJetsToQQ_HT600toInf and DYJetToQQHT are the same?
-        return ["TT", "WJetsToQQ_HT_600ToInf", "DYJetsToQQHT", "SingleTop", "TTWJetsToQQ", "TTZToQQ", "Diboson", "TTTT"]
-
-
 def GetDatasetsFromDir(opts):
-    Verbose("Getting datasets")
     
     if (not opts.includeOnlyTasks and not opts.excludeTasks):
         datasets = dataset.getDatasetsFromMulticrabDirs([opts.mcrab],
@@ -126,9 +109,9 @@ def main(opts):
 
     # Apply TDR style
     style = tdrstyle.TDRStyle()
-    style.setGridX(True)
-    style.setGridY(True)
-    style.setOptStat(True)
+    style.setGridX(False)
+    style.setGridY(False)
+    style.setOptStat(False)
     
     # Obtain dsetMgrCreator and register it to module selector
     dsetMgrCreator = dataset.readFromMulticrabCfg(directory=opts.mcrab)
@@ -192,17 +175,24 @@ def main(opts):
         # Merge histograms (see NtupleAnalysis/python/tools/plots.py) 
         plots.mergeRenameReorderForDataMC(datasetsMgr) 
 
+        # Get Luminosity
+        if opts.intLumi < 0:
+            if "Data" in datasetsMgr.getAllDatasetNames():
+                opts.intLumi = datasetsMgr.getDataset("Data").getLuminosity()
+            else:
+                opts.intLumi = 1.0
+
         # Re-order datasets (different for inverted than default=baseline)
         if 0:
             newOrder = ["Data"]
-            newOrder.extend(GetListOfEwkDatasets(datasetsMgr))
+            newOrder.extend(aux.GetListOfEwkDatasets())
             datasetsMgr.selectAndReorder(newOrder)
 
         # Print post-merged data dataset summary
         datasetsMgr.PrintInfo()
 
         # Merge EWK samples
-        datasetsMgr.merge("EWK", GetListOfEwkDatasets(datasetsMgr))
+        datasetsMgr.merge("EWK", aux.GetListOfEwkDatasets())
         plots._plotStyles["EWK"] = styles.getAltEWKStyle()
             
         # Print post EWK-merge dataset summary
@@ -215,14 +205,16 @@ def main(opts):
         # hList.extend([h for h in allHistos if "StandardSelections" in h and "_Vs" not in h])
 
         # Create a list with strings included in the histogram names you want to plot
-        myHistos = ["LdgTrijetPt", "LdgTrijetMass", "LdgTetrajetMass", "MVAmax2", "MVAmax1", "Njets", "NBjets", 
-                    "Bjet3Bdisc", "Bjet2Bdisc", "Bjet1Bdisc", "Bjet3Pt", "Bjet2Pt", "Bjet1Pt"]
+        myHistos = ["LdgTrijetPt", "LdgTrijetMass",  "TetrajetBJetPt", "TetrajetBJetEta", "LdgTetrajetPt", "LdgTetrajetMass", "MVAmax2", "MVAmax1", "HT", "MET"]
+        #myHistos = ["LdgTrijetPt", "LdgTrijetMass", "LdgTetrajetMass", "MVAmax2", "MVAmax1", "Njets", "NBjets", 
+        #            "Bjet3Bdisc", "Bjet2Bdisc", "Bjet1Bdisc", "Bjet3Pt", "Bjet2Pt", "Bjet1Pt"]
 
         # For-loop: All histos
         for i, h in enumerate(myHistos, 1):
             hGraphList = []
             for b in ["Baseline_", "Inverted_"]:
-                for r in ["_AfterAllSelections", "_AfterCRSelections"]:
+                #for r in ["_AfterAllSelections", "_AfterCRSelections"]:
+                for r in [ "_AfterCRSelections", "_AfterAllSelections"]:
                     histoName = b + h + r
                     hgQCD, kwargs = GetPurityHistoGraph(datasetsMgr, opts.folder, histoName)
 
@@ -238,10 +230,7 @@ def main(opts):
             Print(ShellStyles.SuccessStyle() + msg + ShellStyles.NormalStyle(), i==1)
             PlotHistoGraphs(hGraphList, kwargs)
     
-    savePath = opts.saveDir
-    if opts.url:
-        savePath = savePath.replace("/publicweb/a/aattikis/", "http://home.fnal.gov/~aattikis/")
-    Print("All plots saved under directory %s" % (ShellStyles.NoteStyle() + savePath + ShellStyles.NormalStyle()), True)
+    Print("All plots saved under directory %s" % (ShellStyles.NoteStyle() + aux.convertToURL(opts.saveDir, opts.url) + ShellStyles.NormalStyle()), True)
     return
 
 
@@ -367,11 +356,12 @@ def PlotHistoGraphs(hGraphList, _kwargs):
     histoName = histoName.split("_")[1]
 
     # Overwrite some canvas options
-    _kwargs["opts"]["ymin"] = 0.5
+    _kwargs["opts"]["ymin"] = 0.0
     _kwargs["opts"]["ymax"] = 1.02
 
     # Create & draw the plot    
     p = plots.PlotBase( hGraphList, saveFormats=[])
+    p.setLuminosity(opts.intLumi)
     plots.drawPlot(p, histoName, **_kwargs)
 
     # Save the plot
@@ -390,6 +380,7 @@ def GetHistoKwargs(histoName, opts):
     _yMin       = 0.0
     _yMax       = 1.09
     _cutBox     = None
+    # _cutBoxY    = {"cutValue": 0.85, "fillColor": 16, "box": False, "line": True, "greaterThan": True, "mainCanvas": True, "ratioCanvas": False}
     _cutBoxY    = {"cutValue": 0.85, "fillColor": 16, "box": False, "line": True, "greaterThan": True, "mainCanvas": True, "ratioCanvas": False}
     _xlabel     = "x-axis"
     _bins       = None
@@ -402,7 +393,7 @@ def GetHistoKwargs(histoName, opts):
         "ratioInvert"      : False,
         "stackMCHistograms": False,
         "addMCUncertainty" : True,
-        "addLuminosityText": False,
+        "addLuminosityText": True,
         "addCmsText"       : True,
         "cmsExtraText"     : "Preliminary",
         # "opts"             : _opts,
@@ -412,108 +403,85 @@ def GetHistoKwargs(histoName, opts):
         "cutBoxY"          : _cutBoxY
         }
 
-    # Common bin settings
-    myBins     = []
-    ptBins     = []
-    jetBins    = []
-    bjetBins   = []
-    btagBins   = []
-    mvaBins    = []
-    triMBins   = [] 
-    tetraMBins = [] 
-
-    for i in range(0, 21, 1):
-        mvaBins.append(i*0.05)
-
-    for i in range(4, 21, 1):
-        j = i*0.05
-        btagBins.append(j)
-
-    for i in range(6, 15, 1):
-        jetBins.append(i)
-    for i in range(0, 9, 1):
-        bjetBins.append(i)
-
-    for i in range(0, 100, 25):
-        ptBins.append(i)
-    for j in range(100, 300, 50):
-        ptBins.append(j)
-    for j in range(300, 400+100, 100):
-        ptBins.append(j)
-    for j in range(400, 500+100, 100):
-        ptBins.append(j)
-
-    for j in range(0, 300, 20):
-        triMBins.append(j)
-    for j in range(300, 500+50, 50):
-        triMBins.append(j)
-
-    for j in range(0, 1000, 100):
-        tetraMBins.append(j)
-    for k in range(1000, 2000, 200):
-        tetraMBins.append(k)
-    for l in range(2000, 4000+1000, 1000):
-        tetraMBins.append(l)
-
     # Set x-axis divisions
     n1 = 8 # primary divisions
     n2 = 5 # second order divisions
     n3 = 2 # third order divisions
     nDivs = n1 + 100*n2 + 10000*n3
+    myBins = []
+
     if 1:
         ROOT.gStyle.SetNdivisions(nDivs, "X")
 
-    if "pt" in h.lower():# don't move further down!
-        _xlabel           = "p_{T} (GeV/c)"
-        myBins            = ptBins
+    if "ldgtrijetpt" in h.lower():
+        _xlabel = "p_{T} (GeV/c)"
+        myBins  = systematics._dataDrivenCtrlPlotBinning["LdgTrijetPt_AfterAllSelections"]
+
+    if "eta" in h.lower():
+        _xlabel  = "#eta"
+        myBins   = [float(eta)/10.0 for eta in range(-25, 25, 1)]
+
+    if "tetrajetbjetpt" in h.lower():
+        _xlabel = "p_{T} (GeV/c)"
+        myBins   = systematics._dataDrivenCtrlPlotBinning["TetrajetBjetPt_AfterAllSelections"]
+
+    if "ht" in h.lower():
+        _xlabel  = "H_{T} (GeV)"
+        myBins   = systematics._dataDrivenCtrlPlotBinning["HT_AfterAllSelections"]
+        _cutBox  = {"cutValue": 500.0, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
+
+    if "met" in h.lower():
+        _xlabel  = "E_{T}^{miss} (GeV"
+        myBins   = systematics._dataDrivenCtrlPlotBinning["MET_AfterAllSelections"]
         
     if "mvamax1" in h.lower():
-        _xlabel = "Leading MVA"
-        _cutBox = {"cutValue": 0.8, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        myBins  = mvaBins
+        #_xlabel = "leading BDT"
+        _xlabel = "top-tag discriminant"
+        _cutBox = {"cutValue": 0.40, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
+        myBins  = [float(mva)/10.0 for mva in range(-10, 10, 1)]
+
     if "mvamax2" in h.lower():
-        _xlabel = "Subleading MVA"
-        _cutBox = {"cutValue": 0.8, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        myBins  = mvaBins
+        #_xlabel = "subleading BDT"
+        _xlabel = "top-tag discriminant"
+        _cutBox = {"cutValue": 0.40, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
+        myBins  = [float(mva)/10.0 for mva in range(-10, 10, 1)]
+
     if "trijetm" in h.lower():
         _units  = "GeV/c^{2}" 
         _xlabel = "m_{jjb} (%s)" % _units
-        _cutBox = {"cutValue": 173.21, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        myBins = triMBins
-    if "bjet1pt" in h.lower():
-        _cutBox = {"cutValue": 40.0, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        _xlabel = "p_{T} (GeV/c)"
-        myBins  = ptBins
-        #myBins.extend([400, 600])
-    if "bjet2pt" in h.lower():
-        _cutBox = {"cutValue": 40.0, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        _xlabel = "p_{T} (GeV/c)"
-        myBins  = ptBins
-        #myBins.extend([400, 600])
-    if "bjet3pt" in h.lower():        
-        _cutBox = {"cutValue": 30.0, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        _xlabel = "p_{T} (GeV/c)"
-        myBins  = ptBins
+        _cutBox = {"cutValue": 173.21, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
+        myBins = systematics._dataDrivenCtrlPlotBinning["LdgTrijetMass_AfterAllSelections"]
+        
     if "bdisc" in h.lower():
         _units  = "" 
         _xlabel = "b-tag discriminant"
         # _cutBox = {"cutValue": 0.5426, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
         _cutBox = {"cutValue": 0.8484, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
-        myBins  = btagBins
+        myBins  = [float(i)/10 for i in range(0, 10)]
+
     if "nbjets" in h.lower():
         _units  = "" 
         _cutBox = {"cutValue": 3.0, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
         _xlabel = "b-jet multiplicity"
-        myBins  = bjetBins
+        myBins  = [i for i in range(3, 11)]
+
     if "njets" in h.lower():
         _units  = "" 
         _cutBox = {"cutValue": 7.0, "fillColor": 16, "box": True, "line": True, "greaterThan": True}
         _xlabel = "jet multiplicity"
-        myBins  = jetBins
+        myBins  = [i for i in range(7, 16)]
+
+    if "tetrajetpt" in h.lower():
+        _units  = "GeV/c" 
+        _xlabel = "p_{T} (%s)" % (_units)
+        myBins  = systematics._dataDrivenCtrlPlotBinning["LdgTetrajetPt_AfterAllSelections"]
+        #ROOT.gStyle.SetNdivisions(6 + 100*5 + 10000*2, "X")
+
     if "tetrajetm" in h.lower():
         _units  = "GeV/c^{2}" 
         _xlabel = "m_{jjbb} (%s)" % (_units)
-        myBins  = tetraMBins
+        #myBins  = systematics._dataDrivenCtrlPlotBinning["LdgTetrajetMass_AfterAllSelections"]
+        myBins  = systematics.getBinningForTetrajetMass(0)
         ROOT.gStyle.SetNdivisions(6 + 100*5 + 10000*2, "X")
 
     _kwargs["opts"]    = {"ymin": _yMin, "ymax": _yMax}
@@ -554,27 +522,20 @@ def GetControlRegionLabel(histoName):
         raise Exception("Cannot determine Control Region label. Got unexpeted histogram name \"%s\". " % histoName)
     return
     
-def SavePlot(plot, plotName, saveDir, saveFormats = [".png", ".C", ".pdf"]):
-    Verbose("Saving the plot in %s formats: %s" % (len(saveFormats), ", ".join(saveFormats) ) )
-
-    # Check that path exists
+def SavePlot(plot, plotName, saveDir, saveFormats = [".C", ".png", ".pdf"]):
     if not os.path.exists(saveDir):
         os.makedirs(saveDir)
 
     # Create the name under which plot will be saved
-    saveName = os.path.join(saveDir, plotName.replace("ForDataDrivenCtrlPlots/", ""))
+    saveName = os.path.join(saveDir, plotName.replace("/", "_"))
 
     # For-loop: All save formats
     for i, ext in enumerate(saveFormats):
         saveNameURL = saveName + ext
-        saveNameURL = saveNameURL.replace("/publicweb/a/aattikis/", "http://home.fnal.gov/~aattikis/")
-        if opts.url:
-            Verbose(saveNameURL, i==0)
-        else:
-            Verbose(saveName + ext, i==0)
+        saveNameURL = aux.convertToURL(saveNameURL, opts.url)
+        Verbose(saveNameURL, i==0)
         plot.saveAs(saveName, formats=saveFormats)
     return
-
 
 def convertHisto2TGraph(histo, printValues=False):
 
@@ -672,7 +633,7 @@ def GetPurityHisto(hData, hEWK, kwargs, printValues=False, hideZeros=True):
         ewkSum         = hEWK.GetBinContent(i)
         ewkSumUncert   = hEWK.GetBinError(i)
         dataSum        = hData.GetBinContent(i)
-        dataSumUncert  = hData.GetBinContent(i)
+        dataSumUncert  = hData.GetBinError(i)  # hData.GetBinContent(i)
         
         # Treat negative bins for EWK (possible if -ve weights are applied)
         if ewkSum < 0.0:
@@ -758,7 +719,7 @@ if __name__ == "__main__":
     URL          = False
     NOERROR      = True
     DOEWK        = False
-    SAVEDIR      = "/publicweb/a/aattikis/"
+    SAVEDIR      = None
     VERBOSE      = False
     DOQCD        = False
     FOLDER       = "ForFakeBMeasurement"
@@ -826,11 +787,9 @@ if __name__ == "__main__":
         parser.print_help()
         #print __doc__
         sys.exit(1)
-    else:
-        mcrabDir = rchop(opts.mcrab, "/")
-        if len(mcrabDir.split("/")) > 1:
-            mcrabDir = mcrabDir.split("/")[-1]
-        opts.saveDir += mcrabDir + "/Purity/"
+
+    if opts.saveDir == None:
+        opts.saveDir = aux.getSaveDirPath(opts.mcrab, prefix="", postfix="Purity")
         
     # Sanity check
     allowedFolders = ["ForDataDrivenCtrlPlots", "ForFakeBMeasurement"]

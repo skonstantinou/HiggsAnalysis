@@ -54,8 +54,9 @@ import aux
 # Global Definitions
 #================================================================================================
 _lightHplusMasses        = [ 80,  90, 100, 120, 140, 150, 155, 160]
-_heavyHplusMasses        = [180, 200, 220, 250, 300, 350, 400, 500, 600, 700, 750,  800, 1000, 2000, 3000]
-_heavyHplusToTBbarMasses = [180, 200, 220, 250, 300, 350, 400, 500, 600, 800, 1000, 1500, 2000, 2500, 3000, 5000, 7000]
+_intermediateHplusMasses = [145,150,155,160,165,170,175,180,190,200]
+_heavyHplusToTBbarMasses = [180, 200, 220, 250, 300, 350, 400, 500, 600, 650, 800, 1000, 1500, 2000, 2500, 3000, 5000, 7000, 10000]
+_heavyHplusMasses        = [180, 200, 220, 250, 300, 350, 400, 500, 600, 700, 750,  800, 1000, 1500, 2000, 2500, 3000] #HToTauNu
 
 ## These MC datasets must be added together before any
 ## merging/renaming. They are split to two datasets just for more
@@ -71,7 +72,12 @@ _physicalMcAdd = {
     "WZ"     : "WZ",
     "WZ_ext" : "WZ",
     "WZ_ext1": "WZ",
-
+    "WW"     : "WW",
+    "WW_ext1": "WW",
+    "ZZ"     : "ZZ",
+    "ZZ_ext1": "ZZ",
+    "WWTo2L2Nu" : "WWTo2L2Nu",
+    "WWToLNuQQ" : "WWToLNuQQ",
     "ST_tW_antitop_5f_inclusiveDecays"     : "ST_tW_antitop_5f_inclusiveDecays",
     "ST_tW_antitop_5f_inclusiveDecays_ext" : "ST_tW_antitop_5f_inclusiveDecays",
     "ST_tW_antitop_5f_inclusiveDecays_ext1": "ST_tW_antitop_5f_inclusiveDecays",
@@ -104,6 +110,29 @@ _physicalMcAdd = {
     "QCD_HT1500to2000_ext1": "QCD_HT1500to2000",
     "QCD_HT2000toInf"      : "QCD_HT2000toInf",
     "QCD_HT2000toInf_ext1" : "QCD_HT2000toInf",
+
+    "QCD_Pt20_MuEnriched"                : "QCD_Pt20_MuEnriched",
+    
+    "QCD_Pt_15to20_MuEnrichedPt5"        : "QCD_Pt_15to20_MuEnrichedPt5",
+    "QCD_Pt_20to30_MuEnrichedPt5"        : "QCD_Pt_20to30_MuEnrichedPt5",
+    "QCD_Pt_30to50_MuEnrichedPt5"        : "QCD_Pt_30to50_MuEnrichedPt5",
+    "QCD_Pt_50to80_MuEnrichedPt5"        : "QCD_Pt_50to80_MuEnrichedPt5",
+    "QCD_Pt_80to120_MuEnrichedPt5"       : "QCD_Pt_80to120_MuEnrichedPt5",
+    "QCD_Pt_80to120_MuEnrichedPt5_ext1"  : "QCD_Pt_80to120_MuEnrichedPt5",
+    "QCD_Pt_120to170_MuEnrichedPt5"      : "QCD_Pt_120to170_MuEnrichedPt5",
+    "QCD_Pt_170to300_MuEnrichedPt5"      : "QCD_Pt_170to300_MuEnrichedPt5",
+    "QCD_Pt_170to300_MuEnrichedPt5_ext1" : "QCD_Pt_170to300_MuEnrichedPt5",
+    "QCD_Pt_300to470_MuEnrichedPt5"      : "QCD_Pt_300to470_MuEnrichedPt5",
+    "QCD_Pt_300to470_MuEnrichedPt5_ext1" : "QCD_Pt_300to470_MuEnrichedPt5",
+    "QCD_Pt_300to470_MuEnrichedPt5_ext2" : "QCD_Pt_300to470_MuEnrichedPt5",
+    "QCD_Pt_470to600_MuEnrichedPt5_ext1" : "QCD_Pt_470to600_MuEnrichedPt5",
+    "QCD_Pt_470to600_MuEnrichedPt5_ext2" : "QCD_Pt_470to600_MuEnrichedPt5",
+    "QCD_Pt_600to800_MuEnrichedPt5"      : "QCD_Pt_600to800_MuEnrichedPt5",
+    "QCD_Pt_600to800_MuEnrichedPt5_ext1" : "QCD_Pt_600to800_MuEnrichedPt5",
+    "QCD_Pt_800to1000_MuEnrichedPt5"     : "QCD_Pt_800to1000_MuEnrichedPt5",
+    "QCD_Pt_800to1000_MuEnrichedPt5_ext1": "QCD_Pt_800to1000_MuEnrichedPt5",
+    "QCD_Pt_800to1000_MuEnrichedPt5_ext2": "QCD_Pt_800to1000_MuEnrichedPt5",
+    "QCD_Pt_1000toInf_MuEnrichedPt5"     : "QCD_Pt_1000toInf_MuEnrichedPt5",
     
     "WJetsToLNu_HT_0To70"          : "WJetsToLNu_HT_0To70",
     "WJetsToLNu_HT_0To70_ext2"     : "WJetsToLNu_HT_0To70",
@@ -134,22 +163,99 @@ _physicalMcAdd = {
     "ChargedHiggs_HplusTB_HplusToTauNu_M_1000_reHLT" : "ChargedHiggs_HplusTB_HplusToTauNu_M_1000",
     "ChargedHiggs_HplusTB_HplusToTauNu_M_2000_reHLT" : "ChargedHiggs_HplusTB_HplusToTauNu_M_2000",
     "ChargedHiggs_HplusTB_HplusToTauNu_M_3000_reHLT" : "ChargedHiggs_HplusTB_HplusToTauNu_M_3000",
-}
 
-#for mass in _lightHplusMasses:
-    #_physicalMcAdd["TTToHplusBWB_M%d_Summer12"%mass] = "TTToHplusBWB_M%d_Summer12"%mass
-    #_physicalMcAdd["TTToHplusBWB_M%d_ext_Summer12"%mass] = "TTToHplusBWB_M%d_Summer12"%mass
-    #if mass != 90:
-        #_physicalMcAdd["TTToHplusBHminusB_M%d_Summer12"%mass] = "TTToHplusBHminusB_M%d_Summer12"%mass
-        #_physicalMcAdd["TTToHplusBHminusB_M%d_ext_Summer12"%mass] = "TTToHplusBHminusB_M%d_Summer12"%mass
-#for mass in [180, 190, 200, 220, 250, 300]:
-    #_physicalMcAdd["HplusTB_M%d_Summer12"%mass] = "HplusTB_M%d_Summer12"%mass
-    #_physicalMcAdd["HplusTB_M%d_ext_Summer12"%mass] = "HplusTB_M%d_Summer12"%mass
-#for bquark in [0, 1, 2, 3, 4]:
-    #_physicalMcAdd["WJets_%dbquark_TuneZ2star_v1_Summer12"%bquark] = "WJets_%dbquark_TuneZ2star_Summer12"%bquark
-    #_physicalMcAdd["WJets_%dbquark_TuneZ2star_v2_Summer12"%bquark] = "WJets_%dbquark_TuneZ2star_Summer12"%bquark
-#for mass in _heavyHplusToTBbarMasses:
-    #_physicalMcAdd["HplusToTBbar_M%d_Summer12"%mass] = "HplusToTBbar_M%d_Summer12"%mass
+    "ChargedHiggs_HplusTB_HplusToTB_M_180_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_180",
+    "ChargedHiggs_HplusTB_HplusToTB_M_200_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_200",
+    "ChargedHiggs_HplusTB_HplusToTB_M_220_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_220", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_250_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_250", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_300_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_300", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_350_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_350", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_400_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_400", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_500_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_500", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_800_ext1" : "ChargedHiggs_HplusTB_HplusToTB_M_800", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_1000_ext1": "ChargedHiggs_HplusTB_HplusToTB_M_1000",
+    "ChargedHiggs_HplusTB_HplusToTB_M_1500_ext1": "ChargedHiggs_HplusTB_HplusToTB_M_1500",
+    "ChargedHiggs_HplusTB_HplusToTB_M_2000_ext1": "ChargedHiggs_HplusTB_HplusToTB_M_2000",
+    "ChargedHiggs_HplusTB_HplusToTB_M_2500_ext1": "ChargedHiggs_HplusTB_HplusToTB_M_2500",
+    "ChargedHiggs_HplusTB_HplusToTB_M_3000_ext1": "ChargedHiggs_HplusTB_HplusToTB_M_3000",
+    "ChargedHiggs_HplusTB_HplusToTB_M_180" : "ChargedHiggs_HplusTB_HplusToTB_M_180",
+    "ChargedHiggs_HplusTB_HplusToTB_M_200" : "ChargedHiggs_HplusTB_HplusToTB_M_200",
+    "ChargedHiggs_HplusTB_HplusToTB_M_220" : "ChargedHiggs_HplusTB_HplusToTB_M_220", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_250" : "ChargedHiggs_HplusTB_HplusToTB_M_250", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_300" : "ChargedHiggs_HplusTB_HplusToTB_M_300", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_350" : "ChargedHiggs_HplusTB_HplusToTB_M_350", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_400" : "ChargedHiggs_HplusTB_HplusToTB_M_400", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_500" : "ChargedHiggs_HplusTB_HplusToTB_M_500", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_650" : "ChargedHiggs_HplusTB_HplusToTB_M_650", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_800" : "ChargedHiggs_HplusTB_HplusToTB_M_800", 
+    "ChargedHiggs_HplusTB_HplusToTB_M_1000": "ChargedHiggs_HplusTB_HplusToTB_M_1000",
+    "ChargedHiggs_HplusTB_HplusToTB_M_1500": "ChargedHiggs_HplusTB_HplusToTB_M_1500",
+    "ChargedHiggs_HplusTB_HplusToTB_M_2000": "ChargedHiggs_HplusTB_HplusToTB_M_2000",
+    "ChargedHiggs_HplusTB_HplusToTB_M_2500": "ChargedHiggs_HplusTB_HplusToTB_M_2500",
+    "ChargedHiggs_HplusTB_HplusToTB_M_3000": "ChargedHiggs_HplusTB_HplusToTB_M_3000",
+
+
+    "TTJets_SingleLeptFromT_madgraph"               : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromT_madgraph_ext1"          : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromT_genMET_150_madgraph"    : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromT_amcatnlo"               : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromTbar_madgraph"            : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromTbar_madgraph_ext1"       : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromTbar_genMET_150_madgraph" : "TTJets_SemiLept",
+    "TTJets_SingleLeptFromTbar_amcatnlo"            : "TTJets_SemiLept",
+    "TTGJets"      : "TTGJets",
+    "TTGJets_ext1" : "TTGJets",
+    "TTToSemiLep_TuneCUETP8M2T4down" : "TTToSemiLep_TuneCUETP8M2T4down",
+    "TTToSemiLep_TuneCUETP8M2T4up"   : "TTToSemiLep_TuneCUETP8M2T4up",
+    "TTToSemiLep_hdampDOWN" : "TTToSemiLep_hdampDOWN",
+    "TTToSemiLep_hdampUP"   : "TTToSemiLep_hdampUP",
+    "TTWJetsToLNu_ext1" : "TTWJetsToLNu",
+    "TTWJetsToLNu_ext2" : "TTWJetsToLNu",
+    "TT_GluonMoveCRTune" : "TT_GluonMoveCRTune",
+    "TT_QCDbasedCRTune_erdON"      : "TT_QCDbasedCRTune_erdON",
+    "TT_QCDbasedCRTune_erdON_ext1" : "TT_QCDbasedCRTune_erdON",
+    "TT_TuneCUETP8M2T4down"      : "TT_TuneCUETP8M2T4down",
+    "TT_TuneCUETP8M2T4down_ext1" : "TT_TuneCUETP8M2T4down",
+    "TT_TuneCUETP8M2T4up"      : "TT_TuneCUETP8M2T4up",
+    "TT_TuneCUETP8M2T4up_ext1" : "TT_TuneCUETP8M2T4up",
+    "TT_TuneEE5C"      : "TT_TuneEE5C",
+    "TT_TuneEE5C_ext2" : "TT_TuneEE5C",
+    "TT_TuneEE5C_ext3" : "TT_TuneEE5C",
+    "TT_erdON"      : "TT_erdON",
+    "TT_erdON_ext1" : "TT_erdON",
+    "TT_evtgen" : "TT_evtgen",
+    "TT_fsrup"      : "TT_fsrup",
+    "TT_fsrup_ext1" : "TT_fsrup",
+    "TT_fsrup_ext2" : "TT_fsrup",
+    "TT_fsrdown"      : "TT_fsrdown",
+    "TT_fsrdown_ext1" : "TT_fsrdown",
+    "TT_fsrdown_ext2" : "TT_fsrdown",
+    "TT_hdampDOWN"      : "TT_hdampDOWN",
+    "TT_hdampDOWN_ext1" : "TT_hdampDOWN",
+    "TT_hdampUP"      : "TT_hdampUP",
+    "TT_hdampUP_ext1" : "TT_hdampUP",
+    "TT_isrdown" : "TT_isrdown", 
+    "TT_isrdown_ext1" : "TT_isrdown",
+    "TT_isrdown_ext2" : "TT_isrdown",
+    "TT_isrup_ext1" : "TT_isrup",
+    "TT_isrup_ext2" : "TT_isrup",
+    "TT_mtop1665" : "TT_mtop1665",
+    "TT_mtop1695_ext1" : "TT_mtop1695",
+    "TT_mtop1695_ext2" : "TT_mtop1695",
+    "TT_mtop1715" : "TT_mtop1715",
+    "TT_mtop1735" : "TT_mtop1735",
+    "TT_mtop1755" : "TT_mtop1755",
+    "TT_mtop1755_ext1" : "TT_mtop1755",
+    "TT_mtop1755_ext2" : "TT_mtop1755",
+    "TT_mtop1785" : "TT_mtop1785",
+    "TT_widthx0p2" : "TT_widthx0p2",
+    "TT_widthx0p5" : "TT_widthx0p5",
+    "TT_widthx0p8" : "TT_widthx0p8",
+    "TT_widthx2"   : "TT_widthx2",
+    "TT_widthx4"   : "TT_widthx4",
+    "TT_widthx8"   : "TT_widthx8",
+    
+}
 
 ## Map the physical dataset names to logical names
 #
@@ -168,18 +274,22 @@ _physicalToLogical = {
 for mass in _lightHplusMasses:
     _physicalToLogical["ChargedHiggs_TTToHplusBWB_HplusToTauNu_M_%d"%(mass)] = "TTToHplusBWB_M%d"%mass
 
+for mass in _intermediateHplusMasses:
+    _physicalToLogical[" ChargedHiggs_HplusTB_HplusToTauNu_IntermediateMassNoNeutral_M_%d"%(mass)] = "HplusTBNoNeutral_M%d"%mass
+
 for mass in _heavyHplusMasses:
     _physicalToLogical["ChargedHiggs_HplusTB_HplusToTauNu_M_%d"%(mass)] = "HplusTB_M%d"%mass
+    _physicalToLogical["ChargedHiggs_HplusTB_HplusToTauNu_HeavyMass_M_%d"%(mass)] = "HplusTB_M%d"%mass
 
 for mass in _heavyHplusToTBbarMasses:
-    _physicalToLogical["ChargedHiggs_HplusTB_HplusToTB_M%d"%(mass)] = "HplusToTBbar_M%d" % mass
+    _physicalToLogical["ChargedHiggs_HplusTB_HplusToTB_M%d"%(mass)] = "HplusTB_M%d"%mass
 
 _physicalToLogical.update({
         "TTJets"         : "TTJets",
         "TTJets_FullLept": "TTJets_FullLept",
         "TTJets_SemiLept": "TTJets_SemiLept",
         "TTJets_Hadronic".replace("_", "_ext_"): "TTJets_Hadronic",
-        
+
         # powheg ttbar
         "TT": "TT",
         
@@ -241,32 +351,70 @@ _physicalToLogical.update({
         "QCD_HT1500to2000": "QCD_HT1500to2000",
         "QCD_HT2000toInf" : "QCD_HT2000toInf",
        
-        "QCD_Pt20_MuEnriched"          : "QCD_Pt20_MuEnriched",
-        "QCD_Pt_50to80_MuEnrichedPt5"  : "QCD_Pt_50to80_MuEnrichedPt5",
-        "QCD_Pt_80to120_MuEnrichedPt5" : "QCD_Pt_80to120_MuEnrichedPt5",
-        "QCD_Pt_120to170_MuEnrichedPt5": "QCD_Pt_120to170_MuEnrichedPt5",
-        "QCD_Pt_170to300_MuEnrichedPt5": "QCD_Pt_170to300_MuEnrichedPt5",
-        "QCD_Pt_300to470_MuEnrichedPt5": "QCD_Pt_300to470_MuEnrichedPt5",
+        "QCD_Pt20_MuEnriched"            : "QCD_Pt20_MuEnriched",
+        
+        "QCD_Pt_15to20_MuEnrichedPt5"    : "QCD_Pt_15to20_MuEnrichedPt5",
+        "QCD_Pt_20to30_MuEnrichedPt5"    : "QCD_Pt_20to30_MuEnrichedPt5",
+        "QCD_Pt_30to50_MuEnrichedPt5"    : "QCD_Pt_30to50_MuEnrichedPt5",
+        "QCD_Pt_50to80_MuEnrichedPt5"    : "QCD_Pt_50to80_MuEnrichedPt5",
+        "QCD_Pt_80to120_MuEnrichedPt5"   : "QCD_Pt_80to120_MuEnrichedPt5",
+        "QCD_Pt_120to170_MuEnrichedPt5"  : "QCD_Pt_120to170_MuEnrichedPt5",
+        "QCD_Pt_170to300_MuEnrichedPt5"  : "QCD_Pt_170to300_MuEnrichedPt5",
+        "QCD_Pt_300to470_MuEnrichedPt5"  : "QCD_Pt_300to470_MuEnrichedPt5",
+        "QCD_Pt_470to600_MuEnrichedPt5"  : "QCD_Pt_470to600_MuEnrichedPt5",
+        "QCD_Pt_600to800_MuEnrichedPt5"  : "QCD_Pt_600to800_MuEnrichedPt5",
+        "QCD_Pt_800to1000_MuEnrichedPt5" : "QCD_Pt_800to1000_MuEnrichedPt5",
+        "QCD_Pt_1000toInf_MuEnrichedPt5" : "QCD_Pt_1000toInf_MuEnrichedPt5",
         
         "ST_tW_top_5f_inclusiveDecays"             : "ST_tW_top_5f_inclusiveDecays",
         "ST_tW_antitop_5f_inclusiveDecays"         : "ST_tW_antitop_5f_inclusiveDecays",
         "ST_t_channel_antitop_4f_inclusiveDecays"  : "ST_t_channel_antitop_4f_inclusiveDecays",
         "ST_t_channel_top_4f_inclusiveDecays"         : "ST_t_channel_top_4f_inclusiveDecays",
 
+        "WWTo2L2Nu" : "WWTo2L2Nu",
+        "WWToLNuQQ" : "WWToLNuQQ",
+
         "WW": "WW",
         "WZ": "WZ",
         "ZZ": "ZZ",
-
+        
+        "TTGJets"                        : "TTGJets",
+        "TTToSemiLep_TuneCUETP8M2T4down" : "TTToSemiLep_TuneCUETP8M2T4down",
+        "TTToSemiLep_TuneCUETP8M2T4up"   : "TTToSemiLep_TuneCUETP8M2T4up",
+        "TTToSemiLep_hdampDOWN"          : "TTToSemiLep_hdampDOWN",
+        "TTToSemiLep_hdampUP"            : "TTToSemiLep_hdampUP",
+        "TTWJetsToLNu"                   : "TTWJetsToLNu",
+        "TT_GluonMoveCRTune"             : "TT_GluonMoveCRTune",
+        "TT_QCDbasedCRTune_erdON"        : "TT_QCDbasedCRTune_erdON",
+        "TT_TuneCUETP8M2T4down"          : "TT_TuneCUETP8M2T4down",
+        "TT_TuneCUETP8M2T4up"            : "TT_TuneCUETP8M2T4up",
+        "TT_TuneEE5C"                    : "TT_TuneEE5C",
+        "TT_erdON"                       : "TT_erdON",
+        "TT_evtgen"                      : "TT_evtgen",
+        "TT_fsrup"                       : "TT_fsrup",
+        "TT_fsrdown"                     : "TT_fsrdown",
+        "TT_hdampDOWN"                   : "TT_hdampDOWN",
+        "TT_hdampUP"                     : "TT_hdampUP",
+        "TT_isrdown"                     : "TT_isrdown", 
+        "TT_isrup"                       : "TT_isrup",
+        "TT_mtop1665"                    : "TT_mtop1665",
+        "TT_mtop1715"                    : "TT_mtop1715",
+        "TT_mtop1735"                    : "TT_mtop1735",
+        "TT_mtop1755"                    : "TT_mtop1755",
+        "TT_mtop1785"                    : "TT_mtop1785",
+        "TT_widthx0p2"                   : "TT_widthx0p2",
+        "TT_widthx0p5"                   : "TT_widthx0p5",
+        "TT_widthx0p8"                   : "TT_widthx0p8",
+        "TT_widthx2"                     : "TT_widthx2",
+        "TT_widthx4"                     : "TT_widthx4",
+        "TT_widthx8"                     : "TT_widthx8",
+        
         })
 
-## Map the datasets to be merged to the name of the merged dataset.
+# Map the datasets to be merged to the name of the merged dataset.
 _ttSignalMerge    = {}
 _tSignalMerge     = {}
 _lightSignalMerge = {}
-#for mass in _lightHplusMasses:
-
-    #_lightSignalMerge["TTToHplus_M%d"%mass] = "TTOrTToHplus_M%d"%mass
-    #_lightSignalMerge["Hplus_taunu_M%d" % mass] = "TTOrTToHplus_M%d"%mass
 
 _datasetMerge = {
     "QCD_Pt_15to30"    : "QCD",
@@ -285,12 +433,19 @@ _datasetMerge = {
     "QCD_Pt_2400to3200": "QCD",
     "QCD_Pt_3200toInf" : "QCD",
 
-    "QCD_Pt_50to80_MuEnrichedPt5"  : "QCD",
-    "QCD_Pt_80to120_MuEnrichedPt5" : "QCD",
-    "QCD_Pt_120to170_MuEnrichedPt5": "QCD",
-    "QCD_Pt_170to300_MuEnrichedPt5": "QCD",
-    "QCD_Pt_300to470_MuEnrichedPt5": "QCD",
-
+    "QCD_Pt_15to20_MuEnrichedPt5"    : "QCD",
+    "QCD_Pt_20to30_MuEnrichedPt5"    : "QCD",
+    "QCD_Pt_30to50_MuEnrichedPt5"    : "QCD",
+    "QCD_Pt_50to80_MuEnrichedPt5"    : "QCD",
+    "QCD_Pt_80to120_MuEnrichedPt5"   : "QCD",
+    "QCD_Pt_120to170_MuEnrichedPt5"  : "QCD",
+    "QCD_Pt_170to300_MuEnrichedPt5"  : "QCD",
+    "QCD_Pt_300to470_MuEnrichedPt5"  : "QCD",
+    "QCD_Pt_470to600_MuEnrichedPt5"  : "QCD",
+    "QCD_Pt_600to800_MuEnrichedPt5"  : "QCD",
+    "QCD_Pt_800to1000_MuEnrichedPt5" : "QCD",
+    "QCD_Pt_1000toInf_MuEnrichedPt5" : "QCD",
+    
     "QCD_bEnriched_HT100to200"  : "QCD-b",
     "QCD_bEnriched_HT200to300"  : "QCD-b",
     "QCD_bEnriched_HT300to500"  : "QCD-b",
@@ -348,6 +503,8 @@ _datasetMerge = {
     "DYJetsToQQ_HT180"           : "DYJetsToQQHT",
 
     # Diboson merge, comment this away to keep WW, WZ, ZZ samples separate
+    "WWTo2L2Nu" : "Diboson",
+    "WWToLNuQQ" : "Diboson",
     "WWTo4Q": "Diboson",
     "ZZTo4Q": "Diboson",
     "WW"    : "Diboson",
@@ -355,9 +512,6 @@ _datasetMerge = {
     "ZZ"    : "Diboson",
 
     "ttbb_4FS2_ckm_amcatnlo_madspin_pythia8"     : "TTBB",
-
-    #"ChargedHiggs_HplusTB_HplusToTauNu_M_200": "ChargedHiggs_HplusTB_HplusToTauNu_M_200",
-    #"ChargedHiggs_HplusTB_HplusToTauB_M_200": "ChargedHiggs_HplusTB_HplusToTauNu_M_200",
 
     # Htb
     # "TTWJetsToQQ"          : "ttX",
@@ -377,6 +531,11 @@ _datasetMerge = {
     #"ZZTo4Q"               : "ZZTo4Q",
     }
 
+for mass in _intermediateHplusMasses:
+#    _datasetMerge["ChargedHiggs_HplusTB_HplusToTauNu_IntermediateMassNoNeutral_M_%d"%(mass)] = "HplusTB_M%d"%mass
+    _datasetMerge["ChargedHiggs_HplusTB_HplusToTauNu_IntermediateMassNoNeutral_M_%d"%(mass)] = "HplusTBintermediate_M%d"%mass
+    _datasetMerge["ChargedHiggs_HplusTB_HplusToTauNu_IntermediateMassWithNeutral_M_%d"%(mass)] = "HplusTBintermediate_withNeutral_M%d"%mass # NB! Commented out to avoid merging of the WithNeutral samples that have been dropped out of the analysis
+
 #================================================================================================
 # Dataset ordering (default)
 #================================================================================================
@@ -384,8 +543,13 @@ _datasetOrder = ["Data"]
 for process in ["TTToHplusBWB_M%d", "TTToHplusBHminusB_M%d", "TTToHplus_M%d", "Hplus_taunu_t-channel_M%d", "Hplus_taunu_tW-channel_M%d", "Hplus_taunu_s-channel_M%d", "Hplus_taunu_M%d", "TTOrTToHplus_M%d"]:
     for mass in _lightHplusMasses:
         _datasetOrder.append(process%mass)
+for mass in _intermediateHplusMasses:
+    _datasetOrder.append("HplusTB_M%d"%mass)
 for mass in _heavyHplusMasses:
     _datasetOrder.append("HplusTB_M%d"%mass)
+for mass in _heavyHplusToTBbarMasses:
+    _datasetOrder.append("ChargedHiggs_HplusTB_HplusToTB_M_%d"%mass)
+
 _datasetOrder.extend([
     "FakeB", #Htb
     "QCD",
@@ -427,7 +591,7 @@ _datasetOrder.extend([
     "TTTT",        # Htb
     ]) 
 
-## Map the logical dataset names to legend labels
+# Map the logical dataset names to legend labels
 _legendLabels = {
     "Data"     : "Data",
     "EWK"      : "EWK",
@@ -521,12 +685,20 @@ _legendLabels = {
     "QCD_HT2000toInf" : "QCD, 2000 < H_{T} <  Inf",
 
     "QCD_Pt20_MuEnriched"          : "QCD (#mu enr.), #hat{p}_{T} >  20",
-    "QCD_Pt_50to80_MuEnrichedPt5"  : "QCD (#mu enr.),  50 > #hat{p}_{T} <  80",
-    "QCD_Pt_80to120_MuEnrichedPt5" : "QCD (#mu enr.),  80 > #hat{p}_{T} < 120",
-    "QCD_Pt_120to170_MuEnrichedPt5": "QCD (#mu enr.), 120 > #hat{p}_{T} < 170",
-    "QCD_Pt_170to300_MuEnrichedPt5": "QCD (#mu enr.), 170 > #hat{p}_{T} < 300",
-    "QCD_Pt_300to470_MuEnrichedPt5": "QCD (#mu enr.), 300 > #hat{p}_{T} < 470",
 
+    "QCD_Pt_15to20_MuEnrichedPt5"    : "QCD (#mu enr.), 15 < #hat{p}_{T} < 20",
+    "QCD_Pt_20to30_MuEnrichedPt5"    : "QCD (#mu enr.), 20 < #hat{p}_{T} < 30",
+    "QCD_Pt_30to50_MuEnrichedPt5"    : "QCD (#mu enr.), 30 < #hat{p}_{T} < 50",
+    "QCD_Pt_50to80_MuEnrichedPt5"    : "QCD (#mu enr.), 50 < #hat{p}_{T} < 80",
+    "QCD_Pt_80to120_MuEnrichedPt5"   : "QCD (#mu enr.), 80 < #hat{p}_{T} < 120",
+    "QCD_Pt_120to170_MuEnrichedPt5"  : "QCD (#mu enr.), 120 < #hat{p}_{T} < 170",
+    "QCD_Pt_170to300_MuEnrichedPt5"  : "QCD (#mu enr.), 170 < #hat{p}_{T} < 300",
+    "QCD_Pt_300to470_MuEnrichedPt5"  : "QCD (#mu enr.), 300 < #hat{p}_{T} < 470",
+    "QCD_Pt_470to600_MuEnrichedPt5"  : "QCD (#mu enr.), 470 < #hat{p}_{T} < 600",
+    "QCD_Pt_600to800_MuEnrichedPt5"  : "QCD (#mu enr.), 600 < #hat{p}_{T} < 800",
+    "QCD_Pt_800to1000_MuEnrichedPt5" : "QCD (#mu enr.), 800 < #hat{p}_{T} < 1000",
+    "QCD_Pt_1000toInf_MuEnrichedPt5" : "QCD (#mu enr.), 1000 < #hat{p}_{T} < Inf",
+    
     "TToBLNu_s-channel" : "Single t (s channel)",
     "TToBLNu_t-channel" : "Single t (t channel)",
     "TToBLNu_tW-channel": "Single t (tW channel)",
@@ -558,6 +730,9 @@ for mass in _lightHplusMasses:
 
     _legendLabels["TTOrTToHplus_M%d"%mass] = "H^{+} m_{H^{+}}=%d GeV" % mass
 
+for mass in _intermediateHplusMasses:
+    _legendLabels["TTToHplus_M%d"%mass] = "H^{+} m_{H^{+}}=%d GeV" % mass
+
 for mass in _heavyHplusMasses:
     _legendLabels["HplusTB_M%d"%mass] = "H^{+} m_{H^{+}}=%d GeV" % mass
     _legendLabels["ChargedHiggs_HplusTB_HplusToTB_M_%d"%mass] = "H^{+} m_{H^{+}}=%d GeV" % mass
@@ -565,27 +740,39 @@ for mass in _heavyHplusMasses:
 for mass in _heavyHplusToTBbarMasses:
     _legendLabels["ChargedHiggs_HplusTB_HplusToTB_M_%d"%mass] = "H^{+} m_{H^{+}}=%d GeV" % mass
     _legendLabels["HplusToTBbar_M%d"%mass] = "H^{+}#rightarrowtb m_{H^{+}}=%d GeV" % mass
-    
 
 ## Map the logical dataset names to plot styles
 _plotStyles = {
-    "ChargedHiggs_HplusTB_HplusToTB_M_180" : styles.signal180Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_200" : styles.signal200Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_220" : styles.signal220Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_250" : styles.signal250Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_300" : styles.signal300Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_350" : styles.signal350Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_400" : styles.signal400Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_500" : styles.signal500Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_800" : styles.signal800Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_1000": styles.signal1000Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_1500": styles.signal1500Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_2000": styles.signal2000Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_2500": styles.signal2500Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_3000": styles.signal3000Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_5000": styles.signal5000Style,
-    "ChargedHiggs_HplusTB_HplusToTB_M_7000": styles.signal7000Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_180"  : styles.signal180Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_200"  : styles.signal200Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_220"  : styles.signal220Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_250"  : styles.signal250Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_300"  : styles.signal300Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_350"  : styles.signal350Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_400"  : styles.signal400Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_500"  : styles.signal500Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_650"  : styles.signal650Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_800"  : styles.signal800Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_1000" : styles.signal1000Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_1500" : styles.signal1500Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_2000" : styles.signal2000Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_2500" : styles.signal2500Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_3000" : styles.signal3000Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_5000" : styles.signal5000Style,
+    "ChargedHiggs_HplusTB_HplusToTB_M_7000" : styles.signal7000Style,
     "ChargedHiggs_HplusTB_HplusToTB_M_10000": styles.signal1000Style,
+
+    "HplusTBintermediate_M145": styles.mcStyle,
+    "HplusTBintermediate_withNeutral_M145": styles.mcStyle2,
+    "HplusTBintermediate_M165": styles.mcStyle,
+    "HplusTBintermediate_withNeutral_M165": styles.mcStyle2,
+    "HplusTBintermediate_M170": styles.mcStyle,
+    "HplusTBintermediate_withNeutral_M170": styles.mcStyle2,
+    "HplusTBintermediate_M175": styles.mcStyle,
+    "HplusTBintermediate_withNeutral_M175": styles.mcStyle2,
+    "HplusTBintermediate_M200": styles.mcStyle,
+    "HplusTBintermediate_withNeutral_M200": styles.mcStyle2,
+
 
     "DYJetsToLL"    : styles.dyStyle,
     "DYJetsToLLHT"  : styles.dyStyle,
@@ -622,11 +809,19 @@ _plotStyles = {
     "WJets_3bquark": styles.Style(ROOT.kFullTriangleDown, ROOT.kRed-7),
 
     "QCD_Pt20_MuEnriched"          : styles.qcdStyle,
-    "QCD_Pt_50to80_MuEnrichedPt5"  : styles.qcdStyle,
-    "QCD_Pt_80to120_MuEnrichedPt5" : styles.qcdStyle,
-    "QCD_Pt_120to170_MuEnrichedPt5": styles.qcdStyle,
-    "QCD_Pt_170to300_MuEnrichedPt5": styles.qcdStyle,
-    "QCD_Pt_300to470_MuEnrichedPt5": styles.qcdStyle,
+    
+    "QCD_Pt_15to20_MuEnrichedPt5"    : styles.qcdStyle,
+    "QCD_Pt_20to30_MuEnrichedPt5"    : styles.qcdStyle,
+    "QCD_Pt_30to50_MuEnrichedPt5"    : styles.qcdStyle,
+    "QCD_Pt_50to80_MuEnrichedPt5"    : styles.qcdStyle,
+    "QCD_Pt_80to120_MuEnrichedPt5"   : styles.qcdStyle,
+    "QCD_Pt_120to170_MuEnrichedPt5"  : styles.qcdStyle,
+    "QCD_Pt_170to300_MuEnrichedPt5"  : styles.qcdStyle,
+    "QCD_Pt_300to470_MuEnrichedPt5"  : styles.qcdStyle,
+    "QCD_Pt_470to600_MuEnrichedPt5"  : styles.qcdStyle,
+    "QCD_Pt_600to800_MuEnrichedPt5"  : styles.qcdStyle,
+    "QCD_Pt_800to1000_MuEnrichedPt5" : styles.qcdStyle,
+    "QCD_Pt_1000toInf_MuEnrichedPt5" : styles.qcdStyle,
     
     "ZJetsToQQ_HT600toInf" : styles.zjetsStyle,
     "WJetsToQQ_HT_600ToInf": styles.wjetsStyle,
@@ -652,19 +847,36 @@ for mass in _lightHplusMasses:
 
     _plotStyles["TTOrTToHplus_M%d"%mass] = getattr(styles, "signal%dStyle"%mass)
 
+for mass in _intermediateHplusMasses:
+    _plotStyles["TTToHplus_M%d"%mass] = getattr(styles, "signal%dStyle"%mass)
+    _plotStyles["HplusTB_M%d"%mass] = getattr(styles, "signal%dStyle"%mass)
+
 for mass in _heavyHplusMasses:
     _plotStyles["HplusTB_M%d"%mass] = getattr(styles, "signal%dStyle"%mass)
 
+for mass in _heavyHplusToTBbarMasses:
+    _plotStyles["HplusTB_M%d"%mass] = getattr(styles, "signal%dStyle"%mass)
 
-## Return True if name is from a signal dataset
+
+#================================================================================================
+# Function definition
+#================================================================================================
 def isSignal(name):
+    '''
+    Return True if name is from a signal dataset
+    '''
     return "TTToHplus" in name or "Hplus_taunu" in name or "TTOrTToHplus" in name or "HplusTB" in name
 
-
-## Update the default legend labels
 def updateLegendLabel(datasetName, legendLabel):
+    '''
+    Update the default legend labels
+    '''
     _legendLabels[datasetName] = legendLabel
 
+
+#================================================================================================
+# Class definition
+#================================================================================================
 class SetProperty:
     '''
     Helper class for setting properties
@@ -770,6 +982,9 @@ def UpdatePlotStyleFill(styleMap, namesToFilled):
 # datasets not in the plots._datasetOrder list are left at the end in
 # the same order they were originally.
 def mergeRenameReorderForDataMC(datasetMgr, keepSourcesMC=False):
+    # print cross sections
+#    print "Merging data with mergeRenameReorderForDataMC method. The cross sections in use are:"
+#    datasetMgr.PrintCrossSections()
     # merge data
     datasetMgr.mergeData(allowMissingDatasets=True)
     # check that _ext* datasets are defined to be added in _physicalMcAdd
@@ -1406,32 +1621,42 @@ def _createCutBoxAndLine(frame, cutValue, fillColor=18, box=True, line=True, **k
 # \param box        If true, draw cut box
 # \param line       If true, draw cut line
 # \param kwargs     Keyword arguments (\a lessThan or \a greaterThan, forwarded to histograms.isLessThan())
-def _createCutBoxAndLineY(frame, cutValue, fillColor=18, fillStyle=3001, box=True, line=True, **kwargs):
+def _createCutBoxAndLineY(frame, cutValue, fillColor=18, fillStyle=3001, box=True, line=True, mirror=False, **kwargs):
     xmin = frame.GetXaxis().GetXmin()
     xmax = frame.GetXaxis().GetXmax()
     ymin = cutValue
     ymax = cutValue
     ret  = []
 
+    # Mirror calculations
+    dy = 1.0-cutValue
+    if dy < 0:
+        cutValueMirror = 1.0-abs(dy)
+    else:
+        cutValueMirror = 1.0+abs(dy)
+
+    if line:
+        l1 = ROOT.TLine(xmin, cutValue, xmax, cutValue)
+        l1.SetLineWidth(3)
+        l1.SetLineStyle(ROOT.kDashed)
+        l1.SetLineColor(fillColor) #ROOT.kBlack
+        if mirror:
+            l2 = ROOT.TLine(xmin, cutValueMirror, xmax, cutValueMirror)
+            l2.SetLineWidth(3)
+            l2.SetLineStyle(ROOT.kDashed)
+            l2.SetLineColor(fillColor)
+
+        # Append objects to list for drawing
+        ret.append(l1)
+        if mirror:
+            ret.append(l2)
+
     if box:
-        if histograms.isLessThan(**kwargs):
-            ymin = frame.GetYaxis().GetXmin()
-            ymax = cutValue
-        else:
-            ymin = cutValue
-            ymax = frame.GetYaxis().GetXmax()
-        b = ROOT.TBox(xmin, ymin, xmax, ymax)
+        b = ROOT.TBox(xmin, cutValue, xmax, cutValueMirror)
         b.SetFillColor(fillColor)
         b.SetFillStyle(fillStyle)
         ret.append(b)
-
-    if line:
-        l = ROOT.TLine(xmin, cutValue, xmax, cutValue)
-        l.SetLineWidth(3)
-        l.SetLineStyle(ROOT.kDashed)
-        l.SetLineColor(ROOT.kBlack)
-        ret.append(l)
-
+        
     return ret
 
 ## Helper function for creating a histograms.Histo object from a ROOT object based on the ROOT object type
@@ -1655,18 +1880,15 @@ class PlotBase:
     # \param kwargs  Keyword arguments (forwarded to plots._createCutBoxAndLine())
     def addCutBoxAndLineY(self, *args, **kwargs):
         objs = _createCutBoxAndLineY(self.getFrame(), *args, **kwargs)
-        for o in objs:
+        for o in objs:            
             if "mainCanvas" in kwargs:
                 if kwargs["mainCanvas"]:
-                    self.appendPlotObject(o)
-            else:
-                self.appendPlotObject(o)
+                    self.prependPlotObject(o)
+                    #self.appendPlotObject(o)
             if "ratioCanvas" in kwargs:
                 if kwargs["ratioCanvas"]:
                     self.prependPlotObjectToRatio(o)
-            else:
-                self.prependPlotObjectToRatio(o) 
-                
+                    #self.appendPlotObjectToRatio(o)
 
     ## Add MC uncertainty histogram
     def addMCUncertainty(self):
@@ -1783,9 +2005,9 @@ class PlotBase:
     # \param kwargs             Keyword arguments, forwarded to histograms.addStandardTexts()
     def addStandardTexts(self, addLuminosityText=False, **kwargs):
         lumi = None
-        if hasattr(self, "luminosity"):
+        if hasattr(self, "luminosity") and addLuminosityText:
             lumi = self.luminosity
-        elif self.histoMgr.hasLuminosity():
+        elif self.histoMgr.hasLuminosity() and addLuminosityText:
             lumi = self.histoMgr.getLuminosity()
         elif addLuminosityText:
             raise Exception("addLuminosityText=True, but the Plot object does not have luminosity set, and plot.histoMgr has not been normalized by or to luminosity")

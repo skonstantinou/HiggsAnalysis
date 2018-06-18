@@ -47,7 +47,11 @@ def main():
         if match:
             jsonfile = match.group(0)
 #    jsonfile = "limits_heavy2016.json"
-    jsonfile = "limits2016/limitsForMSSMplots_ICHEP_v3_heavy.json"
+#    jsonfile = "limits2016/limitsForMSSMplots_ICHEP_v3_heavy.json"
+#    jsonfile = "limits2016/limits_heavy_20171011.json"
+#    jsonfile = "limits2016/limits_heavy_180131.json"
+#    jsonfile = "limits2016/limits_heavy_180318.json"
+    jsonfile = "limits2016/limits_heavy_180417.json"
 #    limits = limit.BRLimits(limitsfile=jsonfile,configfile="configurationHeavy.json")
     limits = limit.BRLimits(limitsfile=jsonfile,configfile="limits2016/heavyHplus_configuration.json")
 
@@ -106,10 +110,12 @@ def main():
 
     # Remove m=180,190
     for gr in graphs.values():
-#        limit.cleanGraph(gr, 750)
+        limit.cleanGraph(gr, 750)
         limit.cleanGraph(gr, 800)
         limit.cleanGraph(gr, 1000)
+        limit.cleanGraph(gr, 1500)
         limit.cleanGraph(gr, 2000)
+        limit.cleanGraph(gr, 2500)
         limit.cleanGraph(gr, 3000)
 
 
@@ -177,6 +183,7 @@ def main():
     jsonWriter.addParameter("finalStateText",limits.getFinalstateText())
     jsonWriter.addParameter("mHplus",limit.mHplus())
     jsonWriter.addParameter("selection",selection)
+    jsonWriter.addParameter("regime","heavy")
     jsonWriter.write("MSSMLimitHeavy_"+scenario+".json")
 
     limit.doTanBetaPlotHeavy("limitsTanb_heavy_"+scenario, graphs, limits.getLuminosity(), limits.getFinalstateText(), limit.mHplus(), scenario)
