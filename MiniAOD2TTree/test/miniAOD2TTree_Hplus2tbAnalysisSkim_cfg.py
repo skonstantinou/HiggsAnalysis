@@ -151,8 +151,8 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     CMEnergy            = cms.int32(13),
     Skim = cms.PSet(
 	Counters = cms.VInputTag(
-	    "skimCounterAll",
-            "skimCounterPassed"
+            cms.InputTag("skimCounterAll","Counter"),
+            cms.InputTag("skimCounterPassed","Counter")
         ),
     ),
     EventInfo = cms.PSet(
