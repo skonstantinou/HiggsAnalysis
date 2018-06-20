@@ -56,9 +56,11 @@ class FitFunction:
             "DoubleGaussian": 6,
             "SumFunction": 5,
             "RayleighFunction": 2,
+            "RayleighFunctionShifted" : 3,
             "RayleighShiftedPlusGaussian": 6,
             "QCDFunction": 7,
             "QCDFunctionWithPeakShift": 8,
+            "QCDFunctionWithPeakShiftClear": 8,
             "EWKFunction": 4,
             "EWKFunctionInv": 4,
             "QCDEWKFunction": 7,
@@ -121,13 +123,20 @@ class FitFunction:
         if par[0]+par[1]*x[0] == 0.0:
             return 0
         return norm*(par[1]*x[0]/((par[0])*(par[0]))*ROOT.TMath.Exp(-x[0]*x[0]/(2*(par[0]*par[0]+2*par[2]*par[0]*x[0]+par[2]*par[2]*x[0]*x[0]))))
+
+    def RayleighFunctionShiftedClear(self,x,par,norm): # 15.3.2018
+        if par[0]+par[1]*x[0] == 0.0:
+            return 0
+        return norm*(par[1]*(x[0]-par[2])/((par[0])*(par[0]))*ROOT.TMath.Exp(-(x[0]-par[2])*(x[0]-par[2])/(2*(par[0]*par[0]))))
                 
     #===== Composite functions for template fits
     def QCDFunction(self,x,par,norm):
         return self._additionalNormFactor*norm*(self.RayleighFunction(x,par,1)+par[2]*ROOT.TMath.Gaus(x[0],par[3],par[4],1)+par[5]*ROOT.TMath.Exp(-par[6]*x[0]))
 
     def QCDFunctionWithPeakShift(self,x,par,norm):
-#        return self._additionalNormFactor*norm*(self.RayleighFunctionShifted(x,par,1)+par[3]*ROOT.TMath.Exp(-par[4]*x[0]))
+        return self._additionalNormFactor*norm*(self.RayleighFunctionShifted(x,par,1)+par[3]*ROOT.TMath.Gaus(x[0],par[4],par[5],1)+par[6]*ROOT.TMath.Exp(-par[7]*x[0]))
+
+    def QCDFunctionWithPeakShiftClear(self,x,par,norm): # 15.3.2018
         return self._additionalNormFactor*norm*(self.RayleighFunctionShifted(x,par,1)+par[3]*ROOT.TMath.Gaus(x[0],par[4],par[5],1)+par[6]*ROOT.TMath.Exp(-par[7]*x[0]))
 
     def RayleighShiftedPlusGaussian(self,x,par,norm):
@@ -188,7 +197,7 @@ class FitFunction:
 ## Modify bin label string
 def getModifiedBinLabelString(binLabel):
     label = binLabel
-    label = label.replace("#tau p_{T}","taupT")
+    label = label.replace("#tau p_{T}","tauPt")
     label = label.replace("#tau eta","taueta")
     label = label.replace("<","lt")
     label = label.replace(">","gt")
@@ -197,33 +206,39 @@ def getModifiedBinLabelString(binLabel):
     label = label.replace(".","p")
     label = label.replace("/","_")
     label = label.replace(" ","_")
+    label = label.replace("(","")
+    label = label.replace(")","")
     return label
 
 ## Inverse bin label modification
 def getFormattedBinLabelString(binLabel):
     label = binLabel
-    label = label.replace("taupT","tau p_{T}")
-    label = label.replace("tauPt","tau p_{T}")
+    label = label.replace("p",".")
+    label = label.replace("taupT","p_{T}^{#tau}")
+    label = label.replace("tauPt","p_{T}^{#tau}")
+    label = label.replace("abstauEta","|#eta|")
     label = label.replace("taueta","tau {#eta}")
+    label = label.replace(":"," GeV, ")
     label = label.replace("lt"," < ")
     label = label.replace("gt"," > ")
     label = label.replace("eq"," = ",)
     label = label.replace("to","..")
-    if label[-1].isdigit():
-        label+=" GeV"
+
+#    if label[-1].isdigit():
+#        label+=" GeV"
     return label
 
 ## Helper function to plot template names in a more understandable way
 def getFormattedTemplateName(name):
-    formattedNames = {'EWKFakeTaus_Baseline': '#splitline{EWK+t#bar{t} fake taus}{Baseline selection}', 
-                      'EWKGenuineTaus_Baseline': '#splitline{EWK+t#bar{t} genuine taus}{Baseline selection}', 
-                      'EWKFakeTaus_Inverted': '#splitline{EWK+t#bar{t} fake taus}{Inverted selection}',
-                      'EWKGenuineTaus_Inverted': '#splitline{EWK+t#bar{t} genuine taus}{Inverted selection}',
-                      'EWKInclusive_Baseline': '#splitline{EWK+t#bar{t} inclusive}{Baseline selection}',
-                      'EWKInclusive_Inverted': '#splitline{EWK+t#bar{t} inclusive}{Inverted selection}',
-                      'QCD_Baseline': '#splitline{Fake taus}{Baseline selection}',
-                      'QCD_Inverted': '#splitline{Fake taus}{Inverted selection}',
-                      'data': '#splitline{Data}{Baseline selection}'}
+    formattedNames = {'EWKFakeTaus_Baseline': '#splitline{EWK+t#bar{t} fake taus}{Nominal selection}', 
+                      'EWKGenuineTaus_Baseline': '#splitline{EWK+t#bar{t} genuine taus}{Nominal selection}', 
+                      'EWKFakeTaus_Inverted': '#splitline{EWK+t#bar{t} fake taus}{Altered selection}',
+                      'EWKGenuineTaus_Inverted': '#splitline{EWK+t#bar{t} genuine taus}{Altered selection}',
+                      'EWKInclusive_Baseline': '#splitline{EWK+t#bar{t} inclusive}{Nominal selection}',
+                      'EWKInclusive_Inverted': '#splitline{EWK+t#bar{t} inclusive}{Altered selection}',
+                      'QCD_Baseline': '#splitline{QCD (Data - EWK+t#bar{t} inclusive)}{Nominal selection}',
+                      'QCD_Inverted': '#splitline{QCD (Data - EWK+t#bar{t} inclusive)}{Altered selection}',
+                      'data': '#splitline{Data}{Nominal selection}'}
     if name in formattedNames.keys():
         return formattedNames[name]
     else:
@@ -441,16 +456,16 @@ class QCDNormalizationTemplate:
         h = self._histo.Clone(self._histo.GetName()+"clone")
         h.Scale(self._normalizationFactor)
         plot.histoMgr.appendHisto(histograms.Histo(h,self._histo.GetName()))
-        plot.createFrame(self._plotDirName+"/template_"+self._name.replace(" ","_")+"_"+self._binLabel, opts={"ymin": 0.1, "ymaxfactor": 4.})
+        plot.createFrame(self._plotDirName+"/template_"+self._name.replace(" ","_")+"_"+self._binLabel.replace(":","_"), opts={"ymin": 0.1, "ymaxfactor": 15.})
         plot.getFrame().GetXaxis().SetTitle("E_{T}^{miss}")
         plot.getFrame().GetYaxis().SetTitle("N_{events} / bin")
         plot.getPad().SetLogy(True)
         st = styles.getDataStyle().clone()
         st.append(styles.StyleFill(fillColor=ROOT.kYellow))
         histograms.addStandardTexts(cmsTextPosition="outframe")
-        histograms.addText(0.48,0.85, getFormattedTemplateName(self._name))
-        histograms.addText(0.48,0.77, getFormattedBinLabelString(self._binLabel))
-        histograms.addText(0.48,0.72, "N_{events} = %d"%int(self._histo.Integral(0,-1)*self._normalizationFactor+0.5)) # round to closes integer
+        histograms.addText(0.34,0.85, getFormattedTemplateName(self._name))
+        histograms.addText(0.34,0.77, getFormattedBinLabelString(self._binLabel))
+        histograms.addText(0.34,0.72, "N_{events} = %d"%int(self._histo.Integral(0,-1)*self._normalizationFactor+0.5)) # round to closes integer
         plot.histoMgr.forHisto(self._histo.GetName(), st)
         #plot.setFileName("template_"+self._name.replace(" ","_")+"_"+self._binLabel)
         plot.draw()
@@ -571,11 +586,11 @@ class QCDNormalizationTemplate:
                 plot = plots.PlotBase()
                 plot.histoMgr.appendHisto(histograms.Histo(h,h.GetName()))
                 plot.histoMgr.appendHisto(histograms.Histo(fit, "fit"))
-                plot.createFrame(self._plotDirName+"/fit_"+self._name.replace(" ","_")+"_"+self._binLabel, opts={"ymin": 1e-5, "ymaxfactor": 4.})
+                plot.createFrame(self._plotDirName+"/fit_"+self._name.replace(" ","_")+"_"+self._binLabel, opts={"ymin": 1e-5, "ymaxfactor": 15.})
                 plot.getFrame().GetXaxis().SetTitle("E_{T}^{miss}")
                 plot.getFrame().GetYaxis().SetTitle("N_{events} (normalized to unity)")
-                histograms.addText(0.48,0.85, getFormattedTemplateName(self._name))
-                histograms.addText(0.48,0.77, getFormattedBinLabelString(self._binLabel))
+                histograms.addText(0.34,0.85, getFormattedTemplateName(self._name))
+                histograms.addText(0.34,0.77, getFormattedBinLabelString(self._binLabel))
                 plot.getPad().SetLogy(True)
                 histograms.addStandardTexts(cmsTextPosition="outframe")
                 plot.draw()
@@ -599,6 +614,8 @@ class QCDNormalizationManagerBase:
         self._qcdNormalizationError = {}
         self._ewkFakesNormalization = {}
         self._ewkFakesNormalizationError = {}
+        self._qcdmcNormalization = {}
+        self._qcdmcNormalizationError = {}
         self._combinedFakesNormalization = {}
         self._combinedFakesNormalizationError = {}
         self._combinedFakesNormalizationUp = {}
@@ -705,13 +722,25 @@ class QCDNormalizationManagerBase:
         for k in self._qcdNormalization:
             s += '    "%s": %f,\n'%(k, self._qcdNormalization[k])
         s += "}\n"
+        s += "QCDNormalizationError = {\n"
+        for k in self._qcdNormalizationError:
+            s += '    "%s": %f,\n'%(k, self._qcdNormalizationError[k])
+        s += "}\n"
         s += "EWKFakeTausNormalization = {\n"
         for k in self._ewkFakesNormalization:
             s += '    "%s": %f,\n'%(k, self._ewkFakesNormalization[k])
         s += "}\n"
+        s += "EWKFakeTausNormalizationError = {\n"
+        for k in self._ewkFakesNormalizationError:
+            s += '    "%s": %f,\n'%(k, self._ewkFakesNormalizationError[k])
+        s += "}\n"
         s += "QCDPlusEWKFakeTausNormalization = {\n"
         for k in self._combinedFakesNormalization:
             s += '    "%s": %f,\n'%(k, self._combinedFakesNormalization[k])
+        s += "}\n"
+        s += "QCDPlusEWKFakeTausNormalizationError = {\n"
+        for k in self._combinedFakesNormalizationError:
+            s += '    "%s": %f,\n'%(k, self._combinedFakesNormalizationError[k])
         s += "}\n"
         s += "QCDPlusEWKFakeTausNormalizationSystFakeWeightingVarDown = {\n"
         for k in self._combinedFakesNormalizationDown:
@@ -721,6 +750,16 @@ class QCDNormalizationManagerBase:
         for k in self._combinedFakesNormalizationUp:
             s += '    "%s": %f,\n'%(k, self._combinedFakesNormalizationUp[k])
         s += "}\n"
+        if len(self._qcdmcNormalization) > 0:
+            s += "##QCDMCNormalization = {\n"
+            for k in self._qcdmcNormalization:
+                s += '##    "%s": %f,\n'%(k, self._qcdmcNormalization[k])
+            s += "##}\n"
+            s += "##QCDMCNormalizationError = {\n"
+            for k in self._qcdmcNormalizationError:
+                s += '##    "%s": %f,\n'%(k, self._qcdmcNormalizationError[k])
+            s += "##}\n"
+        s += "\n"
         s += "# Log of fake rate calculation:\n"
         fOUT = open(filename,"w")
         fOUT.write(s)
@@ -741,7 +780,7 @@ class QCDNormalizationManagerBase:
                 g.SetPoint(i, i+0.5, valueDict[binList[i]])
                 g.SetPointEYhigh(i, upDict[binList[i]])
                 g.SetPointEYlow(i, downDict[binList[i]])
-            g.SetMarkerSize(1.6)
+            g.SetMarkerSize(0.6)
             g.SetMarkerStyle(markerStyle)
             g.SetLineColor(color)
             g.SetLineWidth(2)
@@ -752,16 +791,56 @@ class QCDNormalizationManagerBase:
         keys = self._qcdNormalization.keys()
         keys.sort()
         for k in keys:
-            if "lt" in k:
-                keyList.append(k)
+            if "Etalt" in k and not k in keyList:
+                if "Ptlt" in k:
+                    keyList.append(k)
         for k in keys:
-            if "eq" in k:
-                keyList.append(k)
+            if "Etalt" in k and not k in keyList:
+                if "Pteq" in k:
+                    keyList.append(k)
         for k in keys:
-            if "gt" in k:
-                keyList.append(k)
-        if "Inclusive" in keys:
+            if "Etalt" in k and not k in keyList:
+                if "Ptgt" in k:
+                    keyList.append(k)
+
+        for k in keys:
+            if "Etaeq" in k and not k in keyList:
+                if "Ptlt" in k:
+                    keyList.append(k)
+        for k in keys:
+            if "Etaeq" in k and not k in keyList:
+                if "Pteq" in k:
+                    keyList.append(k)
+        for k in keys:
+            if "Etaeq" in k and not k in keyList:
+                if "Ptgt" in k:
+                    keyList.append(k)
+
+        for k in keys:
+            if "Etagt" in k and not k in keyList:
+                if "Ptlt" in k:
+                    keyList.append(k)
+        for k in keys:
+            if "Etagt" in k and not k in keyList:
+                if "Pteq" in k:
+                    keyList.append(k)
+        for k in keys:
+            if "Etagt" in k and not k in keyList:
+                if "Ptgt" in k:
+                    keyList.append(k)
+
+#        for k in keys:
+#            if "lt" in k:
+#                keyList.append(k)
+#        for k in keys:
+#            if "eq" in k:
+#                keyList.append(k)
+#        for k in keys:
+#            if "gt" in k:
+#                keyList.append(k)
+        if "Inclusive" in keys and "Inclusive" not in keyList:
             keyList.append("Inclusive")
+
         # Create graphs
         gQCD = makeGraph(24, ROOT.kRed, keyList, self._qcdNormalization, self._qcdNormalizationError, self._qcdNormalizationError)
         gFake = makeGraph(27, ROOT.kBlue, keyList, self._ewkFakesNormalization, self._ewkFakesNormalizationError, self._ewkFakesNormalizationError)
@@ -783,7 +862,7 @@ class QCDNormalizationManagerBase:
         hFrame.SetMinimum(0.05)
         hFrame.SetMaximum(0.5)                 
         hFrame.GetYaxis().SetTitle("Normalization coefficient")
-        hFrame.GetXaxis().SetLabelSize(20)
+        hFrame.GetXaxis().SetLabelSize(7)
         c = ROOT.TCanvas()
         c.SetLogy()
         hFrame.Draw()
@@ -899,12 +978,12 @@ class QCDNormalizationManagerBase:
                 print histogramDictionary
                 raise Exception("Error: Expected a dictionary of histograms")
             plot.histoMgr.appendHisto(histograms.Histo(histogramDictionary[k], k))
-        plot.createFrame(self._plotDirName+"/finalFit_"+binLabel, opts={"ymin": 1e-5, "ymaxfactor": 4.})
+        plot.createFrame(self._plotDirName+"/finalFit_"+binLabel, opts={"ymin": 1e-5, "ymaxfactor": 15.})
         plot.getFrame().GetXaxis().SetTitle("E_{T}^{miss}")
         plot.getFrame().GetYaxis().SetTitle("N_{events} (normalized to unity)")
 #        histograms.addText(0.36,0.84, "Final fit, "+binLabel)
-        histograms.addText(0.48,0.85, "Final fit")
-        histograms.addText(0.48,0.77, getFormattedBinLabelString(binLabel))
+        histograms.addText(0.34,0.85, "Final fit")
+        histograms.addText(0.34,0.77, getFormattedBinLabelString(binLabel))
         plot.getPad().SetLogy(True)
         histograms.addStandardTexts(cmsTextPosition="outframe")
         plot.draw()
@@ -951,6 +1030,7 @@ class QCDNormalizationManagerBase:
         lines.append("   Normalization factor (QCD): %f +- %f"%(self._qcdNormalization[binLabel], self._qcdNormalizationError[binLabel]))
         lines.append("   Normalization factor (EWK fake taus): %f +- %f"%(self._ewkFakesNormalization[binLabel], self._ewkFakesNormalizationError[binLabel]))
         lines.append("   Combined norm. factor: %f +- %f"%(self._combinedFakesNormalization[binLabel], self._combinedFakesNormalizationError[binLabel]))
+        lines.append("   Normalization factor (QCDMC, not to be used, only for cross check): %f +- %f"%(self._qcdmcNormalization[binLabel], self._qcdmcNormalizationError[binLabel]))
         self._commentLines.extend(lines)
         return lines
 
@@ -969,8 +1049,10 @@ class QCDNormalizationManagerDefault(QCDNormalizationManagerBase):
 
     def calculateNormalizationCoefficients(self, dataHisto, fitOptions, FITMIN, FITMAX, **kwargs):
         qcdTemplate = self._templates["QCD_Inverted"]
-        ewkInclusiveTemplate = self._templates["EWKInclusive_Baseline"]
-        templatesToBeFitted = [qcdTemplate, ewkInclusiveTemplate]
+        ####qcdTemplate = self._templates["FakeTau_Inverted"]
+        ewkTemplate = self._templates["EWKInclusive_Baseline"]
+        ####ewkTemplate = self._templates["EWKGenuineTaus_Baseline"]
+        templatesToBeFitted = [qcdTemplate, ewkTemplate]
         self._checkInputValidity(templatesToBeFitted)
         
         #===== Fit templates
@@ -982,14 +1064,21 @@ class QCDNormalizationManagerDefault(QCDNormalizationManagerBase):
         binLabel = self._templates[self._requiredTemplateList[0]].getBinLabel()
         dataTemplate.setHistogram(dataHisto, binLabel)
         dataTemplate.plot()
-        dataTemplate.setFitter(FitFunction("FitDataWithQCDAndInclusiveEWK",
-                                           QCDFitFunction = qcdTemplate.getFitFunction(),
-                                           parQCD = qcdTemplate.getFittedParameters(),
-                                           QCDnorm = 1.0,
-                                           EWKInclusiveFunction = ewkInclusiveTemplate.getFitFunction(),
-                                           parEWK = ewkInclusiveTemplate.getFittedParameters(),
-                                           EWKNorm = 1.0),
-                               FITMIN, FITMAX)
+        dataTemplate.setFitter(FitFunction("FitDataWithFakesAndGenuineTaus",
+                                           QCDAndFakesFitFunction = qcdTemplate.getFitFunction(),
+                                           parQCDAndFakes = qcdTemplate.getFittedParameters(),
+                                           QCDAndFakesnorm = 1.0,
+                                           EWKGenuineTausFitFunction = ewkTemplate.getFitFunction(),
+                                           parEWKGenuineTaus = ewkTemplate.getFittedParameters(),
+                                           EWKGenuineTausNorm = 1.0),FITMIN, FITMAX)
+#    dataTemplate.setFitter(FitFunction("FitDataWithQCDAndInclusiveEWK",
+#                                           QCDFitFunction = qcdTemplate.getFitFunction(),
+#                                           parQCD = qcdTemplate.getFittedParameters(),
+#                                           QCDnorm = 1.0,
+#                                           EWKInclusiveFunction = ewkTemplate.getFitFunction(),
+#                                           parEWK = ewkTemplate.getFittedParameters(),
+#                                           EWKNorm = 1.0),
+#                                           FITMIN, FITMAX)
         #===== Do fit to data
         dataTemplate.setDefaultFitParam(defaultInitialValue=[1.0, 0.90, 0.10], defaultLowerLimit=[0.0, 0.0, 0.0], defaultUpperLimit=[10.0, 1.0, 1.0])
         dataTemplate.doFit(fitOptions)
@@ -1044,6 +1133,20 @@ class QCDNormalizationManagerDefault(QCDNormalizationManagerBase):
         self._ewkFakesNormalization[binLabel] = ewkFakesNormFactor
         self._ewkFakesNormalizationError[binLabel] = ewkFakesNormFactorError
 
+        #===== Normalization factor for QCD MC (not used, only for cross checking)
+        qcdmcNormFactor = None
+        qcdmcNormFactorError = None
+        nQCDMCBaseline = 0
+        nQCDMCInverted = 0
+        if "QCDMC_Baseline" in self._templates.keys():
+            nQCDMCBaseline = self._templates["QCDMC_Baseline"].getNeventsFromHisto(False)
+            nQCDMCInverted = self._templates["QCDMC_Inverted"].getNeventsFromHisto(False)
+            if nQCDMCInverted > 0.0:
+                qcdmcNormFactor = nQCDMCBaseline/nQCDMCInverted
+                qcdmcNormFactorError = errorPropagation.errorPropagationForDivision(nQCDMCBaseline, self._templates["QCDMC_Baseline"].getNeventsErrorFromHisto(False),
+                                                                                nQCDMCInverted, self._templates["QCDMC_Inverted"].getNeventsErrorFromHisto(False))
+            self._qcdmcNormalization[binLabel] = qcdmcNormFactor
+            self._qcdmcNormalizationError[binLabel] = qcdmcNormFactorError
 
 # Unit tests
 if __name__ == "__main__":

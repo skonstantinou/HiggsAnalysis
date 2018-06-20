@@ -59,6 +59,8 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 # Do not apply EDfilters for HBHE noise, the discriminators for them are saved into the ttree
 
+process.load("HiggsAnalysis.MiniAOD2TTree.TriggerSkim_cfi")
+
 process.load("HiggsAnalysis/MiniAOD2TTree/PUInfo_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/TopPt_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/Tau_cfi")
@@ -72,14 +74,15 @@ process.METNoiseFilter.triggerResults = cms.InputTag("TriggerResults::"+str(data
 process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     OutputFileName = cms.string("miniaod2tree.root"),
     PUInfoInputFileName = process.PUInfo.OutputFileName,
+    PUInfoPSInputFileName = process.PUInfoPS.OutputFileName,
     TopPtInputFileName = process.TopPtProducer.OutputFileName,
     CodeVersion = cms.string(git.getCommitId()),
     DataVersion = cms.string(str(dataVersion.version)),
     CMEnergy = cms.int32(13),
     Skim = cms.PSet(
 	Counters = cms.VInputTag(
-	    "skimCounterAll",
-            "skimCounterPassed"
+            cms.InputTag("skimCounterAll","Counter"),
+            cms.InputTag("skimCounterPassed","Counter")
         ),
     ),
     EventInfo = cms.PSet(
@@ -129,7 +132,9 @@ produceCustomisations(process,dataVersion.isData()) # This produces process.Cust
             
 # module execution
 process.runEDFilter = cms.Path(process.PUInfo*
-                               process.skimCounterAll*  
+                               process.skimCounterAll*
+                               process.trgskim*
+                               process.PUInfoPS*
                                process.skim*
                                process.skimCounterPassed*
                                process.CustomisationsSequence*

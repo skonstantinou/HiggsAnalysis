@@ -11,7 +11,6 @@ Instructions:
 #================================================================================================ 
 import FWCore.ParameterSet.Config as cms
 
-
 #================================================================================================ 
 # Function definition
 #================================================================================================ 
@@ -27,6 +26,30 @@ def produceCustomisations(process, isData):
 #    produceJets(process, isData)
     print "=== Customisations done"
 
+# AK8 Customisations
+def produceAK8Customisations(process, isData):
+    process.AK8CustomisationsSequence = cms.Sequence()
+    produceAK8JEC(process, isData)
+    print "=== AK8 Customisations done"
+
+def produceAK8JEC(process, isData):
+    from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+    
+    JEC = ['L1FastJet','L2Relative','L3Absolute']
+    if isData:
+        JEC += ['L2L3Residual']
+        
+    updateJetCollection(
+        process,
+        labelName = 'AK8PFCHS',
+        jetSource = cms.InputTag("slimmedJetsAK8"),
+        rParam = 0.8,
+        jetCorrections = ('AK8PFchs', cms.vstring(JEC), 'None') 
+    )
+    
+    process.AK8CustomisationsSequence += process.patJetCorrFactorsAK8PFCHS
+    process.AK8CustomisationsSequence += process.updatedPatJetsAK8PFCHS
+    return
 
 def produceJets(process, isData):
     '''
@@ -64,10 +87,6 @@ def produceJets(process, isData):
     getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
     getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
 
-    jetToolbox( process, "ak8", "ak8JetSubs", "out",
-                addSoftDrop=True, addSoftDropSubjets=True, addNsub=True, addNsubSubjets=True,
-                postFix='')
-    
     return
 
 
@@ -154,6 +173,7 @@ def reproduceMET(process,isdata):
     https://twiki.cern.ch/twiki/bin/view/CMS/MissingETUncertaintyPrescription#A_tool_to_help_you_calculate_MET
     https://twiki.cern.ch/twiki/bin/view/CMS/JECDataMC
     https://github.com/cms-jet/JRDatabase/tree/master/SQLiteFiles
+    2017 ECAL problem: instructions for Type1 MET in https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSRecommendations18
     '''
     from CondCore.DBCommon.CondDBSetup_cfi import CondDBSetup
     import os
@@ -166,7 +186,8 @@ def reproduceMET(process,isdata):
       era="Summer16_23Sep2016V4_MC"
 
 #    jerera="Spring16_25nsV6"
-    jerera="Spring16_25nsV10"
+#    jerera="Spring16_25nsV10"
+    jerera="Summer16_25nsV1_80X"
     
 ##___________________________External JEC file________________________________||
  
@@ -188,6 +209,11 @@ def reproduceMET(process,isdata):
                 tag     = cms.string("JetCorrectorParametersCollection_"+era+"_AK4PFPuppi"),
                 label   = cms.untracked.string("AK4PFPuppi")
                 ),
+            cms.PSet(record  = cms.string("JetCorrectionsRecord"),
+                tag     = cms.string("JetCorrectorParametersCollection_"+era+"_AK8PFchs"),
+                label   = cms.untracked.string("AK8PFchs")
+                ),
+    
             )
                                )
     process.es_prefer_jec = cms.ESPrefer("PoolDBESSource",'jec')
@@ -216,7 +242,25 @@ def reproduceMET(process,isdata):
           tag    = cms.string('JR_'+jerera+'_MC_SF_AK4PFchs'),
           label  = cms.untracked.string('AK4PFchs')
           ),
-                  
+        
+        ### read the AK8 JER
+        cms.PSet(
+          record = cms.string('JetResolutionRcd'),
+          tag    = cms.string('JR_'+jerera+'_MC_PtResolution_AK8PFchs'),
+          label  = cms.untracked.string('AK8PFchs_pt')
+          ),
+        cms.PSet(
+          record = cms.string("JetResolutionRcd"),
+          tag    = cms.string('JR_'+jerera+'_MC_PhiResolution_AK8PFchs'),
+          label  = cms.untracked.string("AK8PFchs_phi")
+          ),
+        cms.PSet( 
+          record = cms.string('JetResolutionScaleFactorRcd'),
+          tag    = cms.string('JR_'+jerera+'_MC_SF_AK8PFchs'),
+          label  = cms.untracked.string('AK8PFchs')
+          ),
+        
+          
         #######
         ### read the Puppi JER
 

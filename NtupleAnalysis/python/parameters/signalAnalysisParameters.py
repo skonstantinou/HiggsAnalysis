@@ -10,11 +10,14 @@ histoLevel = "Debug"  # Options: Systematics, Vital, Informative, Debug
 #====== Trigger
 trg = PSet(
   # No need to specify version numbers, they are automatically scanned in range 1--100 (remove the '_v' suffix)
+  TautriggerEfficiencyJsonName = "tauLegTriggerEfficiency_2016_fit.json",
+  METtriggerEfficiencyJsonName = "metLegTriggerEfficiency_2016_MET90_fit.json",
   L1ETM = 80,
   triggerOR = ["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET90_v",
                "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET100_v"
                ],
-  triggerOR2 = [],
+  triggerOR2 = [
+	        ],
 )
 
 #====== MET filter
@@ -29,33 +32,35 @@ metFilter = PSet(
                     "Flag_goodVertices",
                     "Flag_globalTightHalo2016Filter",
                     "badPFMuonFilter",
-                    "badChargedCandidateFilter"]
+                    "badChargedCandidateFilter"],
+    runOnlyData = ["Flag_eeBadScFilter"]
 )
 
 #====== Tau selection
 tauSelection = PSet(
   applyTriggerMatching = True,
    triggerMatchingCone = 0.1,   # DeltaR for matching offline tau with trigger tau
-              tauPtCut = 60.0, #for heavy H+, overriden in signalAnalysis.py for light H+
+              tauPtCut = 50.0,
              tauEtaCut = 2.1,
         tauLdgTrkPtCut = 30.0,
 #                prongs = 13,    # options: 1, 2, 3, 12, 13, 23, 123 or -1 (all)
                 prongs = 1,    # options: 1, 2, 3, 12, 13, 23, 123 or -1 (all)
-                  rtau = 0.7,   # to disable set to 0.0
+                  rtau = 0.75,   # to disable set to 0.0
   againstElectronDiscr = "againstElectronTightMVA6",
 #  againstElectronDiscr = "",
       againstMuonDiscr = "againstMuonLoose3",
-#        isolationDiscr = "byMediumIsolationMVA3oldDMwLT",
-        isolationDiscr = "byLooseCombinedIsolationDeltaBetaCorr3Hits",
+        isolationDiscr = "byLooseIsolationMVArun2v1DBoldDMwLT", # MVA (default)
+#        isolationDiscr = "byLooseCombinedIsolationDeltaBetaCorr3Hits",  # cut-based
 )
 # tau identification scale factors
 scaleFactors.assignTauIdentificationSF(tauSelection)
 # tau misidentification scale factors
-scaleFactors.assignTauMisidentificationSF(tauSelection, "eToTau", "full", "nominal")
-scaleFactors.assignTauMisidentificationSF(tauSelection, "muToTau", "full", "nominal")
-scaleFactors.assignTauMisidentificationSF(tauSelection, "jetToTau", "full", "nominal")
+scaleFactors.assignTauMisidentificationSF(tauSelection, "eToTau", "nominal")
+scaleFactors.assignTauMisidentificationSF(tauSelection, "muToTau", "nominal")
+scaleFactors.assignTauMisidentificationSF(tauSelection, "jetToTau", "nominal")
 # tau trigger SF
-scaleFactors.assignTauTriggerSF(tauSelection, "nominal")
+
+scaleFactors.assignTauTriggerSF(tauSelection, "nominal", trg.TautriggerEfficiencyJsonName)
 
 #====== Electron veto
 eVeto = PSet(
@@ -63,7 +68,7 @@ eVeto = PSet(
     electronEtaCut = 2.5,
 #            electronID = "mvaEleID_PHYS14_PU20bx25_nonTrig_V1_wp90", # highest (wp90) for vetoing (2012: wp95)
     electronID = "cutBasedElectronID_Spring15_25ns_V1_standalone_veto",
-    electronIDType    = "default",  # options: "default", "MVA"
+    electronIDType    = "MVA",  # options: "default", "MVA"
     electronMVA       = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
     electronMVACut    = "Loose",
     electronIsolation = "veto", # loosest possible for vetoing ("veto"), "tight" for selecting
@@ -120,20 +125,23 @@ bjetSelection = PSet(
     triggerMatchingApply= False,
     triggerMatchingCone = 0.1,  # DeltaR for matching offline bjet with trigger::TriggerBjet 
               jetPtCuts = [30.0],
-             jetEtaCuts = [2.5],
-             #bjetDiscr = "combinedInclusiveSecondaryVertexV2BJetTags",
-             bjetDiscr  = "pfCombinedInclusiveSecondaryVertexV2BJetTags",
- bjetDiscrWorkingPoint  = "Medium",
+             jetEtaCuts = [2.4],
+             bjetDiscr  = "pfCombinedInclusiveSecondaryVertexV2BJetTags", # default
+#             bjetDiscr  = "pfCombinedMVAV2BJetTags", # use this for MVA b-tagging
+ bjetDiscrWorkingPoint  = "Medium", #optimal for CSVv2
+# bjetDiscrWorkingPoint  = "Tight", #optimal for CMVAv2
  numberOfBJetsCutValue  = 1,
  numberOfBJetsCutDirection = ">=", # options: ==, !=, <, <=, >, >=
 )
 
 scaleFactors.setupBtagSFInformation(btagPset=bjetSelection, 
                                     btagPayloadFilename="CSVv2.csv",
+                                    #btagPayloadFilename="cMVAv2_Moriond17_B_H.csv", # use this for MVA b-tagging
                                     #btagEfficiencyFilename="btageff_TTJets.json",
                                     #btagEfficiencyFilename="btageff_WJetsHT.json",
                                     #btagEfficiencyFilename="btageff_hybrid.json",
-                                    btagEfficiencyFilename="btageff_hybrid_HToTB.json",
+                                    #btagEfficiencyFilename="btageff_hybrid_HToTB.json",
+                                    btagEfficiencyFilename="btageff_Hybrid_TT+WJetsHT.json", # use with taunu analysis and WJetsHT samples
                                     direction="nominal")
 
 #====== MET selection
@@ -146,8 +154,7 @@ metSelection = PSet(
    applyPhiCorrections = False  # FIXME: no effect yet
 )
 # MET trigger SF
-scaleFactors.assignMETTriggerSF(metSelection, bjetSelection.bjetDiscrWorkingPoint, "nominal")
-
+scaleFactors.assignMETTriggerSF(metSelection, bjetSelection.bjetDiscrWorkingPoint, "nominal", trg.METtriggerEfficiencyJsonName)
 #====== Angular cuts / back-to-back
 angularCutsBackToBack = PSet(
        nConsideredJets = 3,    # Number of highest-pt jets to consider (excluding jet corresponding to tau)
@@ -202,7 +209,7 @@ commonPlotsOptions = PSet(
   # Bin settings (final bin setting done in datacardGenerator, there also variable bin width is supported)
        nVerticesBins = PSet(nBins=60, axisMin=0., axisMax=60.),
               ptBins = PSet(nBins=500, axisMin=0., axisMax=5000.),
-             etaBins = PSet(nBins=60, axisMin=-3.0, axisMax=3.0),
+             etaBins = PSet(nBins=100, axisMin=-5.0, axisMax=5.0),
              phiBins = PSet(nBins=72, axisMin=-3.1415926, axisMax=3.1415926),
         deltaEtaBins = PSet(nBins=50, axisMin=0., axisMax=10.0),
         deltaPhiBins = PSet(nBins=18, axisMin=0., axisMax=180.), # used in 2D plots, i.e. putting high number of bins here will cause troubles
@@ -215,7 +222,7 @@ commonPlotsOptions = PSet(
    angularCuts1DBins = PSet(nBins=52, axisMin=0., axisMax=260.),
          topMassBins = PSet(nBins=60, axisMin=0., axisMax=600.),
            wMassBins = PSet(nBins=60, axisMin=0., axisMax=300.),
-              mtBins = PSet(nBins=1000, axisMin=0., axisMax=5000.), # 5 GeV bin width for tail fitter
+              mtBins = PSet(nBins=2000, axisMin=0., axisMax=10000.), # 5 GeV bin width for tail fitter
          invMassBins = PSet(nBins=500, axisMin=0., axisMax=5000.),
   # Enable/Disable some debug-level plots
        enablePUDependencyPlots = True,
@@ -265,6 +272,4 @@ def applyAnalysisCommandLineOptions(argv, config):
         config.TauSelection.prongs = 2
     elif "3prong" in argv or "3pr" in argv:
         config.TauSelection.prongs = 3
-
-    scaleFactors.assignTauTriggerSF(config.TauSelection, "nominal")
-
+    scaleFactors.assignTauTriggerSF(config.TauSelection, "nominal",config.Trigger.TautriggerEfficiencyJsonName)

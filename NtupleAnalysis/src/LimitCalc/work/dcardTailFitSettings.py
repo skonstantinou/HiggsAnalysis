@@ -1,80 +1,103 @@
-# Settings file for tail fitter
+'''
+DESCRIPTION:
+Settings file for tail fitter, as implemented in dcardTailFitter.py and ../python/TailFitter.py
 
-# Final binning for fitted shapes
-max_bin=2000
-bin_width=20
-list_length=max_bin/bin_width
+USAGE:
+dcardTailFitter.py -x dcardTailFitSettings.py -d <path-to-datacard-directory>
+'''
+
+#================================================================================================  
+# Define final binning of the fitted shape histograms
+#================================================================================================  
+
+#max_bin=2000
+#bin_width=20
+#list_length=max_bin/bin_width
 
 finalBinning = {
-    # Transverse mass, 20 GeV bins (old)
-    #"shape": [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600,620,640,660,680,700]
-    # Transverse mass, 20 GeV bins for range of 0-1600 GeV:
+    # Rebinning defined in systematics.py, used without tail fit
+    # "shape": [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,600,800,10000], #aggressive rebinning to get rid of empty bins
+    # Transverse mass, 20 GeV bins, 50 GeV bins up to 1000, after that standard binning
+    "shape": [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600,620,640,660,680,700,720,740,760,780,800,10000]
+    # Another convenient way to define binning, using max_bin and bin_width variebles defined above:
     #"shape": [x*bin_width for x in range(list_length+1)]
-    "shape": [0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800],
-    #"shape": [0,20,40,60,80,100,120,140,160,200,250,300,350,400,450,500,550,600,650,700],
-    #"shapeTransverseMass": [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400],
-    #"shapeInvariantMass": [0,20,40,60,80,100,120,140,160,200,400],
 }
 
+#================================================================================================  
+# Choose the strategy for handling uncertainties
+#================================================================================================  
+
+# Set to True if you want to yse stat. uncertainties as fitted rates instead of fit uncertainties
 applyFitUncertaintyAsBinByBinUncertainty = False
 
 # Minimum stat. uncertainty to set to bins with zero events
+# NB! Empty bins should be avoided in the first place!
 MinimumStatUncertaintySignal = 0.03
 MinimumStatUncertaintyBkg = 0.5
+# FIXME: Implement automatic determination of stat. uncertainties also in the tail fitter!
 
+#================================================================================================  
+# Define fit settings for each dataset
+#================================================================================================  
 
+# Settings common to all datasets (can be overwritten below for each dataset)
 fitstart = 180
-<<<<<<< HEAD
-fitstop = 4000 # extended, used to be 700
-=======
-fitstop = 2000 # extended, used to be 700
->>>>>>> public/master
+fitstop = 800
 applyfrom = fitstart
-function = "FitFuncExpTailExoAlternate"
-#function = "FitFuncExpTailTauTauAlternate"
+function = "FitFuncExpTailExoAlternate" # SF*Aexp(-Bx) starting from fitmin
 
+# Dataset-specific settings
 fitSettings = [
-    # Fit settings for QCD
+    # Fit settings for ttbar
     {
-        "id": "QCD",
-        #"fitfunc": "FitFuncExpTailFourParamAlternate",
+        "id": "ttbar_CMS_Hptntj",
         "fitfunc": function,
-        "fitmin": fitstart, #140
+        "fitmin": 200,
         "fitmax": fitstop,
-        "applyFrom": applyfrom, # 160
+        "applyFrom": 200,
     },
-    # Fit settings for EWK+tt with taus from data
+    # Fit settings for single top
     {
-        "id": "CMS_Hptntj_EWK_t_genuine",
-        #"fitfunc": "FitFuncSimpleExp",
-        #"fitfunc": "FitFuncExpTailExo",
+        "id": "CMS_Hptntj_singleTop",
         "fitfunc": function,
-        "fitmin": fitstart, #120
+        "fitmin": 180, 
         "fitmax": fitstop,
-        "applyFrom": applyfrom,
+        "applyFrom": 180,
     },
-    # Fit settings for EWK+tt with taus from MC
+    # Fit settings for WJets 
+    # NB! Should be taken from WJetsHT for sufficient statistics
     {
-        "id": "CMS_Hptntj_ttbar_and_singleTop_t_genuine",
+        "id": "CMS_Hptntj_W",
         "fitfunc": function,
-        "fitmin": fitstart, # 140
+        "fitmin": 160, 
         "fitmax": fitstop,
-        "applyFrom": applyfrom,
+        "applyFrom": 160,
     },
-    # Fit settings for EWK+tt with fake taus
+    # Fit settings for DY
     {
-        "id": "MC_faketau",
-        #"fitfunc": "FitFuncSimpleExp",
-        #"fitfunc": "FitFuncExpTailExo",
+        "id": "CMS_Hptntj_DY",
         "fitfunc": function,
-        "fitmin": fitstart, # 140
+        "fitmin": 60, 
         "fitmax": fitstop,
-        "applyFrom": applyfrom,
+        "applyFrom": 60,
+    },
+    # Fit settings for VV
+    {
+        "id": "CMS_Hptntj_VV",
+        "fitfunc": function,
+        "fitmin": 160, 
+        "fitmax": fitstop,
+        "applyFrom": 160,
+    },
+    # Fit settings for fake taus
+    {
+        "id": "CMS_Hptntj_QCDandFakeTau",
+        "fitfunc": function,
+        "fitmin": 160, 
+        "fitmax": fitstop,
+        "applyFrom": 160,
     }
 ]
 
 # List of backgrounds, for which no fit is done
-Blacklist = [
-#    "CMS_Hptntj_DY_genuinetau","DY_genuinetau", #blacklisted because contribution from DY is ~zero above mT=180 GeV (=fitstart=applyfrom)
-#    "CMS_Hptntj_W_genuinetau","W_genuinetau", #FIXME: temporarily blacklisted to get rid of errors
-]
+Blacklist = []
