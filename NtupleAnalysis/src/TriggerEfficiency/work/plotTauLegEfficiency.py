@@ -244,7 +244,7 @@ def analyze(analysis=None):
 #    histograms.addText(0.5, 0.6, "VLooseIsoPFTau120_Trk50_eta2p1", 17)
 #    histograms.addText(0.5, 0.6, "VLooseIsoPFTau140_Trk50_eta2p1", 17)
 #    label = analysis.split("_")[len(analysis.split("_")) -1]
-    label = "2016"
+    label = "2017"
 
     histograms.addText(0.5, 0.53, label, 17)
     runRange = datasets.loadRunRange()

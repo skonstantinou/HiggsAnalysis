@@ -171,8 +171,9 @@ def createAnalyzer(dataVersion,era):
             a.Trigger.triggerOR2 = ["HLT_IsoMu16_eta2p1_CaloMET30_LooseIsoPFTau50_Trk30_eta2p1_v1",
                                     "HLT_IsoMu16_eta2p1_MET30_LooseIsoPFTau50_Trk30_eta2p1_vx",
                                     "HLT_IsoMu16_eta2p1_MET30_JetIdCleaned_LooseIsoPFTau50_Trk30_eta2p1_vx"]
-#            a.Trigger.triggerOR = ["HLT_IsoMu20_eta2p1_v1"]
-#            a.Trigger.triggerOR2 = ["HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1"]
+        if "2017" in era:            
+            a.Trigger.triggerOR = ["HLT_IsoMu24_eta2p1_vx"]
+            a.Trigger.triggerOR2 = ["HLT_IsoMu24_eta2p1_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_vx"]
 
     #print "check triggerOR",a.Trigger.triggerOR
     return a
