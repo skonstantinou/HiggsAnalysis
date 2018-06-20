@@ -173,6 +173,7 @@ def reproduceMET(process,isdata):
     https://twiki.cern.ch/twiki/bin/view/CMS/MissingETUncertaintyPrescription#A_tool_to_help_you_calculate_MET
     https://twiki.cern.ch/twiki/bin/view/CMS/JECDataMC
     https://github.com/cms-jet/JRDatabase/tree/master/SQLiteFiles
+    2017 ECAL problem: instructions for Type1 MET in https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSRecommendations18
     '''
     from CondCore.DBCommon.CondDBSetup_cfi import CondDBSetup
     import os
