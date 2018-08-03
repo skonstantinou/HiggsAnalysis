@@ -16,14 +16,12 @@ import FWCore.ParameterSet.Config as cms
 #================================================================================================ 
 def produceCustomisations(process, isData):
     process.CustomisationsSequence = cms.Sequence()
-
-    reproduceJEC(process)
+#    reproduceJEC(process)
     reproduceElectronID(process)
-
     reproduceMETNoiseFilters(process)
     reproduceMET(process, isData)
 #    reproduceJEC(process)
-#    produceJets(process, isData)
+    produceJets(process, isData)
     print "=== Customisations done"
 
 # AK8 Customisations
@@ -83,12 +81,12 @@ def produceJets(process, isData):
 
     # Small fix required to add the variables ptD, axis2, mult. See:
     # https://hypernews.cern.ch/HyperNews/CMS/get/jet-algorithms/418/1.html
-#    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
-#    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
-#    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
-    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
-    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
-    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
+    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
+    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
+    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
+#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
+#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
+#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
 
     return
 
