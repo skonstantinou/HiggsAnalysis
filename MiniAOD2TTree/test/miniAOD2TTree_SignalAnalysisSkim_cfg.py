@@ -84,9 +84,10 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
 	L1Extra = cms.InputTag("l1extraParticles:MET"),
 	L1TauObjects = cms.InputTag("caloStage2Digis:Tau"),
         L1EtSumObjects = cms.InputTag("caloStage2Digis:EtSum"),
-	TriggerObjects = cms.InputTag("selectedPatTrigger"),
+####        TriggerObjects = cms.InputTag("selectedPatTrigger"),
+	TriggerObjects = cms.InputTag("slimmedPatTrigger"),
         TriggerMatch = cms.untracked.vstring(
-            "LooseIsoPFTau50_Trk30_eta2p1",
+            "MediumChargedIsoPFTau50_Trk30_eta2p1_1pr",
         ),
 #        TriggerPrescales = cms.untracked.PSet(
 #            src   = cms.InputTag("patTrigger",""),
