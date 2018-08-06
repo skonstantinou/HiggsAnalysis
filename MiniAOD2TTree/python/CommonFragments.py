@@ -290,8 +290,12 @@ def reproduceMET(process,isdata):
     #default configuration for miniAOD reprocessing, change the isData flag to run on data
     #for a full met computation, remove the pfCandColl input
     runMetCorAndUncFromMiniAOD(process,
-                           isData=isdata,
-                           )
+                               isData=isdata,
+                               fixEE2017 = True,
+                               postx = "ModiedMET"
+                               )
+
+    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
 
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")
