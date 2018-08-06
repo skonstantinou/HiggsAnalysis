@@ -35,6 +35,7 @@ config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'miniAOD2TTree_cfg.py'
 config.JobType.pyCfgParams = ''
+config.JobType.disableAutomaticOutputCollection = True
 config.JobType.outputFiles = ['miniaod2tree.root']
 config.JobType.inputFiles  = ['jec']
 config.JobType.inputFiles.extend(jecDB)
