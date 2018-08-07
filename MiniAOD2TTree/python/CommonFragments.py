@@ -292,10 +292,10 @@ def reproduceMET(process,isdata):
     runMetCorAndUncFromMiniAOD(process,
                                isData=isdata,
                                fixEE2017 = True,
-                               postx = "ModiedMET"
+#                               postfix = "ModiedMET"
                                )
 
-    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
+#    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
 
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")
