@@ -13,8 +13,8 @@ trg = PSet(
   TautriggerEfficiencyJsonName = "tauLegTriggerEfficiency_2016_fit.json",
   METtriggerEfficiencyJsonName = "metLegTriggerEfficiency_2016_MET90_fit.json",
   L1ETM = 80,
-  triggerOR = ["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET90_v",
-               "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET100_v"
+  triggerOR = ["HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET90",
+               "HLT_MediumChargedIsoPFTau50_Trk30_eta2p1_1pr_MET100"
                ],
   triggerOR2 = [
 	        ],
