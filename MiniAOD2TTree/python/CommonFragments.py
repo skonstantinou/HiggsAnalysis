@@ -21,7 +21,7 @@ def produceCustomisations(process, isData):
     reproduceMETNoiseFilters(process)
     reproduceMET(process, isData)
 #    reproduceJEC(process)
-    produceJets(process, isData)
+####FIXME10082018/SL    produceJets(process, isData)
     print "=== Customisations done"
 
 # AK8 Customisations
@@ -292,10 +292,10 @@ def reproduceMET(process,isdata):
     runMetCorAndUncFromMiniAOD(process,
                                isData=isdata,
                                fixEE2017 = True,
-#                               postfix = "ModiedMET"
+                               postfix = "ModiedMET"
                                )
 
-#    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
+    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
 
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")
