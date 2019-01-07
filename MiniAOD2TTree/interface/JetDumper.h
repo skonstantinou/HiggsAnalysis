@@ -20,7 +20,9 @@
 #include "HiggsAnalysis/MiniAOD2TTree/interface/FourVectorDumper.h"
 
 #include "DataFormats/PatCandidates/interface/Jet.h"
+#include "HiggsAnalysis/MiniAOD2TTree/interface/QGTaggingVariables.h"
 
+class QGTaggingVariables;
 
 class JetDumper : public BaseDumper {
     public:
@@ -78,5 +80,14 @@ class JetDumper : public BaseDumper {
         FourVectorDumper *systJESdown;
         FourVectorDumper *systJERup;
         FourVectorDumper *systJERdown;	
+
+	// QGTagging variables
+	std::vector<double> *axis1;
+	std::vector<double> *axis2;
+	std::vector<double> *ptD;
+	std::vector<int> *mult;
+	
+ protected:
+        QGTaggingVariables* qgTaggingVariables;
 };
 #endif

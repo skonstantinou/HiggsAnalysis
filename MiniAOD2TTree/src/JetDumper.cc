@@ -9,7 +9,9 @@
 #include "HiggsAnalysis/MiniAOD2TTree/interface/NtupleAnalysis_fwd.h"
 
 JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<edm::ParameterSet>& psets)
-: genParticleToken(iConsumesCollector.consumes<reco::GenParticleCollection>(edm::InputTag("prunedGenParticles"))) {
+  : genParticleToken(iConsumesCollector.consumes<reco::GenParticleCollection>(edm::InputTag("prunedGenParticles"))),
+    qgTaggingVariables(new QGTaggingVariables)
+{
     inputCollections = psets;
     booked           = false;
 
@@ -19,7 +21,7 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
     eta = new std::vector<double>[inputCollections.size()];    
     phi = new std::vector<double>[inputCollections.size()];    
     e   = new std::vector<double>[inputCollections.size()];    
-
+    
     //p4 = new std::vector<reco::Candidate::LorentzVector>[inputCollections.size()];
     pdgId = new std::vector<short>[inputCollections.size()];
     hadronFlavour = new std::vector<int>[inputCollections.size()];
@@ -82,6 +84,11 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
       systJERup = new FourVectorDumper[inputCollections.size()];
       systJERdown = new FourVectorDumper[inputCollections.size()];
     }
+    
+    axis1 = new std::vector<double>[inputCollections.size()];
+    axis2 = new std::vector<double>[inputCollections.size()];
+    ptD   = new std::vector<double>[inputCollections.size()];
+    mult  = new std::vector<int>[inputCollections.size()];
 }
 
 JetDumper::~JetDumper(){}
@@ -102,7 +109,12 @@ void JetDumper::book(TTree* tree){
     
     std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
     for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
-      tree->Branch((name+"_"+discriminatorNames[iDiscr]).c_str(),&discriminators[inputCollections.size()*iDiscr+i]);
+      std::string branch_name = discriminatorNames[iDiscr];
+      size_t pos_semicolon = branch_name.find(":");
+      if (pos_semicolon!=std::string::npos){
+        branch_name = branch_name.erase(pos_semicolon,1);
+      }
+      tree->Branch((name+"_"+branch_name).c_str(),&discriminators[inputCollections.size()*iDiscr+i]);
     }
     std::vector<std::string> userfloatNames = inputCollections[i].getParameter<std::vector<std::string> >("userFloats");
     for(size_t iDiscr = 0; iDiscr < userfloatNames.size(); ++iDiscr) {
@@ -141,6 +153,11 @@ void JetDumper::book(TTree* tree){
       systJERup[i].book(tree, name, "JERup");
       systJERdown[i].book(tree, name, "JERdown");
     }
+    
+    tree->Branch((name+"_axis1").c_str(), &axis1[i]);    
+    tree->Branch((name+"_axis2").c_str(), &axis2[i]);    
+    tree->Branch((name+"_ptD").c_str(),   &ptD[i]);    
+    tree->Branch((name+"_mult").c_str(),  &mult[i]);
   }
 }
 
@@ -197,7 +214,13 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 e[ic].push_back(obj.p4().energy());
 
 		//p4[ic].push_back(obj.p4());
-
+		
+		qgTaggingVariables->compute(&obj, true);
+                axis1[ic].push_back(qgTaggingVariables->getAxis1());
+		axis2[ic].push_back(qgTaggingVariables->getAxis2());
+                ptD[ic].push_back(qgTaggingVariables->getPtD());
+		mult[ic].push_back(qgTaggingVariables->getMult());
+		
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
 		    discriminators[inputCollections.size()*iDiscr+ic].push_back(obj.bDiscriminator(discriminatorNames[iDiscr]));
@@ -403,6 +426,11 @@ void JetDumper::reset(){
           systJERup[ic].reset();
           systJERdown[ic].reset();
 	}
+	
+	axis1[ic].clear();
+	axis2[ic].clear();
+        ptD[ic].clear();
+	mult[ic].clear();
     }
     for(size_t ic = 0; ic < inputCollections.size()*nDiscriminators; ++ic){
         discriminators[ic].clear();

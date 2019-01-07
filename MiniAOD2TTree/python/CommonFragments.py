@@ -21,7 +21,7 @@ def produceCustomisations(process, isData):
     reproduceMETNoiseFilters(process)
     reproduceMET(process, isData)
 #    reproduceJEC(process)
-####FIXME10082018/SL    produceJets(process, isData)
+    produceJets(process, isData)
     print "=== Customisations done"
 
 # AK8 Customisations
@@ -73,20 +73,19 @@ def produceJets(process, isData):
         JEC += ['L2L3Residual']
 
     from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
-    jetToolbox( process, 'ak4', 'ak4JetSubs', 'out', 
-                addQGTagger=True, addPUJetID=True, JETCorrLevels = JEC,
-                bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags','pfCombinedCvsBJetTags','pfCombinedCvsLJetTags'],
-                updateCollection='cleanedPatJets', JETCorrPayload="AK4PFchs",
+    jetToolbox( process, 'ak4', 'ak4JetSubs', 'out',
+                updateCollection='cleanedPatJetsModiedMET', JETCorrPayload="AK4PFchs", 
+                JETCorrLevels = JEC, #addPUJetID=True, addQGTagger=True, 
+                bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags',
+                                      'pfCombinedCvsBJetTags','pfCombinedCvsLJetTags', 'pfDeepCSVJetTags:probb', 
+                                      'pfDeepCSVJetTags:probc', 'pfDeepCSVJetTags:probudsg', 'pfDeepCSVJetTags:probbb'],
                 postFix='')
-
+    
     # Small fix required to add the variables ptD, axis2, mult. See:
     # https://hypernews.cern.ch/HyperNews/CMS/get/jet-algorithms/418/1.html
-    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
-    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
-    getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
-#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
-#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
-#    getattr( process, 'updatedPatJetsUpdatedJEC').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
+    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
+    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
+    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
 
     return
 
@@ -173,6 +172,7 @@ def reproduceMET(process,isdata):
     For instructions and more details see:
     https://twiki.cern.ch/twiki/bin/view/CMS/MissingETUncertaintyPrescription#A_tool_to_help_you_calculate_MET
     https://twiki.cern.ch/twiki/bin/view/CMS/JECDataMC
+    https://github.com/cms-jet/JECDatabase/tree/master/SQLiteFiles
     https://github.com/cms-jet/JRDatabase/tree/master/SQLiteFiles
     2017 ECAL problem: instructions for Type1 MET in https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSRecommendations18
     '''
@@ -180,15 +180,12 @@ def reproduceMET(process,isdata):
     import os
 
     if isdata:
-#      era="Spring16_25nsV6_DATA"
-       era="Summer16_23Sep2016AllV4_DATA"
+        era="Fall17_17Nov2017_V32_94X_DATA"
     else:
-#      era="Spring16_25nsV6_MC"
-      era="Summer16_23Sep2016V4_MC"
+        era="Fall17_17Nov2017_V32_94X_MC"
+        
+    jerera="Fall17_V3_94X"
 
-#    jerera="Spring16_25nsV6"
-#    jerera="Spring16_25nsV10"
-    jerera="Summer16_25nsV1_80X"
     
 ##___________________________External JEC file________________________________||
  
@@ -295,7 +292,7 @@ def reproduceMET(process,isdata):
                                postfix = "ModiedMET"
                                )
 
-    process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
+    #####process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
 
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")
