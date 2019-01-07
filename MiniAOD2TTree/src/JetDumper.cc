@@ -63,11 +63,9 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
         if(param) useFilter = true;
     }
 
-    jetIDloose = new std::vector<bool>[inputCollections.size()];
     jetIDtight = new std::vector<bool>[inputCollections.size()];
     jetIDtightLeptonVeto = new std::vector<bool>[inputCollections.size()];
 
-    jetPUIDloose = new std::vector<bool>[inputCollections.size()];
     jetPUIDmedium = new std::vector<bool>[inputCollections.size()];
     jetPUIDtight = new std::vector<bool>[inputCollections.size()];
     
@@ -141,11 +139,9 @@ void JetDumper::book(TTree* tree){
       tree->Branch((name+"_"+branch_name).c_str(),&userints[inputCollections.size()*iDiscr+i]);
     }
 
-    tree->Branch((name+"_IDloose").c_str(),&jetIDloose[i]);
     tree->Branch((name+"_IDtight").c_str(),&jetIDtight[i]);
     tree->Branch((name+"_IDtightLeptonVeto").c_str(),&jetIDtightLeptonVeto[i]);
 
-    tree->Branch((name+"_PUIDloose").c_str(),&jetPUIDloose[i]);
     tree->Branch((name+"_PUIDmedium").c_str(),&jetPUIDmedium[i]);
     tree->Branch((name+"_PUIDtight").c_str(),&jetPUIDtight[i]);
     
@@ -263,8 +259,7 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		partonFlavour[ic].push_back(obj.partonFlavour());
 
                 // Jet ID
-                jetIDloose[ic].push_back(passJetID(kJetIDLoose, obj));
-                jetIDtight[ic].push_back(passJetID(kJetIDTight, obj));
+		jetIDtight[ic].push_back(passJetID(kJetIDTight, obj));
                 jetIDtightLeptonVeto[ic].push_back(passJetID(kJetIDTightLepVeto, obj));
 
 		// Jet PU ID
@@ -275,7 +270,6 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
  		  PUID = obj.userFloat("pileupJetId:fullDiscriminant");
  		}
                 int puIDflag = static_cast<int>(PUID);
-		jetPUIDloose[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kLoose));
 		jetPUIDmedium[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kMedium));
 		jetPUIDtight[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kTight));
                 
@@ -424,11 +418,9 @@ void JetDumper::reset(){
 	hadronFlavour[ic].clear();
 	partonFlavour[ic].clear();
 
-        jetIDloose[ic].clear();
-        jetIDtight[ic].clear();
+	jetIDtight[ic].clear();
         jetIDtightLeptonVeto[ic].clear();
 
-        jetPUIDloose[ic].clear();
 	jetPUIDmedium[ic].clear();
 	jetPUIDtight[ic].clear();
         
@@ -471,22 +463,24 @@ void JetDumper::reset(){
 }
 
 bool JetDumper::passJetID(int id, const pat::Jet& jet) {
-  // Recipy taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID (read on 14.08.2015)
-  // Recipy taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016 (28.3.2018)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID (read on 14.08.2015)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016 (28.3.2018)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017 (5.12.2018)
   double eta = fabs(jet.eta());
-  if (eta < 2.7) {
-    // PF Jet ID       Loose   Tight   TightLepVeto
-    // Neutral Hadron Fraction < 0.99  < 0.90  < 0.90
-    // Neutral EM Fraction     < 0.99  < 0.90  < 0.90
-    // Number of Constituents  > 1     > 1     > 1
-    // Muon Fraction           -       -       < 0.8
+  if (eta < 2.7) {     
+    
+    // Valid For AK4CHS and PUPPI
+    
+    // PF Jet ID                 Tight   TightLepVeto
+    // Neutral Hadron Fraction   < 0.90    < 0.90
+    // Neutral EM Fraction       < 0.90    < 0.90
+    // Number of Constituents    > 1       > 1 
+    // Muon Fraction             -         < 0.8
+    
     int nConstituents = jet.chargedMultiplicity() + jet.electronMultiplicity()
       + jet.muonMultiplicity() + jet.neutralMultiplicity();
-    if (id == kJetIDLoose) {
-      if (!(jet.neutralHadronEnergyFraction() < 0.99)) return false;
-      if (!(jet.neutralEmEnergyFraction()     < 0.99)) return false;
-      if (!(nConstituents                     > 1   )) return false;
-    } else if (id == kJetIDTight) {
+    
+    if (id == kJetIDTight) {
       if (!(jet.neutralHadronEnergyFraction() < 0.90)) return false;
       if (!(jet.neutralEmEnergyFraction()     < 0.90)) return false;
       if (!(nConstituents                     > 1   )) return false;      
@@ -496,47 +490,77 @@ bool JetDumper::passJetID(int id, const pat::Jet& jet) {
       if (!(nConstituents                     > 1   )) return false;      
       if (!(jet.muonEnergyFraction()          < 0.80)) return false;
     }
-
+    
     if (eta < 2.4) {
-      if (id == kJetIDLoose) {
+      
+      // Valid For AK4CHS and PUPPI
+      
+      // PF Jet ID                 Tight   TightLepVeto
+      // Charged Hadron Fraction   > 0.00    > 0.00
+      // Charged Multiplicity      > 0.00    > 0.00
+      // Neutral EM Fraction       -         < 0.80
+      
+      if (id == kJetIDTight) {
         if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
         if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.99)) return false;
-      } else if (id == kJetIDTight) {
-        if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
-        if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.99)) return false;
       } else if (id == kJetIDTightLepVeto) {
         if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
         if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.90)) return false;
+        if (!(jet.chargedEmEnergyFraction()     < 0.80)) return false;
       }
-
     }
-
   } else {
     if (eta < 3.0) {
-      if (id == kJetIDLoose) {
-        if (!(jet.neutralEmEnergyFraction()     > 0.01)) return false;
-        if (!(jet.neutralHadronEnergyFraction() < 0.98)) return false;
-        if (!(jet.neutralMultiplicity()         > 2))    return false;
-      } else {
-        if (!(jet.neutralEmEnergyFraction()     > 0.01)) return false;
-        if (!(jet.neutralHadronEnergyFraction() < 0.98)) return false;
+      
+      // Valid For AK4CHS
+      
+      // PF Jet ID                    Tight
+      // Neutral EM Fraction          > 0.02 and <0.99
+      // Number of Neutral Particles  > 2
+      if (id == kJetIDTight) {
+        if (!(jet.neutralEmEnergyFraction()     > 0.02)) return false;
+        if (!(jet.neutralEmEnergyFraction()     < 0.99)) return false;
         if (!(jet.neutralMultiplicity()         > 2))    return false;
       }
+      
+      //  // Valid For AK4 PUPPI
+      //
+      //  // PF Jet ID                    Tight
+      //  // Neutral Hadron Fraction      < 0.99
+      //
+      //  if (id == kJetIDTight) {
+      // if (!(jet.neutralHadronEnergyFraction() < 0.99)) return false;
+      ///  }
+      
     }else{
-      //     PF Jet ID                   Loose   Tight
-      //     Neutral EM Fraction         < 0.90  < 0.90
-      //     Number of Neutral Particles > 10    >10 
-      if (id == kJetIDLoose) {
+      
+      // Valid For AK4CHS
+      
+      // PF Jet ID                   Tight
+      // Neutral EM Fraction         < 0.90
+      // Neutral Hadron Fraction     > 0.02
+      // Number of Neutral Particles > 10
+      if (id == kJetIDTight) {
         if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
-        if (!(jet.neutralMultiplicity()     > 10  )) return false;    
-      } else {
-        if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
-        if (!(jet.neutralMultiplicity()     > 10  )) return false;    
+        if (!(jet.neutralHadronEnergyFraction() > 0.02)) return false;
+	if (!(jet.neutralMultiplicity()     > 10  )) return false;    
       }
-    } 
+      
+      //  // Valid For AK4 PUPPI
+      //
+      //  // PF Jet ID                    Tight
+      //  // Neutral EM Fraction          < 0.90
+      //  // Neutral Hadron Fraction      > 0.02
+      //  // Number of Neutral Particles  > 2 and < 15
+      // 
+      //  if (id == kJetIDTight) {
+      //        if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
+      //if (!(jet.neutralHadronEnergyFraction() > 0.02)) return false;
+      //if (!(jet.neutralMultiplicity() > 2 )) return false;
+      //if (!(jet.neutralMultiplicity() < 15 )) return false;
+      //  } 
+      
+    }
   }
   return true;
 }

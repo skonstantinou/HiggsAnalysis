@@ -56,11 +56,9 @@ class JetDumper : public BaseDumper {
         std::vector<int> *hadronFlavour;
         std::vector<int> *partonFlavour;
 
-        std::vector<bool> *jetIDloose;
-        std::vector<bool> *jetIDtight;
+	std::vector<bool> *jetIDtight;
         std::vector<bool> *jetIDtightLeptonVeto;
-
-        std::vector<bool> *jetPUIDloose;
+	
 	std::vector<bool> *jetPUIDmedium;
 	std::vector<bool> *jetPUIDtight;
 
