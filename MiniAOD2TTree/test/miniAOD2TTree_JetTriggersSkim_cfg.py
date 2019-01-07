@@ -19,34 +19,39 @@ maxWarnings  = 100
 reportEvery  = 100
 testWithData = False
 if testWithData:
-    dataVersion  = "80Xdata"
+    dataVersion  = "94Xdata"
     datasetFiles = [
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/000C9243-5634-E711-A2A8-0CC47A7C3612.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/04BFE78E-5D34-E711-BCA5-0025905A48D8.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/0A3F8104-6434-E711-9E9A-0CC47A4D76C6.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/0C95C3F7-3534-E711-8FBB-0CC47A7C3612.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/1032026F-4334-E711-84CE-0CC47A4C8E3C.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/10898316-5034-E711-8167-0CC47A4D7644.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12062AF2-3A34-E711-BA6A-003048FFD79E.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12A273CE-2235-E711-A7C7-0025905A605E.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12CED57A-4334-E711-961B-003048FFD734.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/14BEF0C3-4234-E711-B811-0025905A48E4.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/16E75845-5634-E711-915E-0025905A60DE.root'
+        # SingleMuon
+        "/store/data/Run2017C/SingleMuon/MINIAOD/31Mar2018-v1/00000/7AF7AD3D-2237-E811-9D8E-FA163E7CF739.root",
+        "/store/data/Run2017C/SingleMuon/MINIAOD/31Mar2018-v1/00000/80183154-F336-E811-B0F5-FA163EF3C3CB.root",
+        "/store/data/Run2017C/SingleMuon/MINIAOD/31Mar2018-v1/00000/86502CAF-F036-E811-9E24-FA163E095B0B.root",
+        "/store/data/Run2017C/SingleMuon/MINIAOD/31Mar2018-v1/00000/9409C24A-1B37-E811-9D6C-02163E01A048.root",
+        "/store/data/Run2017C/SingleMuon/MINIAOD/31Mar2018-v1/00000/9CA5B1B5-FE36-E811-B598-FA163E6F47B2.root",
+        # JetHT
+        #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/0205C4D3-463A-E811-86BD-0CC47A4C8E2A.root',
+        #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/082B8E3A-B23A-E811-B9B6-0CC47A4D760A.root',
+        #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/0E6724B9-013A-E811-962C-0025905B8606.root',
+        #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/12479445-673A-E811-89D8-0CC47A4C8E82.root',
+        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/EE28F64A-9F37-E811-AE35-008CFAC91B70.root',
+        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/EC952E5C-7237-E811-BFB8-008CFAC9405C.root',
+        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/E6F15B74-7237-E811-B46D-008CFAC94068.root',
+        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/DEFCBB4C-6E37-E811-B2EF-008CFAC91C58.root',
         ]
 else:
-    dataVersion  = "80Xmc"
+    dataVersion  = "94Xmc"
     datasetFiles = [
-        '/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/0693E0E7-97BE-E611-B32F-0CC47A78A3D8.root',
-        '/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/0806AB92-99BE-E611-9ECD-0025905A6138.root',
-        '/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/165F54A0-A3BE-E611-B3F7-0025905A606A.root',
-        '/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/18E31463-B3BE-E611-B6A3-0CC47A4D7678.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/0055B499-54B6-E611-9F86-FA163E1F94C5.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/02B77462-7CB5-E611-A061-0025905B8568.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/02CDB360-51B5-E611-A568-002590747E0E.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/0486046D-0BB6-E611-B533-002590D9D8C0.root',
-        #'/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/16DC0526-F4FA-E611-938E-6CC2173BBA40.root',
-        #'/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/18DFBF7B-B5FC-E611-80D2-002481DE49B6.root',
-        #'/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/20C84FF5-11FB-E611-AA3C-C4346BC70B58.root'
+        # TTToHadronic
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/FE3E8889-9342-E811-898F-008CFAF724BE.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F819F9EE-5142-E811-BC28-7845C4FC3C7D.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4DCCD39-A542-E811-9E16-008CFAF225DC.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4C04DD1-9042-E811-A933-008CFAF747AA.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F445F408-C442-E811-88B5-7CD30AD0A15C.root',
+        # HPlusToTB
+        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/FA3778BB-1BAE-E711-86C7-0025905B85CC.root',
+        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/C6B567EC-29B3-E711-8B60-002590DE6E78.root',
+        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B4FB980E-2AB3-E711-8F79-FA163E1B2305.root',
+        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B2EFA52E-C3B4-E711-8B38-3417EBE70003.root',
+        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/9846934D-50AC-E711-AC34-003048FFD7A4.root',
         ]
     
 # For debugging purposes
@@ -163,12 +168,69 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
 	TriggerResults = cms.InputTag("TriggerResults::"+str(dataVersion.getTriggerProcess())),
 	TriggerBits    = cms.vstring(
             "HLT_IsoMu24_v",
-            "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056_v",
-            "HLT_PFHT450_SixJet40_BTagCSV_p056_v",
-            "HLT_PFHT400_SixJet30_v",
-            "HLT_PFHT450_SixJet40_v",
-            "HLT_PFJet450_v", 
-        ),
+            "HLT_IsoMu24_eta2p1_v",
+            "HLT_IsoMu27_v",
+            "HLT_IsoMu30_v",
+            # Signal Triggers
+            "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_v",
+            "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_TriplePFBTagCSV_3p0_v",
+            "HLT_PFHT380_SixPFJet32_DoublePFBTagCSV_2p2_v",
+            "HLT_PFHT380_SixPFJet32_DoublePFBTagDeepCSV_2p2_v",
+            "HLT_PFHT380_SixPFJet32_v",
+            "HLT_PFHT430_SixPFJet40_PFBTagCSV_1p5_v",
+            "HLT_PFHT430_SixPFJet40_v",
+            "HLT_PFHT350_v",
+            "HLT_HT300PT30_QuadJet_75_60_45_40_v",
+            "HLT_HT300PT30_QuadJet_75_60_45_40_TripeCSV_p07_v",
+            "HLT_PFHT380_SixJet32_DoubleBTagCSV_p075_v",
+            "HLT_PFHT430_SixJet40_BTagCSV_p080_v",
+            "HLT_PFJet320_v",
+            "HLT_PFJet400_v",
+            "HLT_PFJet450_v",
+            "HLT_PFJet500_v",
+            "HLT_PFJet550_v",
+            "HLT_PFHT250_v",
+            "HLT_PFHT370_v",
+            "HLT_PFHT430_v",
+            "HLT_PFHT510_v",
+            "HLT_PFHT590_v",
+            "HLT_PFHT680_v",
+            "HLT_PFHT780_v",
+            "HLT_PFHT890_v",
+            "HLT_PFHT1050_v",
+            "HLT_PFHT380_SixJet32_v",
+            "HLT_PFHT430_SixJet40_v",
+            "HLT_QuadPFJet98_83_71_15_DoubleBTagCSV_p013_p08_VBF1_v",
+            "HLT_QuadPFJet103_88_75_15_DoubleBTagCSV_p013_p08_VBF1_v",
+            "HLT_QuadPFJet105_90_76_15_DoubleBTagCSV_p013_p08_VBF1_v",
+            "HLT_QuadPFJet111_90_80_15_DoubleBTagCSV_p013_p08_VBF1_v",
+            "HLT_QuadPFJet98_83_71_15_BTagCSV_p013_VBF2_v",
+            "HLT_QuadPFJet103_88_75_15_BTagCSV_p013_VBF2_v",
+            "HLT_QuadPFJet105_88_76_15_BTagCSV_p013_VBF2_v",
+            "HLT_QuadPFJet111_90_80_15_BTagCSV_p013_VBF2_v",
+            "HLT_QuadPFJet98_83_71_15_v",
+            "HLT_QuadPFJet103_88_75_15_v",
+            "HLT_QuadPFJet105_88_76_15_v",
+            "HLT_QuadPFJet111_90_80_15_v",
+            "HLT_AK8PFHT750_TrimMass50_v",
+            "HLT_AK8PFHT800_TrimMass50_v",
+            "HLT_AK8PFHT850_TrimMass50_v",
+            "HLT_AK8PFHT900_TrimMass50_v",
+            "HLT_AK8PFJet330_PFAK8BTagCSV_p1_v",
+            "HLT_AK8PFJet330_PFAK8BTagCSV_p17_v",
+            "HLT_AK8PFJet360_TrimMass30_v",
+            "HLT_AK8PFJet380_TrimMass30_v",
+            "HLT_AK8PFJet400_v",
+            "HLT_AK8PFJet400_TrimMass30_v",
+            "HLT_AK8PFJet420_TrimMass30_v",
+            "HLT_AK8PFJet450_v",
+            "HLT_AK8PFJet500_v",
+            "HLT_AK8PFJet550_v",
+            "HLT_DoublePFJets100_CaloBTagCSV_p33_v",
+            "HLT_DoublePFJets200_CaloBTagCSV_p33_v",
+            "HLT_DoublePFJets350_CaloBTagCSV_p33_v",
+            "HLT_DoublePFJets40_CaloBTagCSV_p33_v",
+            ),
 	L1Extra        = cms.InputTag("l1extraParticles:MET"),
 	TriggerObjects = cms.InputTag("selectedPatTrigger"),
         TriggerMatch   = cms.untracked.vstring(
@@ -181,7 +243,7 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     Electrons = process.Electrons,
     Muons     = process.Muons,
     Jets      = process.Jets,
-    FatJets   = process.FatJets,
+    #FatJets   = process.FatJets,
     Top       = process.Top,
     METs      = process.METs,
     GenWeights = cms.VPSet(
@@ -241,7 +303,7 @@ from HiggsAnalysis.MiniAOD2TTree.CommonFragments import produceCustomisations
 produceCustomisations(process,dataVersion.isData()) # This produces process.CustomisationsSequence which needs to be included to path
 
 from HiggsAnalysis.MiniAOD2TTree.CommonFragments import produceAK8Customisations
-produceAK8Customisations(process, dataVersion.isData())   # This produces process.AK8CustomisationsSequence which needs to be included to path                                                                     
+produceAK8Customisations(process, dataVersion.isData())   # This produces process.AK8CustomisationsSequence which needs to be included to path   
 
 # Set up electron MVA ID for Skimming
 # https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
@@ -264,7 +326,7 @@ process.runEDFilter = cms.Path(process.PUInfo*
                                process.skim*
                                process.skimCounterPassed*
                                process.CustomisationsSequence*
-                               process.AK8CustomisationsSequence*
+#                               process.AK8CustomisationsSequence*
                                process.dump)
 
 
