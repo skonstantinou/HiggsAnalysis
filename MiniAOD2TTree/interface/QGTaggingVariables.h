@@ -38,6 +38,9 @@ class QGTaggingVariables {
   double getAxis2() const { return axis2; }
   double getPtD()   const { return ptD;   }
   int    getMult() const { return totalmult; }
+  double getPullRap() const { return pullRap; }
+  double getPullPhi() const { return pullPhi; }
+  double getCharge() const { return charge; }
   
   void compute(const reco::Jet *jet, bool isReco)
   {
@@ -46,6 +49,9 @@ class QGTaggingVariables {
     axis2 = 0;
     ptD = 0;
     totalmult = 0;
+    pullRap = 0.0;
+    pullPhi = 0.0;
+    charge = 0.0;
     
     if (jet->numberOfDaughters() == 0) return;
     
@@ -124,7 +130,30 @@ class QGTaggingVariables {
     if(a+b-delta > 0) axis2 = sqrt(0.5*(a+b-delta));
     else              axis2 = 0.0; 
     if(a+b+delta > 0) axis1 = sqrt(0.5*(a+b+delta));
-    else              axis1 = 0.0;   
+    else              axis1 = 0.0; 
+
+    // Calculate Pull
+    double jetRap = jet -> rapidity();
+    double jetPhi = jet -> phi();
+
+    if (jet->pt() == 0) return;
+
+    int nConst = jet->numberOfDaughters();
+    for (int iDau = 0; iDau<nConst; ++iDau)
+      {
+        const auto *con = jet->daughter(iDau);
+	const double dRap = con->rapidity() - jetRap;
+        const double dPhi = reco::deltaPhi(con->phi(), jetPhi);
+	const double dR = sqrt(dRap*dRap + dPhi*dPhi);
+        pullRap += dRap*con->pt()*dR;
+        pullPhi += dPhi*con->pt()*dR;
+
+        if (con->charge() == 0) continue;
+        charge += float(con->charge())*con->pt();
+      }
+    pullRap /= jet->pt();
+    pullPhi /= jet->pt();
+    charge  /= jet->pt();
   }
   
  private:
@@ -132,6 +161,9 @@ class QGTaggingVariables {
   double axis2;
   double ptD;
   int totalmult;
+  double pullRap;
+  double pullPhi;
+  double charge;
 };
 
 #endif

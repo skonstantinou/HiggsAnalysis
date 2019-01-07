@@ -90,7 +90,10 @@ class JetDumper : public BaseDumper {
 	std::vector<double> *axis2;
 	std::vector<double> *ptD;
 	std::vector<int> *mult;
-	
+	std::vector<double> *pullRap;
+	std::vector<double> *pullPhi;
+	std::vector<double> *charge;
+ 
  protected:
         QGTaggingVariables* qgTaggingVariables;
 };

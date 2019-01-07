@@ -93,6 +93,9 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
     axis2 = new std::vector<double>[inputCollections.size()];
     ptD   = new std::vector<double>[inputCollections.size()];
     mult  = new std::vector<int>[inputCollections.size()];
+    pullRap = new std::vector<double>[inputCollections.size()];
+    pullPhi = new std::vector<double>[inputCollections.size()];
+    charge = new std::vector<double>[inputCollections.size()];
 }
 
 JetDumper::~JetDumper(){}
@@ -165,6 +168,9 @@ void JetDumper::book(TTree* tree){
     tree->Branch((name+"_axis2").c_str(), &axis2[i]);    
     tree->Branch((name+"_ptD").c_str(),   &ptD[i]);    
     tree->Branch((name+"_mult").c_str(),  &mult[i]);
+    tree->Branch((name+"_pullRap").c_str(), &pullRap[i]);
+    tree->Branch((name+"_pullPhi").c_str(), &pullPhi[i]);
+    tree->Branch((name+"_charge").c_str(), &charge[i]);
   }
 }
 
@@ -227,6 +233,9 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		axis2[ic].push_back(qgTaggingVariables->getAxis2());
                 ptD[ic].push_back(qgTaggingVariables->getPtD());
 		mult[ic].push_back(qgTaggingVariables->getMult());
+		pullRap[ic].push_back(qgTaggingVariables->getPullRap());
+                pullPhi[ic].push_back(qgTaggingVariables->getPullPhi());
+		charge[ic].push_back(qgTaggingVariables->getCharge());
 		
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
@@ -446,6 +455,9 @@ void JetDumper::reset(){
 	axis2[ic].clear();
         ptD[ic].clear();
 	mult[ic].clear();
+	pullRap[ic].clear();
+        pullPhi[ic].clear();
+        charge[ic].clear();
     }
     for(size_t ic = 0; ic < inputCollections.size()*nDiscriminators; ++ic){
         discriminators[ic].clear();
