@@ -85,6 +85,10 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
       systJERdown = new FourVectorDumper[inputCollections.size()];
     }
     
+    pfDeepCSVBJetTags = new std::vector<float>[inputCollections.size()];
+    pfDeepCSVCJetTags = new std::vector<float>[inputCollections.size()];
+    pfDeepCSVUDSGJetTags = new std::vector<float>[inputCollections.size()];
+    
     axis1 = new std::vector<double>[inputCollections.size()];
     axis2 = new std::vector<double>[inputCollections.size()];
     ptD   = new std::vector<double>[inputCollections.size()];
@@ -106,6 +110,9 @@ void JetDumper::book(TTree* tree){
     tree->Branch((name+"_pdgId").c_str(),&pdgId[i]);
     tree->Branch((name+"_hadronFlavour").c_str(),&hadronFlavour[i]);
     tree->Branch((name+"_partonFlavour").c_str(),&partonFlavour[i]);
+    tree->Branch((name+"_pfDeepCSVBJetTags").c_str(), &pfDeepCSVBJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVCJetTags").c_str(), &pfDeepCSVBJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVUDSGJetTags").c_str(), &pfDeepCSVBJetTags[i]);
     
     std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
     for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
@@ -225,6 +232,10 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
 		    discriminators[inputCollections.size()*iDiscr+ic].push_back(obj.bDiscriminator(discriminatorNames[iDiscr]));
 		}
+		pfDeepCSVBJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probb")+obj.bDiscriminator("pfDeepCSVJetTags:probbb"));
+		pfDeepCSVCJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probc"));
+		pfDeepCSVUDSGJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probudsg"));
+		
                 for(size_t iDiscr = 0; iDiscr < userfloatNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << userfloatNames[iDiscr] << std::endl;
                     userfloats[inputCollections.size()*iDiscr+ic].push_back(obj.userFloat(userfloatNames[iDiscr]));
@@ -426,6 +437,10 @@ void JetDumper::reset(){
           systJERup[ic].reset();
           systJERdown[ic].reset();
 	}
+	
+	pfDeepCSVBJetTags[ic].clear();
+	pfDeepCSVCJetTags[ic].clear();
+	pfDeepCSVUDSGJetTags[ic].clear();
 	
 	axis1[ic].clear();
 	axis2[ic].clear();
