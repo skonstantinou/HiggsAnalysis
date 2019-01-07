@@ -38,10 +38,6 @@ class FatJetDumper : public BaseDumper {
         void reset();
 
     private:
-        /// Returns true, if the jet passes the specified jetID
-        bool passJetID(int id, const pat::Jet& jet);
-        
-    private:
 	edm::EDGetTokenT<reco::GenParticleCollection> genParticleToken;
         edm::EDGetTokenT<edm::View<pat::Jet>> *jetToken;
 
@@ -63,14 +59,6 @@ class FatJetDumper : public BaseDumper {
 	
         std::vector<int> *hadronFlavour;
         std::vector<int> *partonFlavour;
-
-        std::vector<bool> *jetIDloose;
-        std::vector<bool> *jetIDtight;
-        std::vector<bool> *jetIDtightLeptonVeto;
-
-        std::vector<bool> *jetPUIDloose;
-	std::vector<bool> *jetPUIDmedium;
-	std::vector<bool> *jetPUIDtight;
 
         // 4-vector for generator jet
         FourVectorDumper *MCjet;
