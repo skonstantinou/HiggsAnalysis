@@ -45,6 +45,14 @@ datasetsJetHTData.append(Dataset('/JetHT/Run2017D-31Mar2018-v1/MINIAOD', dataVer
 datasetsJetHTData.append(Dataset('/JetHT/Run2017E-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303824-304797_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017E.txt"))
 datasetsJetHTData.append(Dataset('/JetHT/Run2017F-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306460_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017F.txt"))
 
+datasetsBTagCSVData = []
+das = ""
+datasetsBTagCSVData.append(Dataset('/BTagCSV/Run2017B-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_297050-299329_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017B.txt"))
+datasetsBTagCSVData.append(Dataset('/BTagCSV/Run2017C-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_299368-302029_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017C.txt"))
+datasetsBTagCSVData.append(Dataset('/BTagCSV/Run2017D-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_302031-302663_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017D.txt"))
+datasetsBTagCSVData.append(Dataset('/BTagCSV/Run2017E-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_303824-304797_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017E.txt"))
+datasetsBTagCSVData.append(Dataset('/BTagCSV/Run2017F-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_305040-306460_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017F.txt"))
+
 datasetsMuonData = []
 das = ""
 datasetsMuonData.append(Dataset('/SingleMuon/Run2017B-31Mar2018-v1/MINIAOD', dataVersion="94Xdata", dasQuery=das, lumiMask="Cert_297050-299329_13TeV_EOY2017ReReco_Collisions17_JSON_v1_Run2017B.txt"))
