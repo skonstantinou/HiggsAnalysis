@@ -149,7 +149,7 @@ def reproduceMETNoiseFilters(process):
     For instructions and more details see:
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
     '''
-    print "=== Customisation: reproducing ecalBadCalib filter"
+    print "=== Customisation: reproducing ECAL Bad Calibration filter"
     baddetEcallist = cms.vuint32(
         [872439604,872422825,872420274,872423218,
          872423215,872416066,872435036,872439336,
@@ -177,21 +177,10 @@ def reproduceMETNoiseFilters(process):
     process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
     process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
-    process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-    process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-    process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-    process.BadPFMuonFilter.taggingMode   = cms.bool(True)
-
-    process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-    process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-    process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-    process.BadChargedCandidateFilter.taggingMode   = cms.bool(True)
-
     # Do not apply EDfilters for HBHE noise, the discriminators for them are saved into the ttree
     process.CustomisationsSequence += process.ecalBadCalibReducedMINIAODFilter
     process.CustomisationsSequence += process.HBHENoiseFilterResultProducer
-    process.CustomisationsSequence += process.BadPFMuonFilter
-    process.CustomisationsSequence += process.BadChargedCandidateFilter
+    return
 
 # ===== Set up MET uncertainties =====
 
