@@ -101,10 +101,6 @@ FatJetDumper::FatJetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vec
       systJERdown = new FourVectorDumper[inputCollections.size()];
     }
     
-    pfDeepCSVBJetTags = new std::vector<float>[inputCollections.size()];
-    pfDeepCSVCJetTags = new std::vector<float>[inputCollections.size()];
-    pfDeepCSVUDSGJetTags = new std::vector<float>[inputCollections.size()];
-    
     corrPrunedMass    = new std::vector<double>[inputCollections.size()];
     numberOfDaughters = new std::vector<int>[inputCollections.size()];
     nSubjets          = new std::vector<int>[inputCollections.size()];
@@ -153,10 +149,7 @@ void FatJetDumper::book(TTree* tree){
     tree->Branch((name+"_pdgId").c_str(),&pdgId[i]);
     tree->Branch((name+"_hadronFlavour").c_str(),&hadronFlavour[i]);
     tree->Branch((name+"_partonFlavour").c_str(),&partonFlavour[i]);
-    tree->Branch((name+"_pfDeepCSVBJetTags").c_str(), &pfDeepCSVBJetTags[i]);
-    tree->Branch((name+"_pfDeepCSVCJetTags").c_str(), &pfDeepCSVBJetTags[i]);
-    tree->Branch((name+"_pfDeepCSVUDSGJetTags").c_str(), &pfDeepCSVBJetTags[i]);
-    
+        
     std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
     for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
       std::string branch_name = discriminatorNames[iDiscr];
@@ -271,10 +264,6 @@ bool FatJetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		
 		corrPrunedMass[ic].push_back(obj.userFloat("ak8PFJetsCHSPrunedMass")*corr);
 		*/
-		
-		pfDeepCSVBJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probb")+obj.bDiscriminator("pfDeepCSVJetTags:probbb"));
-                pfDeepCSVCJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probc"));
-                pfDeepCSVUDSGJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probudsg"));
 		
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
 		  //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
@@ -491,10 +480,6 @@ void FatJetDumper::reset(){
           systJERdown[ic].reset();
 	}
 
-	pfDeepCSVBJetTags[ic].clear();
-        pfDeepCSVCJetTags[ic].clear();
-        pfDeepCSVUDSGJetTags[ic].clear();
-	
 	corrPrunedMass[ic].clear();
 	numberOfDaughters[ic].clear();
 	nSubjets[ic].clear();

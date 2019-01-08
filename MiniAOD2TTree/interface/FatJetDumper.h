@@ -77,10 +77,6 @@ class FatJetDumper : public BaseDumper {
 	FactorizedJetCorrector *dataJEC;
 	FactorizedJetCorrector *dataJEC_PUPPI;
 	
-	std::vector<float> *pfDeepCSVBJetTags;
-	std::vector<float> *pfDeepCSVCJetTags;
-	std::vector<float> *pfDeepCSVUDSGJetTags;
-	
 	std::vector<double> *corrPrunedMass;
 	std::vector<int> *numberOfDaughters;
 	std::vector<int> *nSubjets;
