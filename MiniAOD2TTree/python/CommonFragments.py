@@ -28,25 +28,27 @@ def produceCustomisations(process, isData):
 def produceAK8Customisations(process, isData):
     process.AK8CustomisationsSequence = cms.Sequence()
     produceAK8JEC(process, isData)
-    print "=== AK8 Customisations done"
+    print "\n === AK8 Customisations done \n"
 
 def produceAK8JEC(process, isData):
-    from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+    print "\n === AK8 Customisations \n"
+    
+    process.load("Configuration.EventContent.EventContent_cff")
+    process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
+    process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+    process.load('Configuration.StandardSequences.Services_cff')
     
     JEC = ['L1FastJet','L2Relative','L3Absolute']
     if isData:
         JEC += ['L2L3Residual']
         
-    updateJetCollection(
-        process,
-        labelName = 'AK8PFCHS',
-        jetSource = cms.InputTag("slimmedJetsAK8"),
-        rParam = 0.8,
-        jetCorrections = ('AK8PFchs', cms.vstring(JEC), 'None') 
-    )
+    from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
     
-    process.AK8CustomisationsSequence += process.patJetCorrFactorsAK8PFCHS
-    process.AK8CustomisationsSequence += process.updatedPatJetsAK8PFCHS
+    jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',                
+                updateCollection="slimmedJetsAK8",                
+                JETCorrPayload="AK8PFchs", JETCorrLevels = JEC,
+                postFix='', Cut="pt > 170.0",  # Cut needed to fix this issue: https://hypernews.cern.ch/HyperNews/CMS/get/JetMET/1785/1/1/1/1/1.html
+                )
     return
 
 def produceJets(process, isData):
@@ -63,6 +65,9 @@ def produceJets(process, isData):
     More info:
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
     '''
+    
+    print "\n === AK4 Customisations \n"
+    
     process.load("Configuration.EventContent.EventContent_cff")
     process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
     process.load('Configuration.StandardSequences.MagneticField_38T_cff')
@@ -74,8 +79,8 @@ def produceJets(process, isData):
 
     from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
     jetToolbox( process, 'ak4', 'ak4JetSubs', 'out',
-                updateCollection='cleanedPatJetsModiedMET', JETCorrPayload="AK4PFchs", 
-                JETCorrLevels = JEC, #addPUJetID=True, addQGTagger=True, 
+                updateCollection='cleanedPatJetsModiedMET', 
+                JETCorrLevels = JEC, JETCorrPayload="AK4PFchs", 
                 bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags',
                                       'pfCombinedCvsBJetTags','pfCombinedCvsLJetTags', 'pfDeepCSVJetTags:probb', 
                                       'pfDeepCSVJetTags:probc', 'pfDeepCSVJetTags:probudsg', 'pfDeepCSVJetTags:probbb'],
@@ -144,6 +149,28 @@ def reproduceMETNoiseFilters(process):
     For instructions and more details see:
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
     '''
+    print "=== Customisation: reproducing ecalBadCalib filter"
+    baddetEcallist = cms.vuint32(
+        [872439604,872422825,872420274,872423218,
+         872423215,872416066,872435036,872439336,
+         872420273,872436907,872420147,872439731,
+         872436657,872420397,872439732,872439339,
+         872439603,872422436,872439861,872437051,
+         872437052,872420649,872422436,872421950,
+         872437185,872422564,872421566,872421695,
+         872421955,872421567,872437184,872421951,
+         872421694,872437056,872437057,872437313]
+        )
+    
+    process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
+        "EcalBadCalibFilter",
+        EcalRecHitSource = cms.InputTag("reducedEgamma:reducedEERecHits"),
+        ecalMinEt        = cms.double(50.),
+        baddetEcal    = baddetEcallist, 
+        taggingMode = cms.bool(True),
+        debug = cms.bool(False)
+        )
+    
     print "=== Customisation: reproducing HBHE noise filter"
     process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
     process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
@@ -161,6 +188,7 @@ def reproduceMETNoiseFilters(process):
     process.BadChargedCandidateFilter.taggingMode   = cms.bool(True)
 
     # Do not apply EDfilters for HBHE noise, the discriminators for them are saved into the ttree
+    process.CustomisationsSequence += process.ecalBadCalibReducedMINIAODFilter
     process.CustomisationsSequence += process.HBHENoiseFilterResultProducer
     process.CustomisationsSequence += process.BadPFMuonFilter
     process.CustomisationsSequence += process.BadChargedCandidateFilter

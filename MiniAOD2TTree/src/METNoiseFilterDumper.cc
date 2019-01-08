@@ -17,6 +17,7 @@ METNoiseFilterDumper::METNoiseFilterDumper(edm::ConsumesCollector&& iConsumesCol
   hbheIsoNoiseToken(iConsumesCollector.consumes<bool>(pset.getParameter<edm::InputTag>("hbheIsoNoiseTokenSource"))),
   badPFMuonFilterToken(iConsumesCollector.consumes<bool>(pset.getParameter<edm::InputTag>("badPFMuonFilterSource"))),
   badChargedCandidateFilterToken(iConsumesCollector.consumes<bool>(pset.getParameter<edm::InputTag>("badChargedCandidateFilterSource"))),
+  ecalBadCalibFilterToken(iConsumesCollector.consumes<bool>(pset.getParameter<edm::InputTag>("ecalBadCalibReducedFilterSource"))),
   bPrintTriggerResultsList(pset.getUntrackedParameter<bool>("printTriggerResultsList")),
   bTriggerResultsListPrintedStatus(false),
   fFilters(pset.getParameter<std::vector<std::string>>("filtersFromTriggerResults"))
@@ -38,6 +39,7 @@ void METNoiseFilterDumper::book(TTree* tree){
   theTree->Branch("METFilter_hbheIsoNoiseToken",        &bFilters[fFilters.size()+2]);
   theTree->Branch("METFilter_badPFMuonFilter",          &bFilters[fFilters.size()+3]);
   theTree->Branch("METFilter_badChargedCandidateFilter",&bFilters[fFilters.size()+4]);
+  theTree->Branch("METFilter_ecalBadCalibFilter",       &bFilters[fFilters.size()+5]);
 }
 
 bool METNoiseFilterDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
@@ -81,6 +83,9 @@ bool METNoiseFilterDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetu
   edm::Handle<bool> badChargedCandidateFilterHandle;
   iEvent.getByToken(badChargedCandidateFilterToken,badChargedCandidateFilterHandle);
   if(badChargedCandidateFilterHandle.isValid()) bFilters[fFilters.size()+i++] = *badChargedCandidateFilterHandle;
+  edm::Handle<bool> ecalBadCalibFilterHandle;
+  iEvent.getByToken(ecalBadCalibFilterToken, ecalBadCalibFilterHandle);
+  if(ecalBadCalibFilterHandle.isValid()) bFilters[fFilters.size()+i++] = *ecalBadCalibFilterHandle;
   return filter();
 }
 

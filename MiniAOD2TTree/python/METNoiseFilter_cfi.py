@@ -18,5 +18,6 @@ METNoiseFilter = cms.PSet(
     hbheIsoNoiseTokenSource         = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
     badPFMuonFilterSource           = cms.InputTag('BadPFMuonFilter'),
     badChargedCandidateFilterSource = cms.InputTag('BadChargedCandidateFilter'),
+    ecalBadCalibReducedFilterSource = cms.InputTag('ecalBadCalibReducedMINIAODFilter'),
 )
 
