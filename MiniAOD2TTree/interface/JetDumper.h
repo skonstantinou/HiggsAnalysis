@@ -80,8 +80,9 @@ class JetDumper : public BaseDumper {
         FourVectorDumper *systJERdown;	
 	
 	std::vector<float> *pfDeepCSVBJetTags;
-	std::vector<float> *pfDeepCSVCJetTags;
-	std::vector<float> *pfDeepCSVUDSGJetTags;
+	std::vector<float> *pfDeepCSVCvsLJetTags;
+	std::vector<float> *pfDeepCSVCvsBJetTags;
+	std::vector<float> *pfDeepFlavourBJetTags;
 	
 	// QGTagging variables
 	std::vector<double> *axis1;

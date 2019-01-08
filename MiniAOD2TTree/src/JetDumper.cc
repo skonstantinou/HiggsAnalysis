@@ -83,9 +83,15 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
       systJERdown = new FourVectorDumper[inputCollections.size()];
     }
     
+    // DeepCSV b-tagger
     pfDeepCSVBJetTags = new std::vector<float>[inputCollections.size()];
-    pfDeepCSVCJetTags = new std::vector<float>[inputCollections.size()];
-    pfDeepCSVUDSGJetTags = new std::vector<float>[inputCollections.size()];
+    
+    // DeepCSV charm tagger
+    pfDeepCSVCvsLJetTags = new std::vector<float>[inputCollections.size()];
+    pfDeepCSVCvsBJetTags = new std::vector<float>[inputCollections.size()];
+    
+    // DeepFlavour b-tagger
+    pfDeepFlavourBJetTags = new std::vector<float>[inputCollections.size()];
     
     axis1 = new std::vector<double>[inputCollections.size()];
     axis2 = new std::vector<double>[inputCollections.size()];
@@ -112,8 +118,9 @@ void JetDumper::book(TTree* tree){
     tree->Branch((name+"_hadronFlavour").c_str(),&hadronFlavour[i]);
     tree->Branch((name+"_partonFlavour").c_str(),&partonFlavour[i]);
     tree->Branch((name+"_pfDeepCSVBJetTags").c_str(), &pfDeepCSVBJetTags[i]);
-    tree->Branch((name+"_pfDeepCSVCJetTags").c_str(), &pfDeepCSVBJetTags[i]);
-    tree->Branch((name+"_pfDeepCSVUDSGJetTags").c_str(), &pfDeepCSVBJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVCvsLJetTags").c_str(), &pfDeepCSVCvsLJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVCvsBJetTags").c_str(), &pfDeepCSVCvsBJetTags[i]);
+    tree->Branch((name+"_pfDeepFlavourBJetTags").c_str(), &pfDeepFlavourBJetTags[i]);
     
     std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
     for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
@@ -237,9 +244,11 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
 		    discriminators[inputCollections.size()*iDiscr+ic].push_back(obj.bDiscriminator(discriminatorNames[iDiscr]));
 		}
-		pfDeepCSVBJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probb")+obj.bDiscriminator("pfDeepCSVJetTags:probbb"));
-		pfDeepCSVCJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probc"));
-		pfDeepCSVUDSGJetTags[ic].push_back(obj.bDiscriminator("pfDeepCSVJetTags:probudsg"));
+		
+		pfDeepCSVBJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probb") + obj.bDiscriminator("pfDeepCSVJetTags:probbb"));
+		pfDeepCSVCvsLJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probc") / (obj.bDiscriminator("pfDeepCSVJetTags:probc") + obj.bDiscriminator("pfDeepCSVJetTags:probudsg")));
+		pfDeepCSVCvsBJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probc") / (obj.bDiscriminator("pfDeepCSVJetTags:probc") + obj.bDiscriminator("pfDeepCSVJetTags:probb") + obj.bDiscriminator("pfDeepCSVJetTags:probbb")));
+		pfDeepFlavourBJetTags[ic].push_back(obj.bDiscriminator("pfDeepFlavourJetTags:probb")+obj.bDiscriminator("pfDeepFlavourJetTags:probbb")+obj.bDiscriminator("pfDeepFlavourJetTags:problepb"));
 		
                 for(size_t iDiscr = 0; iDiscr < userfloatNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << userfloatNames[iDiscr] << std::endl;
@@ -440,8 +449,9 @@ void JetDumper::reset(){
 	}
 	
 	pfDeepCSVBJetTags[ic].clear();
-	pfDeepCSVCJetTags[ic].clear();
-	pfDeepCSVUDSGJetTags[ic].clear();
+	pfDeepCSVCvsLJetTags[ic].clear();
+	pfDeepCSVCvsBJetTags[ic].clear();
+	pfDeepFlavourBJetTags[ic].clear();
 	
 	axis1[ic].clear();
 	axis2[ic].clear();

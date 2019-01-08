@@ -82,8 +82,9 @@ def produceJets(process, isData):
                 updateCollection='cleanedPatJetsModifiedMET', 
                 JETCorrLevels = JEC, JETCorrPayload="AK4PFchs", 
                 bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags',
-                                      'pfCombinedCvsBJetTags','pfCombinedCvsLJetTags', 'pfDeepCSVJetTags:probb', 
-                                      'pfDeepCSVJetTags:probc', 'pfDeepCSVJetTags:probudsg', 'pfDeepCSVJetTags:probbb'],
+                                      'pfDeepCSVJetTags:probb', 'pfDeepCSVJetTags:probc', 'pfDeepCSVJetTags:probudsg', 'pfDeepCSVJetTags:probbb',
+                                      'pfDeepFlavourJetTags:probb', 'pfDeepFlavourJetTags:probbb', 'pfDeepFlavourJetTags:problepb', 'pfDeepFlavourJetTags:probc',
+                                      'pfDeepFlavourJetTags:probuds', 'pfDeepFlavourJetTags:probg'],
                 postFix='')
     
     # Small fix required to add the variables ptD, axis2, mult. See:
