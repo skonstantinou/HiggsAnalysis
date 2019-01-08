@@ -7,8 +7,8 @@ AK8Jets = cms.PSet(
     branchname = cms.untracked.string("AK8Jets"),
     src        = cms.InputTag("selectedPatJetsAK8PFCHS"),
     systVariations = cms.bool(False), # bug => requires fix!
-    srcJESup   = cms.InputTag("shiftedPatJetEnUpModiedMET"),
-    srcJESdown = cms.InputTag("shiftedPatJetEnDownModiedMET"),
+    srcJESup   = cms.InputTag("shiftedPatJetEnUpModifiedMET"),
+    srcJESdown = cms.InputTag("shiftedPatJetEnDownModifiedMET"),
     srcJERup   = cms.InputTag("shiftedPatSmearedJetResUp"),
     srcJERdown = cms.InputTag("shiftedPatSmearedJetResDown"),
         

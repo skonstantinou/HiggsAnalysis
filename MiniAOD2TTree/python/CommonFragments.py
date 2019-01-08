@@ -28,10 +28,10 @@ def produceCustomisations(process, isData):
 def produceAK8Customisations(process, isData):
     process.AK8CustomisationsSequence = cms.Sequence()
     produceAK8JEC(process, isData)
-    print "\n === AK8 Customisations done \n"
+    print "\n=== AK8 Customisations done \n"
 
 def produceAK8JEC(process, isData):
-    print "\n === AK8 Customisations \n"
+    print "\n=== AK8 Customisations \n"
     
     process.load("Configuration.EventContent.EventContent_cff")
     process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
@@ -66,7 +66,7 @@ def produceJets(process, isData):
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
     '''
     
-    print "\n === AK4 Customisations \n"
+    print "\n=== AK4 Customisations \n"
     
     process.load("Configuration.EventContent.EventContent_cff")
     process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
@@ -79,7 +79,7 @@ def produceJets(process, isData):
 
     from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
     jetToolbox( process, 'ak4', 'ak4JetSubs', 'out',
-                updateCollection='cleanedPatJetsModiedMET', 
+                updateCollection='cleanedPatJetsModifiedMET', 
                 JETCorrLevels = JEC, JETCorrPayload="AK4PFchs", 
                 bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags',
                                       'pfCombinedCvsBJetTags','pfCombinedCvsLJetTags', 'pfDeepCSVJetTags:probb', 
@@ -299,6 +299,7 @@ def reproduceMET(process,isdata):
           
     process.es_prefer_jer = cms.ESPrefer("PoolDBESSource",'jer')
 
+    # TWiki: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETUncertaintyPrescription#Instructions_for_9_4_X_X_9_for_2
     from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
     
     #default configuration for miniAOD reprocessing, change the isData flag to run on data
@@ -306,11 +307,11 @@ def reproduceMET(process,isdata):
     runMetCorAndUncFromMiniAOD(process,
                                isData=isdata,
                                fixEE2017 = True,
-                               postfix = "ModiedMET"
+                               fixEE2017Params = {'userawPt': True, 'ptThreshold':50.0, 'minEtaThreshold':2.65, 'maxEtaThreshold': 3.139},
+                               postfix = "ModifiedMET"
                                )
-
-    #####process.CustomisationsSequence += process.fullPatMetSequenceModiedMET
-
+    process.CustomisationsSequence += process.fullPatMetSequenceModifiedMET
+    
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")
 #
