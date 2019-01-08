@@ -4,12 +4,11 @@ Muons = cms.VPSet(
     cms.PSet(
         branchname = cms.untracked.string("Muons"),
         src = cms.InputTag("slimmedMuons"),
-        # Marina
-        rhoSource = cms.InputTag("fixedGridRhoFastjetCentralNeutral"), # For MiniIsolation
+        
+        rhoSource = cms.InputTag("fixedGridRhoFastjetAll"), # For MiniIsolation
         
         discriminators = cms.vstring(),
         
-        # Marina
         pfcands = cms.InputTag("packedPFCandidates"),
     )
 )
