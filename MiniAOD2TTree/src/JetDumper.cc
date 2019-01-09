@@ -487,8 +487,7 @@ bool JetDumper::passJetID(int id, const pat::Jet& jet) {
     // Number of Constituents    > 1       > 1 
     // Muon Fraction             -         < 0.8
     
-    int nConstituents = jet.chargedMultiplicity() + jet.electronMultiplicity()
-      + jet.muonMultiplicity() + jet.neutralMultiplicity();
+    int nConstituents = jet.chargedMultiplicity() + jet.neutralMultiplicity();
     
     if (id == kJetIDTight) {
       if (!(jet.neutralHadronEnergyFraction() < 0.90)) return false;
@@ -505,6 +504,7 @@ bool JetDumper::passJetID(int id, const pat::Jet& jet) {
       
       // Valid For AK4CHS and PUPPI
       
+      // Additionally apply:
       // PF Jet ID                 Tight   TightLepVeto
       // Charged Hadron Fraction   > 0.00    > 0.00
       // Charged Multiplicity      > 0.00    > 0.00
@@ -520,7 +520,7 @@ bool JetDumper::passJetID(int id, const pat::Jet& jet) {
       }
     }
   } else {
-    if (eta < 3.0) {
+    if (eta <= 3.0) {
       
       // Valid For AK4CHS
       
