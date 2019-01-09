@@ -15,7 +15,7 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 maxEvents    = 500
 maxWarnings  = 100
 reportEvery  = 100
-testWithData = True
+testWithData = False
 if testWithData:
     dataVersion  = "94Xdata"
     datasetFiles = [
@@ -207,9 +207,7 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
 	L1Extra        = cms.InputTag("l1extraParticles:MET"),
 	TriggerObjects = cms.InputTag("selectedPatTrigger"),
         TriggerMatch   = cms.untracked.vstring(
-            "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056_v",
-            "HLT_PFHT450_SixJet40_BTagCSV_p056_v",
-        ),
+            ),
 	filter = cms.untracked.bool(False)
     ),
     METNoiseFilter = process.METNoiseFilter,
@@ -217,7 +215,7 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     Electrons = process.Electrons,
     Muons     = process.Muons,
     Jets      = process.Jets,
-    #FatJets   = process.FatJets,
+    FatJets   = process.FatJets,
     #SoftBTag  = process.SoftBTag,
     Top       = process.Top,
     METs      = process.METs,
@@ -282,11 +280,23 @@ produceAK8Customisations(process, dataVersion.isData())   # This produces proces
 # https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
-print "=== Adding Electron MVA: ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
+print "\n=== Adding Electron MVA: ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values \n"
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
 
 for idmod in ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']:
     setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
+
+
+# Setup tau ID
+print "\n=== Rerunning Tau MVA ID (2017v2) \n" 
+from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
+na = TauIDEmbedder(process, cms, # pass tour process object
+    debug=True,
+    toKeep = ["2017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
+)
+na.runTauID()
+
+
 
 #================================================================================================ 
 # Module execution
@@ -298,6 +308,8 @@ process.runEDFilter = cms.Path(process.PUInfo*
                                process.skim*
                                process.skimCounterPassed*
                                process.CustomisationsSequence*
+                               process.rerunMvaIsolationSequence*
+                               process.NewTauIDsEmbedded*
                                process.AK8CustomisationsSequence*
                                process.dump)
 

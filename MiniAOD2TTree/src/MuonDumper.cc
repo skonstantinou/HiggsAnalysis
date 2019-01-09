@@ -31,24 +31,20 @@ MuonDumper::MuonDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<
     discriminators = new std::vector<bool>[inputCollections.size()*nDiscriminators];
     
     muonToken = new edm::EDGetTokenT<edm::View<pat::Muon>>[inputCollections.size()];
-    // Marina - start
     rhoToken = new edm::EDGetTokenT<double>[inputCollections.size()];
     pfcandsToken      = new edm::EDGetTokenT<edm::View<pat::PackedCandidate> >[inputCollections.size()];
     relMiniIso        = new std::vector<float>[inputCollections.size()];
     effAreaMiniIso    = new std::vector<float>[inputCollections.size()];
-    // Marina - end
     
     for(size_t i = 0; i < inputCollections.size(); ++i){
       edm::InputTag inputtag = inputCollections[i].getParameter<edm::InputTag>("src");
       muonToken[i] = iConsumesCollector.consumes<edm::View<pat::Muon>>(inputtag);
     
-      // Marina - Start                                                  
       edm::InputTag rhoSource = inputCollections[i].getParameter<edm::InputTag>("rhoSource");
       rhoToken[i] = iConsumesCollector.consumes<double>(rhoSource);
       
       edm::InputTag pfcandinputtag = inputCollections[i].getParameter<edm::InputTag>("pfcands");
       pfcandsToken[i] = iConsumesCollector.consumes<edm::View<pat::PackedCandidate>>(pfcandinputtag);
-      // Marina - end
     }
     
     useFilter = false;
@@ -79,10 +75,8 @@ void MuonDumper::book(TTree* tree){
         tree->Branch((name+"_relIsoDeltaBeta03").c_str(),&relIsoDeltaBetaCorrected03[i]); // cone 0.3
         tree->Branch((name+"_relIsoDeltaBeta04").c_str(),&relIsoDeltaBetaCorrected04[i]); // cone 0.4
 	
-	// Marina - start
         tree->Branch((name+"_relMiniIso").c_str(), &relMiniIso[i]);
         tree->Branch((name+"_effAreaMiniIso").c_str(), &effAreaMiniIso[i]);
-        // Marina - end
 	
         MCmuon[i].book(tree, name, "MCmuon");
         
@@ -110,18 +104,14 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	edm::Handle<edm::View<pat::Muon>> muonHandle;
         iEvent.getByToken(muonToken[ic], muonHandle);
 
-	// Marina - start
 	edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
         iEvent.getByToken(pfcandsToken[ic], pfcandHandle);
-	// Marina - end
 	
 	if(muonHandle.isValid()){
 	  
-	    // Marina - start
 	    // Setup handles for rho
 	    edm::Handle<double> rhoHandle;
 	    iEvent.getByToken(rhoToken[ic], rhoHandle);
-	    // Marina - end
 	  
             for(size_t i=0; i<muonHandle->size(); ++i) {
     		const pat::Muon& obj = muonHandle->at(i);
@@ -161,7 +151,6 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 relIsoDeltaBetaCorrected04[ic].push_back(relIso04);
 
 
-		// Marina - start
                 //double relIsoMini = getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false);
 		//double relIsoMiniEffArea = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
 		
@@ -170,7 +159,6 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		  
 		relMiniIso[ic].push_back(getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false));
 		effAreaMiniIso[ic].push_back(getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle));
-		// Marina - end
 		
 		//p4[ic].push_back(obj.p4());
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
@@ -223,10 +211,8 @@ void MuonDumper::reset(){
         relIsoDeltaBetaCorrected03[ic].clear();
 	relIsoDeltaBetaCorrected04[ic].clear();
 	
-	// Marina - start
 	relMiniIso[ic].clear();
 	effAreaMiniIso[ic].clear();
-	// Marina - end 
 	
         MCmuon[ic].reset();
       }
