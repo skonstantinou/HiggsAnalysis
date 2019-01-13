@@ -20,6 +20,7 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "HiggsAnalysis/MiniAOD2TTree/interface/FourVectorDumper.h"
+#include "DataFormats/MuonReco/interface/MuonSelectors.h"
 
 namespace reco {
   class Vertex;
@@ -44,22 +45,45 @@ class MuonDumper : public BaseDumper {
         std::vector<short> *q;
 
         std::vector<bool> *isGlobalMuon;
-        // Note that isSoftMuon and isHighPtMuon are at the moment not PF compatible
-        std::vector<bool> *isLooseMuon;
-        std::vector<bool> *isMediumMuon;
-        std::vector<bool> *isTightMuon;
-        std::vector<float> *relIsoDeltaBetaCorrected03; // isol cone 0.3
+        
+	// Muon Selectors (https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2#Muon_selectors_Since_9_4_X)
+	std::vector<bool> *isCutBasedIdLoose;
+	std::vector<bool> *isCutBasedIdMedium;
+	std::vector<bool> *isCutBasedIdMediumPrompt;
+	std::vector<bool> *isCutBasedIdTight;
+	std::vector<bool> *isCutBasedIdGlobalHighPt;
+	std::vector<bool> *isCutBasedIdTrkHighPt;
+	std::vector<bool> *isPFIsoVeryLoose;
+	std::vector<bool> *isPFIsoLoose;
+	std::vector<bool> *isPFIsoMedium;
+	std::vector<bool> *isPFIsoTight;
+	std::vector<bool> *isPFIsoVeryTight;
+	//std::vector<bool> *isPFIsoVeryVeryTight;
+	std::vector<bool> *isTkIsoLoose;
+	std::vector<bool> *isTkIsoTight;
+	std::vector<bool> *isSoftCutBasedId;
+	// std::vector<bool> *isSoftMvaId;
+	std::vector<bool> *isMvaLoose;
+	std::vector<bool> *isMvaMedium;
+	std::vector<bool> *isMvaTight;
+	std::vector<bool> *isMiniIsoLoose;
+	std::vector<bool> *isMiniIsoMedium;
+	std::vector<bool> *isMiniIsoTight;
+	std::vector<bool> *isMiniIsoVeryTight;
+	//std::vector<bool> *isTriggerIdLoose;
+	//std::vector<bool> *isInTimeMuon;
+	//std::vector<bool> *isMultiIsoLoose;
+	//std::vector<bool> *isMultiIsoMedium;
+	
+	std::vector<float> *relIsoDeltaBetaCorrected03; // isol cone 0.3
         std::vector<float> *relIsoDeltaBetaCorrected04; // isol cone 0.4
-
-	// Marina - start
+	
 	edm::EDGetTokenT<double> *rhoToken;
 	edm::EDGetTokenT<edm::View<pat::PackedCandidate> > *pfcandsToken;
 	std::vector<float> *relMiniIso;
 	std::vector<float> *effAreaMiniIso;
-        // Marina - end     
-
+        
         // 4-vector for generator muon
         FourVectorDumper *MCmuon;
-
 };
 #endif
