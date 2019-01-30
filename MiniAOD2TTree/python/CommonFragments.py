@@ -17,21 +17,23 @@ import FWCore.ParameterSet.Config as cms
 def produceCustomisations(process, isData):
     process.CustomisationsSequence = cms.Sequence()
 #    reproduceJEC(process)
-    reproduceElectronID(process)
+#    reproduceElectronID(process)
     reproduceMETNoiseFilters(process)
     reproduceMET(process, isData)
+    produceTauID(process, isData)
 #    reproduceJEC(process)
     produceJets(process, isData)
-    print "=== Customisations done"
+    return
+
 
 # AK8 Customisations
 def produceAK8Customisations(process, isData):
     process.AK8CustomisationsSequence = cms.Sequence()
-    produceAK8JEC(process, isData)
-    print "\n=== AK8 Customisations done \n"
+    produceAK8Jets(process, isData)
+    return
 
-def produceAK8JEC(process, isData):
-    print "\n=== AK8 Customisations \n"
+def produceAK8Jets(process, isData):
+    print "\n=== Customisation: Running JetToolbox for AK8 Jets \n"
     
     process.load("Configuration.EventContent.EventContent_cff")
     process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
@@ -51,6 +53,22 @@ def produceAK8JEC(process, isData):
                 )
     return
 
+# Taus Customisations
+from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
+def produceTauID(process, isData):
+    '''
+    https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePFTauID#Rerunning_of_the_tau_ID_on_M_AN1
+    '''
+    print "\n=== Customisation: Rerunning Tau  MVA ID (2017V2) \n"
+    na = TauIDEmbedder(process, cms,
+                       debug=True,
+                       toKeep = ["2017v2"]  # Options: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"] 
+                       )
+    na.runTauID()
+    process.CustomisationsSequence += process.rerunMvaIsolationSequence
+    process.CustomisationsSequence += process.NewTauIDsEmbedded
+    return
+
 def produceJets(process, isData):
     '''
     JetToolbox twiki:
@@ -66,7 +84,7 @@ def produceJets(process, isData):
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
     '''
     
-    print "\n=== AK4 Customisations \n"
+    print "\n=== Customisation: Running JetToolbox for AK4 Jets \n"
     
     process.load("Configuration.EventContent.EventContent_cff")
     process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
@@ -89,10 +107,10 @@ def produceJets(process, isData):
     
     # Small fix required to add the variables ptD, axis2, mult. See:
     # https://hypernews.cern.ch/HyperNews/CMS/get/jet-algorithms/418/1.html
-    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
-    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
-    #getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
-
+    # getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':ptD']
+    # getattr( process, 'updatedPatJetsAK4PFCHS').userData.userFloats.src += ['QGTagger'+'AK4PFCHS'+':axis2']
+    # getattr( process, 'updatedPatJetsAK4PFCHS').userData.userInts.src   += ['QGTagger'+'AK4PFCHS'+':mult']
+    
     return
 
 
@@ -126,24 +144,49 @@ def reproduceJEC(process):
     process.CustomisationsSequence += process.updatedPatJetsUpdatedJEC
     process.CustomisationsSequence += process.patJetCorrFactorsUpdatedJECPuppi
     process.CustomisationsSequence += process.updatedPatJetsUpdatedJECPuppi
-
+    return
 
 # ===== Set up electron ID (VID framework) =====
+from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 def reproduceElectronID(process):
     '''
     For instructions and more details see:
-    https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
+    https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaIDRecipesRun2
+    https://twiki.cern.ch/twiki/bin/view/CMS/EgammaMiniAODV2#2017_MiniAOD_V2
     '''
-    print "=== Customisation: reproducing electron ID discriminators"
+    print "\n==== Customisation: Running EGamma IDs \n"
+    process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+    
+    my_id_modules = [
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
+        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+        ]
+    
+    from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+    setupEgammaPostRecoSeq(process,
+                           runVID=True, 
+                           era='2017-Nov17ReReco')  
+    
     switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
-    # define which IDs we want to produce and add them to the VID producer
-    for idmod in ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
-                  #'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff', 
-                  ]:   # Marina
+    for idmod in my_id_modules:
         setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
-    process.CustomisationsSequence += process.egmGsfElectronIDSequence
+        
 
+    process.egmGsfElectronIDs.physicsObjectSrc = 'slimmedElectrons'
+    process.electronMVAValueMapProducer.srcMiniAOD = 'slimmedElectrons'
+    process.electronMVAVariableHelper.srcMiniAOD = 'slimmedElectrons'
+    
+    process.CustomisationsSequence += process.egammaPostRecoSeq 
+    process.CustomisationsSequence += process.electronMVAVariableHelper
+    process.CustomisationsSequence += process.electronMVAValueMapProducer
+    process.CustomisationsSequence += process.egmGsfElectronIDSequence
+    return
+    
 # ===== Set up HBHE noise filter =====
 def reproduceMETNoiseFilters(process):
     '''

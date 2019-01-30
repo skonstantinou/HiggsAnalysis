@@ -234,8 +234,7 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
 	L1Extra        = cms.InputTag("l1extraParticles:MET"),
 	TriggerObjects = cms.InputTag("selectedPatTrigger"),
         TriggerMatch   = cms.untracked.vstring(
-            #"LooseIsoPFTau50_Trk30_eta2p1",
-        ),
+            ),
 	filter = cms.untracked.bool(False)
     ),
     METNoiseFilter = process.METNoiseFilter,
@@ -243,7 +242,7 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     Electrons = process.Electrons,
     Muons     = process.Muons,
     Jets      = process.Jets,
-    #FatJets   = process.FatJets,
+    FatJets   = process.FatJets,
     Top       = process.Top,
     METs      = process.METs,
     GenWeights = cms.VPSet(
@@ -326,7 +325,7 @@ process.runEDFilter = cms.Path(process.PUInfo*
                                process.skim*
                                process.skimCounterPassed*
                                process.CustomisationsSequence*
-#                               process.AK8CustomisationsSequence*
+                               process.AK8CustomisationsSequence*
                                process.dump)
 
 

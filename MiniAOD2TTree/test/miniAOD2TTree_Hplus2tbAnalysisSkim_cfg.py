@@ -127,7 +127,8 @@ process.load("HiggsAnalysis/MiniAOD2TTree/MET_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/METNoiseFilter_cfi")
 
 process.METNoiseFilter.triggerResults = cms.InputTag("TriggerResults::"+str(dataVersion.getMETFilteringProcess())) 
-print "check tau",process.Taus_TauPOGRecommendation[0]
+print "check tau", process.Taus_TauPOGRecommendation[0]#.src.moduleLabel
+
 process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     OutputFileName      = cms.string("miniaod2tree.root"),
     PUInfoInputFileName = process.PUInfo.OutputFileName,
@@ -276,18 +277,30 @@ from HiggsAnalysis.MiniAOD2TTree.CommonFragments import produceAK8Customisations
 produceAK8Customisations(process, dataVersion.isData())   # This produces process.AK8CustomisationsSequence which needs to be included to path
 
 
-# Set up electron MVA ID for Skimming
-# https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
+#===== EGamma IDs
+from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 
-print "\n=== Adding Electron MVA: ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values \n"
+setupEgammaPostRecoSeq(process,
+                       runVID=True,
+                       era='2017-Nov17ReReco')
+
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
+my_id_modules = [
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+    ]
 
-for idmod in ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']:
+for idmod in my_id_modules:
     setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
 
 
-# Setup tau ID
+#===== Setup tau ID
 print "\n=== Rerunning Tau MVA ID (2017v2) \n" 
 from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
 na = TauIDEmbedder(process, cms, # pass tour process object
@@ -303,13 +316,24 @@ na.runTauID()
 #================================================================================================ 
 process.runEDFilter = cms.Path(process.PUInfo*
                                process.TopPtProducer*
-                               process.egmGsfElectronIDSequence*
+                               
+                               # Produce Tau MVA ID prior skimming
+                               process.rerunMvaIsolationSequence*
+                               process.NewTauIDsEmbedded*
+                               
+                               # Produce Electron IDs prior skimming
+                               #process.egammaPostRecoSeq*
+                               #process.electronMVAVariableHelper*
+                               #process.electronMVAValueMapProducer*
+                               #process.egmGsfElectronIDSequence*
+                               
+                               # Apply the skimming
                                process.skimCounterAll*
                                process.skim*
                                process.skimCounterPassed*
+                               
+                               
                                process.CustomisationsSequence*
-                               process.rerunMvaIsolationSequence*
-                               process.NewTauIDsEmbedded*
                                process.AK8CustomisationsSequence*
                                process.dump)
 

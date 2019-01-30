@@ -117,8 +117,8 @@ bool ElectronDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
         iEvent.getByToken(pfcandsToken[ic], pfcandHandle);
 	// Electron MVA
-	edm::Handle<edm::ValueMap<float> > electronMVAHandle;
-	iEvent.getByToken(electronMVAToken[ic], electronMVAHandle);
+	//edm::Handle<edm::ValueMap<float> > electronMVAHandle;
+	//iEvent.getByToken(electronMVAToken[ic], electronMVAHandle);
 	
 	if(electronHandle.isValid()){
 	    // Setup also handle for GsfElectrons (needed for ID)
@@ -187,7 +187,8 @@ bool ElectronDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		relMiniIso[ic].push_back(getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false));
 		effAreaMiniIso[ic].push_back(getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoMiniIsoHandle));
 		// Get electron MVA
-		electronMVA[ic].push_back((*electronMVAHandle)[ref]);
+		//electronMVA[ic].push_back((*electronMVAHandle)[ref]);
+		
 		//float mva = (*electronMVAHandle)[ref];
 		//std::cout<<"mva = "<<mva<<std::endl;
 

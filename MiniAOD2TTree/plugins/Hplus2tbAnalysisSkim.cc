@@ -252,8 +252,8 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
     iEvent.getByToken(cfg_electronToken, electronHandle);
     int nElectrons = 0;
 
-    edm::Handle<edm::ValueMap<float> > electronMVAHandle;
-    iEvent.getByToken(cfg_electronMVAToken, electronMVAHandle);
+    //edm::Handle<edm::ValueMap<float> > electronMVAHandle;
+    //iEvent.getByToken(cfg_electronMVAToken, electronMVAHandle);
     
     // Packed Candidates
     edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
@@ -275,7 +275,7 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
         // Calculate Mini relative isolation for the electron with effective area
         double miniRelIsoEA = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
 	
-        float mvaValue = (*electronMVAHandle)[ref];
+        float mvaValue = 0.0; //(*electronMVAHandle)[ref];
         float AbsEta = fabs(obj.p4().eta());
 	
         bool isLoose = false;
