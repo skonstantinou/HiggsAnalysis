@@ -305,7 +305,7 @@ print "\n=== Rerunning Tau MVA ID (2017v2) \n"
 from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
 na = TauIDEmbedder(process, cms, # pass tour process object
     debug=True,
-    toKeep = ["2017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
+    toKeep = ["newDM2017v2", "2017v2", "dR0p32017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
 )
 na.runTauID()
 

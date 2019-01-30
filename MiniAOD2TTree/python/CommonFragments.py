@@ -62,7 +62,7 @@ def produceTauID(process, isData):
     print "\n=== Customisation: Rerunning Tau  MVA ID (2017V2) \n"
     na = TauIDEmbedder(process, cms,
                        debug=True,
-                       toKeep = ["2017v2"]  # Options: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"] 
+                       toKeep = ["newDM2017v2", "2017v2", "dR0p32017v2"],  # Options: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
                        )
     na.runTauID()
     process.CustomisationsSequence += process.rerunMvaIsolationSequence
