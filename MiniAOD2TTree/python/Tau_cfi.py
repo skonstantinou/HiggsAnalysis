@@ -103,7 +103,6 @@ Taus = cms.VPSet(
             jetSrc = cms.InputTag("slimmedJets"), # made from ak4PFJetsCHS
             systVariations = cms.bool(True),
             TEScorrection = cms.bool(True),
-            TESvariation = cms.untracked.double(0.012),
             TESvariationExtreme = cms.untracked.double(0.03)
     )
 )
