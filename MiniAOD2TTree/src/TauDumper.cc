@@ -106,6 +106,33 @@ void TauDumper::book(TTree* tree){
     }
 }
 
+double TauDumper::getTESvariation(const pat::Tau& tau){
+    // https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauIDRecommendation13TeV#Tau_energy_scale
+  
+    double taupt = tau.p4().pt();
+    if (taupt>400) return 0.03; // extreme variation 3%
+    
+    double variation = 0.0;
+    
+    int dm = tau.decayMode();
+    
+    switch (dm){
+    case reco::PFTau::kOneProng0PiZero:
+      variation = 0.008; // 0.8% 
+      break;
+    case reco::PFTau::kOneProng1PiZero:
+      variation = 0.008; // 0.8%
+      break;
+    case reco::PFTau::kThreeProng0PiZero:
+      variation = 0.009; // 0.9%
+      break;
+    case reco::PFTau::kThreeProng1PiZero:
+      variation = 0.010; // 1.0%
+      break;
+    }
+    return variation;
+}
+
 pat::Tau TauDumper::TEScorrection(const pat::Tau& tau){
     // https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV
     if(!bTEScorrection) return tau;
@@ -117,14 +144,17 @@ pat::Tau TauDumper::TEScorrection(const pat::Tau& tau){
     int dm = tau.decayMode();
     switch (dm){
 	case reco::PFTau::kOneProng0PiZero:
-	    correction += -0.005;
+	    correction += 0.007;
 	    break;
 	case reco::PFTau::kOneProng1PiZero:
-	    correction += 0.011;
+	    correction += -0.002;
             break;
-	case reco::PFTau::kThreeProng0PiZero:
-	    correction += 0.006;
+        case reco::PFTau::kThreeProng0PiZero:
+	    correction += 0.001;
             break;
+        case reco::PFTau::kThreeProng1PiZero:
+	    correction += -0.001;
+	    break;
     }
     pat::Tau correctedTau(tau);
     correctedTau.setP4(correction*tau.p4());
@@ -145,14 +175,15 @@ bool TauDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
     iEvent.getByToken(jetToken[ic], jetHandle);
     if(tauHandle.isValid()){
       std::vector<std::string> discriminatorNames = inputCollections[ic].getParameter<std::vector<std::string> >("discriminators");
-      double TESvariation = inputCollections[ic].getUntrackedParameter<double>("TESvariation");
+      
       double TESvariationExtreme = inputCollections[ic].getUntrackedParameter<double>("TESvariationExtreme");
       
       for(size_t i=0; i<tauHandle->size(); ++i) {
         const pat::Tau& rawtau = tauHandle->at(i);
-
+	
 	pat::Tau tau = TEScorrection(rawtau);
-
+	double TESvariation = getTESvariation(rawtau);
+	
         pt[ic].push_back(tau.p4().pt());
         eta[ic].push_back(tau.p4().eta());
         phi[ic].push_back(tau.p4().phi());

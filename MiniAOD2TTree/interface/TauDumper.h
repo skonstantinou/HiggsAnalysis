@@ -31,7 +31,8 @@ class TauDumper : public BaseDumper {
 
     private:
 	pat::Tau TEScorrection(const pat::Tau&);
-
+	double getTESvariation(const pat::Tau& tau);
+	
         void fillMCMatchInfo(size_t ic, edm::Handle<reco::GenParticleCollection>& genParticles, const pat::Tau& tau);
         
 	bool filter();
