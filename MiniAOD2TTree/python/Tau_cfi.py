@@ -126,7 +126,6 @@ Taus_TauPOGRecommendation[0].discriminators = cms.vstring(
                 'byLooseCombinedIsolationDeltaBetaCorr3Hits',
                 'byMediumCombinedIsolationDeltaBetaCorr3Hits',
                 'byTightCombinedIsolationDeltaBetaCorr3Hits',
-                'byCombinedIsolationDeltaBetaCorrRaw3Hits',
                 # MVA Isolation 2017v2 (Old Decay Mode DR<0.5)
                 'byIsolationMVArun2017v2DBoldDMwLTraw2017',       
                 'byVVLooseIsolationMVArun2017v2DBoldDMwLT2017',

@@ -37,7 +37,9 @@ TauDumper::TauDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
     MCNPiZeros = new std::vector<short>[inputCollections.size()];
     MCtau = new FourVectorDumper[inputCollections.size()];
     matchingJet = new FourVectorDumper[inputCollections.size()];
-
+    isVLooseCombinedIsolationDeltaBetaCorr3Hits = new std::vector<bool>[inputCollections.size()];
+    isVVLooseCombinedIsolationDeltaBetaCorr3Hits = new std::vector<bool>[inputCollections.size()];
+    
     bTEScorrection = inputCollections[0].getParameter<bool>("TEScorrection");
     if(systVariations){
       systTESup = new FourVectorDumper[inputCollections.size()];
@@ -92,11 +94,14 @@ void TauDumper::book(TTree* tree){
         tree->Branch((name+"_nProngs").c_str(),&nProngs[i]);
         MCtau[i].book(tree, name, "MCVisibleTau");
         matchingJet[i].book(tree, name, "matchingJet");
-
+	
 	std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
 	for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
 	    tree->Branch((name+"_"+discriminatorNames[iDiscr]).c_str(),&discriminators[inputCollections.size()*iDiscr+i]);
 	}
+	tree->Branch((name+"_byVLooseCombinedIsolationDeltaBetaCorr3Hits").c_str(), &isVLooseCombinedIsolationDeltaBetaCorr3Hits[i]);
+	tree->Branch((name+"_byVVLooseCombinedIsolationDeltaBetaCorr3Hits").c_str(), &isVVLooseCombinedIsolationDeltaBetaCorr3Hits[i]);
+	
         if(systVariations){	
           systTESup[i].book(tree, name, "TESup");
           systTESdown[i].book(tree, name, "TESdown");
@@ -217,6 +222,9 @@ bool TauDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
           //std::cout << "check tau " << tau.p4().Pt() << " " << tau.p4().Eta() << " " << tau.p4().Phi() << " " << discriminatorNames[iDiscr] << " " << tau.tauID(discriminatorNames[iDiscr]) << std::endl;
           discriminators[inputCollections.size()*iDiscr+ic].push_back(tau.tauID(discriminatorNames[iDiscr]));
         }
+	isVLooseCombinedIsolationDeltaBetaCorr3Hits[ic].push_back(tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") < 3.5);
+	isVVLooseCombinedIsolationDeltaBetaCorr3Hits[ic].push_back(tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") < 4.5);
+	
         // Systematics variations
         if (systVariations && !iEvent.isRealData()) {
 	  double variation = TESvariation;
@@ -420,9 +428,11 @@ void TauDumper::reset(){
         pdgTauOrigin[ic].clear();
         MCNProngs[ic].clear();
         MCNPiZeros[ic].clear();
-        MCtau[ic].reset();
+	MCtau[ic].reset();
         matchingJet[ic].reset();
-        // Systematics
+	isVLooseCombinedIsolationDeltaBetaCorr3Hits[ic].clear();
+	isVVLooseCombinedIsolationDeltaBetaCorr3Hits[ic].clear();
+	// Systematics
         if(systVariations){
           systTESup[ic].reset();
           systTESdown[ic].reset();

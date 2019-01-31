@@ -60,6 +60,9 @@ class TauDumper : public BaseDumper {
         // 4-vector for matching jet
         FourVectorDumper *matchingJet;
         
+	std::vector<bool> *isVLooseCombinedIsolationDeltaBetaCorr3Hits;
+	std::vector<bool> *isVVLooseCombinedIsolationDeltaBetaCorr3Hits;
+
         // Systematics variations for tau 4-vector
         bool systVariations;
         bool bTEScorrection;
