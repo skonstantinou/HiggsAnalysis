@@ -17,7 +17,7 @@ import FWCore.ParameterSet.Config as cms
 def produceCustomisations(process, isData):
     process.CustomisationsSequence = cms.Sequence()
 #    reproduceJEC(process)
-#    reproduceElectronID(process)
+    reproduceElectronID(process)
     reproduceMETNoiseFilters(process)
     reproduceMET(process, isData)
     produceTauID(process, isData)
@@ -147,7 +147,6 @@ def reproduceJEC(process):
     return
 
 # ===== Set up electron ID (VID framework) =====
-from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 def reproduceElectronID(process):
     '''
@@ -155,35 +154,26 @@ def reproduceElectronID(process):
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaIDRecipesRun2
     https://twiki.cern.ch/twiki/bin/view/CMS/EgammaMiniAODV2#2017_MiniAOD_V2
     '''
-    print "\n==== Customisation: Running EGamma IDs \n"
-    process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+    print "\n=== Customisation: Running EGamma IDs \n"
     
+    from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+    
+    switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
     my_id_modules = [
-        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
-        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
         'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
         ]
     
-    from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
-    setupEgammaPostRecoSeq(process,
-                           runVID=True, 
-                           era='2017-Nov17ReReco')  
-    
-    switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
     for idmod in my_id_modules:
         setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
         
-
-    process.egmGsfElectronIDs.physicsObjectSrc = 'slimmedElectrons'
-    process.electronMVAValueMapProducer.srcMiniAOD = 'slimmedElectrons'
-    process.electronMVAVariableHelper.srcMiniAOD = 'slimmedElectrons'
+    process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+    setupEgammaPostRecoSeq(process,
+                           runVID=True,
+                           era='2017-Nov17ReReco')
     
     process.CustomisationsSequence += process.egammaPostRecoSeq 
-    process.CustomisationsSequence += process.electronMVAVariableHelper
-    process.CustomisationsSequence += process.electronMVAValueMapProducer
     process.CustomisationsSequence += process.egmGsfElectronIDSequence
     return
     

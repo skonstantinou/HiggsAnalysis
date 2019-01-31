@@ -280,24 +280,20 @@ produceAK8Customisations(process, dataVersion.isData())   # This produces proces
 #===== EGamma IDs
 from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
-process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
-
-setupEgammaPostRecoSeq(process,
-                       runVID=True,
-                       era='2017-Nov17ReReco')
 
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
 my_id_modules = [
-    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
-    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
-    'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
     'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
     ]
-
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
+
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+setupEgammaPostRecoSeq(process,
+                       runVID=True,
+                       era='2017-Nov17ReReco')
 
 
 #===== Setup tau ID
@@ -322,16 +318,13 @@ process.runEDFilter = cms.Path(process.PUInfo*
                                process.NewTauIDsEmbedded*
                                
                                # Produce Electron IDs prior skimming
-                               #process.egammaPostRecoSeq*
-                               #process.electronMVAVariableHelper*
-                               #process.electronMVAValueMapProducer*
-                               #process.egmGsfElectronIDSequence*
+                               process.egammaPostRecoSeq*
+                               process.egmGsfElectronIDSequence*
                                
                                # Apply the skimming
                                process.skimCounterAll*
                                process.skim*
                                process.skimCounterPassed*
-                               
                                
                                process.CustomisationsSequence*
                                process.AK8CustomisationsSequence*

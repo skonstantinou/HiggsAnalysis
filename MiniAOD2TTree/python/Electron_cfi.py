@@ -6,35 +6,20 @@ Electrons = cms.VPSet(
         src = cms.InputTag("slimmedElectrons"),
         rhoSource = cms.InputTag("fixedGridRhoFastjetAll"), # for PU mitigation in isolation
 #        IDprefix = cms.string("egmGsfElectronIDs"),
-#        discriminators = cms.vstring()
 	discriminators = cms.vstring(
-
-            # V1
-            'cutBasedElectronID-Fall17-94X-V1-loose',
-            'cutBasedElectronID-Fall17-94X-V1-medium',
-            'cutBasedElectronID-Fall17-94X-V1-tight',
-            'cutBasedElectronID-Fall17-94X-V1-veto',
-            'mvaEleID-Fall17-iso-V1-wp80',
-            'mvaEleID-Fall17-iso-V1-wp90',
-            'mvaEleID-Fall17-iso-V1-wpLoose',
-            'mvaEleID-Fall17-noIso-V1-wp80',
-            'mvaEleID-Fall17-noIso-V1-wp90',
-            'mvaEleID-Fall17-noIso-V1-wpLoose',            
+            "cutBasedElectronID-Fall17-94X-V2-veto",
+            "cutBasedElectronID-Fall17-94X-V2-loose",
+            "cutBasedElectronID-Fall17-94X-V2-medium",
+            "cutBasedElectronID-Fall17-94X-V2-tight",
             
-            # V2
-            #"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-veto",
-            #"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose",
-            #"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-medium",
-            #"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-tight",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp80",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpLoose",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp80",
-            #"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wpLoose",
+            'mvaEleID-Fall17-iso-V2-wp80', 
+            'mvaEleID-Fall17-iso-V2-wp90',
+            'mvaEleID-Fall17-iso-V2-wpHZZ', 
+            'mvaEleID-Fall17-iso-V2-wpLoose',
+            'mvaEleID-Fall17-noIso-V2-wp80', 
+            'mvaEleID-Fall17-noIso-V2-wp90',
+            'mvaEleID-Fall17-noIso-V2-wpLoose',
             ),
-#        discriminators = cms.vstring("mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80",
-#                                     "mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90")
         pfcands     = cms.InputTag("packedPFCandidates"),
         ElectronMVA = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
         #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values",
