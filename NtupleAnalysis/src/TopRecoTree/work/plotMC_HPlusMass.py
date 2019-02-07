@@ -252,10 +252,9 @@ def main(opts, signalMass):
                 continue
             if "cjet" in hG.lower():
                 continue
-            if "all" in hG.lower():
-                continue
-            #PlotMC(datasetsMgr, h, intLumi)
-            PlotSignalBackground(datasetsMgr, hG, hF, intLumi)
+            if "ldginptb" in hG.lower():
+                #continue
+                PlotSignalBackground(datasetsMgr, hG, hF, intLumi)
 
     return
 
@@ -373,15 +372,15 @@ def PlotSignalBackground(datasetsMgr, hG, hF, intLumi):
         _opts["xmax"] = 600
         _opts   = {"xmin": 0.0, "xmax": 605, "ymin": 1e-3, "ymaxfactor": 1.0}
 
-    if "trijetptdr" in hG.lower():
+    if "ptdr" in hG.lower():
         _opts["xmax"] =800
         _format = "%0.0f"
         _xlabel = "p_{T}#Delta R_{t}"
 
-    if "dijetptdr" in hG.lower():
-        _opts["xmax"] =800
-        _format = "%0.0f"
-        _xlabel = "p_{T}#Delta R_{W}"
+        if "dijetptdr" in hG.lower():
+            _opts["xmax"] =800
+            _format = "%0.0f"
+            _xlabel = "p_{T}#Delta R_{W}"
 
     if "dgjetptd" in hG.lower():
         _format = "%0.2f"
@@ -543,7 +542,8 @@ def PlotSignalBackground(datasetsMgr, hG, hF, intLumi):
     #plots.drawPlot(p, saveName, **_kwargs)
     savePath = os.path.join(opts.saveDir+ANALYSISNAME, "HplusMasses", hG.split("/")[0], opts.optMode)
     plots.drawPlot(p, savePath, **_kwargs)
-    SavePlot(p, saveName, os.path.join(opts.saveDir+opts.mcrab, opts.optMode), saveFormats = [".png"])
+    #SavePlot(p, saveName, os.path.join(opts.saveDir+opts.mcrab, opts.optMode), saveFormats = [".png", ".pdf", ".C"])
+    SavePlot(p, saveName, os.path.join(opts.saveDir+opts.mcrab, opts.dataset, opts.optMode), saveFormats = [".png", ".pdf", ".C"])
 
     return
     
