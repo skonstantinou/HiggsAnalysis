@@ -248,6 +248,14 @@ private:
   WrappedTH1Triplet *hR_alpha_trueLdgTop;
   WrappedTH1Triplet *hR_beta_trueLdgTop;
   
+  WrappedTH1 *hBJetDeltaPtOverPt_withinDRcut; //15.01.19: Mass resolution studies
+  WrappedTH1 *h_BQuarkFromH_Pt;    //15.01.19: Mass resolution studies
+  WrappedTH1 *h_GenHTopPt;         //15.01.19: Mass resolution studies
+  WrappedTH1 *h_GenHTopMass;       //15.01.19: Mass resolution studies
+  WrappedTH1 *h_GenHLdgQuarkPt;    //15.01.19: Mass resolution studies
+  WrappedTH1 *h_GenHSubldgQuarkPt; //15.01.19: Mass resolution studies
+  WrappedTH1 *h_GenHBQuarkPt;      //15.01.19: Mass resolution studies
+
   WrappedTH2Triplet *hDeltaPhi_TetrajetBjet_LdgTrijetBjet_Vs_DeltaPhi_TetrajetBjet_LdgTrijetDijet;
   WrappedTH2Triplet *hDeltaPhi_TetrajetBjet_LdgTrijetBjet_Vs_DeltaPhi_PimDeltaPhi_LdgTrijet_SubldgTrijet;
   WrappedTH2Triplet *hDeltaPhi_TetrajetBjet_LdgTrijetDijet_Vs_DeltaPhi_PimDeltaPhi_LdgTrijet_SubldgTrijet;
@@ -649,6 +657,15 @@ void TopTaggerEfficiency::book(TDirectory *dir) {
 										  "DeltaR_LdgTrijet_SubldgTrijet_trueLdgTop", ";#Delta R", nDRBins, fDRMin, 6.);
   hR_alpha_trueLdgTop = fHistoWrapper.makeTHTriplet<TH1F>(true, HistoLevel::kVital, myDirs, "R_alpha_trueLdgTop", ";#phi_{alpha}", nDRBins, fDRMin, 10.);
   hR_beta_trueLdgTop = fHistoWrapper.makeTHTriplet<TH1F>(true, HistoLevel::kVital, myDirs, "R_beta_trueLdgTop", ";#phi_{beta}", nDRBins, fDRMin, 10.);
+  
+  //15.01.19: Mass resolution studies
+  hBJetDeltaPtOverPt_withinDRcut = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "BJetDeltaPtOverPt_withinDRcut", "#;Delta P_{T}(jet-quark)/P_{T,q}", 500,-2.5,50);
+  h_BQuarkFromH_Pt		 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "BQuarkFromH_Pt", ";p_{T} (GeV/c)", 2*nPtBins, fPtMin, fPtMax);  
+  h_GenHTopPt			 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "GenHTopPt", ";p_{T} (GeV/c)", nPtBins, fPtMin, fPtMax);
+  h_GenHTopMass			 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "GenHTopMass", ";p_{T} (GeV/c)", nPtBins, fPtMin, fPtMax);
+  h_GenHLdgQuarkPt		 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "GenHLdgQuarkPt", ";p_{T} (GeV/c)", nPtBins, fPtMin, fPtMax);
+  h_GenHSubldgQuarkPt		 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "GenHSubldgQuarkPt", ";p_{T} (GeV/c)", nPtBins, fPtMin, fPtMax);
+  h_GenHBQuarkPt		 = fHistoWrapper.makeTH<TH1F>(HistoLevel::kVital, subdirTH1, "GenHBQuarkPt", ";p_{T} (GeV/c)", nPtBins, fPtMin, fPtMax);
   
   // Histograms (2D)
   hTopBDT_Vs_TopMass = fHistoWrapper.makeTH<TH2F>(HistoLevel::kVital, subdirTH2, "TopBDT_Vs_TopMass", ";top candidate BDT;m_{top} GeV/c^{2}",
@@ -1699,6 +1716,7 @@ void TopTaggerEfficiency::process(Long64_t entry) {
               if (same) continue;
               double dR_Hb = ROOT::Math::VectorUtil::DeltaR(jet.p4(),GenChargedHiggs_BQuark.at(i).p4());
               double dPtOverPt_Hb = std::abs(jet.pt() - GenChargedHiggs_BQuark.at(i).pt())/GenChargedHiggs_BQuark.at(i).pt();
+	      if (dR_Hb < dRcut) hBJetDeltaPtOverPt_withinDRcut -> Fill(dPtOverPt_Hb); //15.01.19: Mass resolution studies
               if (dR_Hb > dRcut || dR_Hb > dRmin) continue;
               if (dPtOverPt_Hb > twoSigmaDpt)     continue;
               dRmin = dR_Hb;
@@ -1707,10 +1725,23 @@ void TopTaggerEfficiency::process(Long64_t entry) {
           if (dRmin <= dRcut) HBjet.push_back(mcMatched_ChargedHiggsBjet);
         }
     } //if (doMatching)
-  
   if (0){
     std::cout<<"after matching "<<GenHTop.pt()<<have_Wa<<have_Wh<<std::endl;
   }
+  }
+  if (GenChargedHiggs_BQuark.size() > 0) h_BQuarkFromH_Pt -> Fill(GenChargedHiggs_BQuark.at(0).pt()); //15.01.19: Mass resolution studies
+  //15.01.19: Mass resolution studies
+  for (auto& top: GenTops)
+    {
+      if (!HasMother(fEvent, top, 37)) continue;
+      h_GenHTopPt    -> Fill(top.pt());
+      h_GenHTopMass  -> Fill(top.p4().M());
+    }
+  //15.01.19: Mass resolution studies
+  if (GenH_BQuark.size() > 0){
+    h_GenHLdgQuarkPt    -> Fill(GenH_LdgQuark.at(0).pt());
+    h_GenHSubldgQuarkPt -> Fill(GenH_SubldgQuark.at(0).pt());
+    h_GenHBQuarkPt      -> Fill(GenH_BQuark.at(0).pt());
   }
   vector <int> AllTopCandIndex_cleaned, SelectedTopCandIndex_cleaned, AllTopCandIndexSortPt, AllTopCandIndexSortPt_cleaned;
   bool haveMatchedHiggsTop = HiggsTop_Bjet.size() > 0;
@@ -1972,7 +2003,7 @@ void TopTaggerEfficiency::process(Long64_t entry) {
     //Matched top from Higgs
     if (TopMatched_h){
       hHiggsTopQuarkPt_Matched -> Fill(GenHTop.pt());
-      hBothTopQuarkPt_Matched -> Fill(GenHTop.pt());
+      hBothTopQuarkPt_Matched  -> Fill(GenHTop.pt());
     }
     //Matched assiciated top
     if (TopMatched_a){
@@ -1996,7 +2027,6 @@ void TopTaggerEfficiency::process(Long64_t entry) {
       hBothTopQuarkPt_MatchedBDT -> Fill(GenATop.pt());
     }
 
-    
     //======================================
     //Denominator: Tagging Efficidency
     //======================================
