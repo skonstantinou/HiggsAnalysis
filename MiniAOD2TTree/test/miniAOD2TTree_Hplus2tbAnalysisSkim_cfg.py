@@ -15,7 +15,7 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 maxEvents    = 500
 maxWarnings  = 100
 reportEvery  = 100
-testWithData = False
+testWithData = True
 if testWithData:
     dataVersion  = "94Xdata"
     datasetFiles = [
@@ -41,7 +41,6 @@ EvtNum_1    = 240
 RunNum_2    = 1
 LumiBlock_2 = 2
 EvtNum_2    = 260
-
 
 #================================================================================================  
 # Setup the Process
@@ -88,7 +87,6 @@ process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(datasetFiles)
                             #eventsToProcess = cms.untracked.VEventRange('%s:%s:%s-%s:%s:%s' % (RunNum_1, LumiBlock_1, EvtNum_1, RunNum_2, LumiBlock_2, EvtNum_2) ), 
                             )
-
 
 #================================================================================================  
 # Get Dataset version and Global tag
@@ -283,6 +281,8 @@ from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
 my_id_modules = [
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
     'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
@@ -299,7 +299,7 @@ setupEgammaPostRecoSeq(process,
 #===== Setup tau ID
 print "\n=== Rerunning Tau MVA ID (2017v2) \n" 
 from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
-na = TauIDEmbedder(process, cms, # pass tour process object
+na = TauIDEmbedder(process, cms,
     debug=True,
     toKeep = ["newDM2017v2", "2017v2", "dR0p32017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
 )
@@ -312,20 +312,16 @@ na.runTauID()
 #================================================================================================ 
 process.runEDFilter = cms.Path(process.PUInfo*
                                process.TopPtProducer*
-                               
                                # Produce Tau MVA ID prior skimming
                                process.rerunMvaIsolationSequence*
                                process.NewTauIDsEmbedded*
-                               
                                # Produce Electron IDs prior skimming
                                process.egammaPostRecoSeq*
                                process.egmGsfElectronIDSequence*
-                               
                                # Apply the skimming
                                process.skimCounterAll*
                                process.skim*
                                process.skimCounterPassed*
-                               
                                process.CustomisationsSequence*
                                process.AK8CustomisationsSequence*
                                process.dump)
