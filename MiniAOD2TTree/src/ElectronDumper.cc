@@ -33,10 +33,8 @@ ElectronDumper::ElectronDumper(edm::ConsumesCollector&& iConsumesCollector, std:
     pfcandsToken      = new edm::EDGetTokenT<edm::View<pat::PackedCandidate>>[inputCollections.size()];
     relMiniIso        = new std::vector<float>[inputCollections.size()];
     effAreaMiniIso    = new std::vector<float>[inputCollections.size()];
-    electronMVAToken  = new edm::EDGetTokenT<edm::ValueMap<float> >[inputCollections.size()];
-    electronMVA       = new std::vector<float>[inputCollections.size()];
     rhoMiniIsoToken   = new edm::EDGetTokenT<double>[inputCollections.size()];
-
+    
     for(size_t i = 0; i < inputCollections.size(); ++i){
         edm::InputTag inputtag = inputCollections[i].getParameter<edm::InputTag>("src");
 	electronToken[i] = iConsumesCollector.consumes<pat::ElectronCollection>(inputtag);
@@ -53,14 +51,12 @@ ElectronDumper::ElectronDumper(edm::ConsumesCollector&& iConsumesCollector, std:
         }
         */
 	
+	// For Mini-Isolation
 	edm::InputTag pfcandinputtag = inputCollections[i].getParameter<edm::InputTag>("pfcands");
 	pfcandsToken[i] = iConsumesCollector.consumes<edm::View<pat::PackedCandidate>>(pfcandinputtag);
 	
 	edm::InputTag rhoSourceMiniIso = inputCollections[i].getParameter<edm::InputTag>("rhoSourceMiniIso");
 	rhoMiniIsoToken[i] = iConsumesCollector.consumes<double>(rhoSourceMiniIso);
-	
-	edm::InputTag electronMVATag = inputCollections[i].getParameter<edm::InputTag>("ElectronMVA");
-	electronMVAToken[i] = iConsumesCollector.consumes<edm::ValueMap<float> >(electronMVATag);
     }
     
     useFilter = false;
@@ -91,9 +87,8 @@ void ElectronDumper::book(TTree* tree){
 	
 	tree->Branch((name+"_relMiniIso").c_str(), &relMiniIso[i]);
 	tree->Branch((name+"_effAreaMiniIso").c_str(), &effAreaMiniIso[i]);
-	tree->Branch((name+"_MVA").c_str(), &electronMVA[i]);
-	
-        std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
+
+	std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
         for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
             // Convert dashes into underscores
             std::replace(discriminatorNames[iDiscr].begin(), discriminatorNames[iDiscr].end(),'-','_');
@@ -116,9 +111,6 @@ bool ElectronDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	
 	edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
         iEvent.getByToken(pfcandsToken[ic], pfcandHandle);
-	// Electron MVA
-	//edm::Handle<edm::ValueMap<float> > electronMVAHandle;
-	//iEvent.getByToken(electronMVAToken[ic], electronMVAHandle);
 	
 	if(electronHandle.isValid()){
 	    // Setup also handle for GsfElectrons (needed for ID)
@@ -131,7 +123,6 @@ bool ElectronDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	    
 	    edm::Handle<double> rhoMiniIsoHandle;
 	    iEvent.getByToken(rhoMiniIsoToken[ic], rhoMiniIsoHandle);
-	    //double rhoMiniIso = *(rhoMiniIsoHandle.product());
 	    
 	    // Setup handles for ID
             std::vector<edm::Handle<edm::ValueMap<bool>>> IDhandles;
@@ -184,14 +175,10 @@ bool ElectronDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 double eaIso = eaisolation / obj.pt();
                 effAreaIsoDeltaBetaCorrected[ic].push_back(eaIso);
 		
+		// Mini-Isolation
 		relMiniIso[ic].push_back(getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false));
 		effAreaMiniIso[ic].push_back(getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoMiniIsoHandle));
-		// Get electron MVA
-		//electronMVA[ic].push_back((*electronMVAHandle)[ref]);
 		
-		//float mva = (*electronMVAHandle)[ref];
-		//std::cout<<"mva = "<<mva<<std::endl;
-
 		/*                
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
                   // https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
@@ -252,7 +239,6 @@ void ElectronDumper::reset(){
       
       relMiniIso[ic].clear();
       effAreaMiniIso[ic].clear();
-      electronMVA[ic].clear();
     }                                                                                                                                             
     for(size_t ic = 0; ic < inputCollections.size()*nDiscriminators; ++ic){                                                                                       
       discriminators[ic].clear();                                                                                                                                 

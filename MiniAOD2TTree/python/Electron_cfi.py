@@ -12,22 +12,25 @@ Electrons = cms.VPSet(
             "cutBasedElectronID-Fall17-94X-V2-medium",
             "cutBasedElectronID-Fall17-94X-V2-tight",
             
-            'mvaEleID-Fall17-iso-V2-wp80', 
+            'mvaEleID-Fall17-iso-V1-wp80',
+            'mvaEleID-Fall17-iso-V1-wp90',
+            'mvaEleID-Fall17-iso-V1-wpLoose',
+            'mvaEleID-Fall17-noIso-V1-wp80',
+            'mvaEleID-Fall17-noIso-V1-wp90',
+            'mvaEleID-Fall17-noIso-V1-wpLoose',
+            
+            'mvaEleID-Fall17-iso-V2-wp80',
             'mvaEleID-Fall17-iso-V2-wp90',
-            'mvaEleID-Fall17-iso-V2-wpHZZ', 
+            'mvaEleID-Fall17-iso-V2-wpHZZ',
             'mvaEleID-Fall17-iso-V2-wpLoose',
-            'mvaEleID-Fall17-noIso-V2-wp80', 
+            'mvaEleID-Fall17-noIso-V2-wp80',
             'mvaEleID-Fall17-noIso-V2-wp90',
             'mvaEleID-Fall17-noIso-V2-wpLoose',
             ),
+        
+        # For Mini-Isolation
+        # see: https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#ID_IP_ISO_AN1
         pfcands     = cms.InputTag("packedPFCandidates"),
-        ElectronMVA = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values",
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2RawValues",
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2Values",
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2RawValues",
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
-        #"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values",
         rhoSourceMiniIso = cms.InputTag("fixedGridRhoFastjetAll"),
     )
 )
