@@ -1,4 +1,3 @@
-
 // @(#)root/tmva $Id$
 /**********************************************************************************
  * Project   : TMVA - a ROOT-integrated toolkit for multivariate data analysis    *
@@ -241,18 +240,13 @@ void TMVAClassificationTopRec( TString myMethodList = "", TString fout = "TMVA_T
   }
 
    // Read training and test data
-   // (it is also possible to use ASCII format as input -> see TMVA Users Guide)
-  TString pseudomulticrab = "TopRecoTree_181025_085007_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq_noTopPt";
-  //"TopRecoTree_181023_124903_DeltaR0p3_BJetPt40_noDeltaRqq_TopTaggerOpt"; //"TopRecoTree_181023_080543_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq_TopTaggerOpt";
-  
+   // (it is also possible to use ASCII format as input -> see TMVA Users Guide) 
+  TString pseudomulticrab = "TopRecoTree_190108_055156_DeltaR0p3_DeltaPrOverPt0p32_noDeltaRqq_qPt30"; 
+
   //Again
   //TopRecoTree_181024_094218_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noTopPt/
   //TopRecoTree_181023_080543_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq/
   //TopRecoTree_181024_085120_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq_noTopPt/
-
-  //TString pseudomulticrab = "TopRecoTree_180925_074608_DeltaR0p4_BJetPt40_matchingOpt";
-  //TString pseudomulticrab = "TopRecoTree_180918_DeltaR0p3_DeltaPtOverPt0p50_BJetPt40_TopPtReweighting13Tev";
-  //TString pseudomulticrab = "TopRecoTree_180925_050733_DeltaR0p3_BJetPt40_matchingOpt/";
   TString fnameS_TT = "/uscms_data/d3/skonstan/CMSSW_8_0_30/src/HiggsAnalysis/NtupleAnalysis/src/TopRecoTree/work/"+pseudomulticrab+"/TT/res/histograms-TT.root";
   TString fnameB_TT = "/uscms_data/d3/skonstan/CMSSW_8_0_30/src/HiggsAnalysis/NtupleAnalysis/src/TopRecoTree/work/"+pseudomulticrab+"/TT/res/histograms-TT.root";
    //   if (gSystem->AccessPathName( fname ))  // file does not exist in local directory

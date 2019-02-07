@@ -135,7 +135,7 @@ def main(opts, signalMass):
                 datasetsMgr_signal.getDataset(d.getName()).setCrossSection(1.0)
         # Determine integrated Lumi before removing data
 #        intLumi = datasetsMgr.getDataset("Data").getLuminosity()
-        intLumi = 35200
+        intLumi = 35920
 
         # Remove datasets
         if 1:
@@ -230,14 +230,23 @@ def main(opts, signalMass):
             elif "match" in h.lower():
                 PlotMC(datasetsMgr_signal, h, intLumi)
             '''
-            #else:
+                
             #if "phi" not in h.lower():
             #    continue
-            if 1:
+            '''
+            if "order" in h.lower():
                 PlotMC(datasetsMgr, h, intLumi)
 
+            if "BQuarkFromH" in h:
+                PlotMC(datasetsMgr, h, intLumi)
 
-        
+            if "within" in h:
+                PlotMC(datasetsMgr, h, intLumi)
+            '''
+            #PlotMC(datasetsMgr, h, intLumi)
+            if "ldginptb" in h.lower():
+                PlotMC(datasetsMgr, h, intLumi)
+
     return
 
 def getHistos(datasetsMgr, histoName):
@@ -301,6 +310,15 @@ def PlotMC(datasetsMgr, histo, intLumi):
         _xlabel = "p_{T} (%s)" % _units
         _cutBox = {"cutValue": 173.21, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
         #_opts["xmax"] = 505 #1005
+
+    if "ht" in histo.lower():
+        _rebinX = 2
+        _units  = "GeV/c"
+        _format = "%0.0f " + _units
+        _xlabel = "H_{T} (%s)" % _units
+        _opts["xmax"] = 2000
+        #_cutBox = {"cutValue": 173.21, "fillColor": 16, "box": False, "line": False, "greaterThan": True}
+        #_opts["xmax"] = 505 #1005
         
     if "eta" in histo.lower():
         _units  = ""
@@ -320,7 +338,7 @@ def PlotMC(datasetsMgr, histo, intLumi):
         if "ldg" in histo.lower():
             _xlabel = "m_{jjb}^{ldg} (%s)" % _units
     elif "tetrajetmass" in histo.lower():
-        _rebinX = 5 #5 #10 #4
+        _rebinX = 10 #5 #10 #4
         _units  = "GeV/c^{2}"
         _format = "%0.0f " + _units
         _xlabel = "m_{jjbb} (%s)" % (_units)
@@ -428,6 +446,54 @@ def PlotMC(datasetsMgr, histo, intLumi):
         _format = "%0.1f "
         _xlabel = "#DeltaR (top_{sldg}, bb_{#Delta Rmin})"
 
+    if "over" in histo.lower():        
+        _opts["xmax"] = 15
+        _opts["xmax"] = +0.8
+        _opts["xmin"] = -0.8
+        _xlabel = "#Delta p_{T}(j-q)/p_{T,q}"
+        _cutBox = {"cutValue": +0.32, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
+
+    if "within" in histo.lower():
+        _opts["xmax"] = +0.8
+        _opts["xmin"] = -0.8
+        _xlabel = "#Delta p_{T}(j-q)/p_{T,q}"
+        _cutBox = {"cutValue": +0.32, "fillColor": 16, "box": False, "line": True, "greaterThan": True}
+
+    if "axis2" in histo.lower():
+        _opts["xmax"] = +0.2
+        _opts["xmin"] = 0.0
+        _xlabel = "axis2"
+        _units = ""
+        _format = "%0.1f "+_units
+
+    if "axis2" in histo.lower():
+        _opts["xmax"] = +0.2
+        _opts["xmin"] = 0.0
+        _xlabel = "axis2"
+        _units  = ""
+        _format = "%0.2f "+_units
+
+    if "mass" in histo.lower():
+        _xlabel = "M (GeV/c^{2})"
+        _units  = "GeV/c^{2}"
+        _format = "%0.0f "+_units
+
+    if "mult" in histo.lower():
+        _xlabel = "mult"
+        _units  = ""
+        _format = "%0.0f "+_units
+
+    if "BQuarkFromH_Pt" in histo:
+        _opts["xmax"] = 200
+        _rebinX= 1
+
+    if "order" in histo.lower():
+        _opts["xmax"] = 15
+        _rebinX= 1
+        if "pt" in histo.lower():
+            _xlabel = "indx_{p_{T}}"
+        if "csv" in histo.lower():
+            _xlabel = "indx_{csv}"
 
     if "phi_alpha" in histo.lower() or "phi_beta" in histo.lower() or "r_alpha" in histo.lower() or "r_beta" in histo.lower():
         _format = "%0.1f "
@@ -460,6 +526,8 @@ def PlotMC(datasetsMgr, histo, intLumi):
         #_opts   = {"ymin": 1e-3, "ymaxfactor": yMaxFactor, "xmax": None}
     else:
         _opts["ymin"] = 1e0
+        if "order" in histo.lower():
+            _opts["ymin"] = 1e-3
         #_opts["ymaxfactor"] = yMaxFactor
         #_opts   = {"ymin": 1e0, "ymaxfactor": yMaxFactor, "xmax": None}
 
@@ -549,9 +617,9 @@ if __name__ == "__main__":
     OPTMODE      = ""
     BATCHMODE    = True
     PRECISION    = 3
-    SIGNALMASS   = [200, 300, 400, 500, 650, 800, 1000]
-    SIGNALMASS   = [200, 500, 1000]
-    SIGNALMASS   = []
+    #SIGNALMASS   = [200, 300, 400, 500, 650, 800, 1000]
+    SIGNALMASS   = [200, 300, 500, 1000]
+    #SIGNALMASS   = [180, 200]
     INTLUMI      = -1.0
     SUBCOUNTERS  = False
     LATEX        = False

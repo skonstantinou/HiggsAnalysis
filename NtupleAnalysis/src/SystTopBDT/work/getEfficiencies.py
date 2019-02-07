@@ -780,7 +780,7 @@ def PlotHistos(d_noSF, d_withSF, num_histoList, den_histoList,  opts):
         "addCmsText"       : True,
         "cmsExtraText"     : "Preliminary",
         "opts"             : {"ymin": 0.0, "ymaxfactor": 1.25, "xmax" : 600},
-        "opts2"            : {"ymin": 0.6, "ymax": 1.5},
+        "opts2"            : {"ymin": 0.55, "ymax": 1.55},
         "log"              : False,
         "createLegend"     : {"x1": 0.54, "y1": 0.80, "x2": 0.95, "y2": 0.92},
         }

@@ -192,12 +192,14 @@ def main():
 
     allSelections.TopSelectionBDT.TopMVACutValue      = 0.40
     allSelections.TopSelectionBDT.TopMVACutDirection  = ">="
-    allSelections.TopSelectionBDT.WeightFile          = "BDTG_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_14July2018.weight.xml"
+    allSelections.TopSelectionBDT.WeightFile          = "BDTG_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq_noTopPtRew_25Oct2018.weights.xml"
+    #allSelections.TopSelectionBDT.WeightFile          = "BDTG_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noTopPtRew_24Oct2018.weights.xml"
+    #allSelections.TopSelectionBDT.WeightFile          = "BDTG_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_noDeltaRqq_noTopPtRew_partonPt30.weight.xml"
     #BDTG_DeltaR0p4_BJetPt40_25Sept2018.weights.xml
     #BDTG_DeltaR0p3_DeltaPtOverPt0p50_BJetPt40_18Sept2018.weights.xml
     #BDTG_DeltaR0p3_BJetPt40_17July2018.weights.xml
     #BDTG_DeltaR0p3_DeltaPtOverPt0p32_BJetPt40_14July2018.weight.xml
-    allSelections.DeltaR = 0.3
+    allSelections.DeltaR = 0.4
     allSelections.DeltaPtOverPt = 0.32
     # ================================================================================================
     # Add Analysis Variations
@@ -326,7 +328,7 @@ if __name__ == "__main__":
     NEVTS         = -1
     HISTOLEVEL    = "Debug" #"Informative" #"Debug"
     PUREWEIGHT    = True
-    TOPPTREWEIGHT = True
+    TOPPTREWEIGHT = False
     DOSYSTEMATICS = False
 
     parser = OptionParser(usage="Usage: %prog [options]" , add_help_option=False,conflict_handler="resolve")
