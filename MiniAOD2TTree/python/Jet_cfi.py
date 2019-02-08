@@ -44,10 +44,10 @@ AK4Jets = cms.PSet(
         "pfCombinedMVAV2BJetTags",
         "pfCombinedCvsLJetTags",
         "pfCombinedCvsBJetTags",
-        "tightpfCombinedSecondaryVertexV2BJetTags",
-        "tightpfCombinedInclusiveSecondaryVertexV2BJetTags",
-        "tightpfCombinedCvsLJetTags",
-        "tightpfCombinedCvsBJetTags"
+        #"tightpfCombinedSecondaryVertexV2BJetTags",
+        #"tightpfCombinedInclusiveSecondaryVertexV2BJetTags",
+        #"tightpfCombinedCvsLJetTags",
+        #"tightpfCombinedCvsBJetTags"
         ),
     userFloats = cms.vstring(
         "pileupJetId:fullDiscriminant",
