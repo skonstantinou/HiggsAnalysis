@@ -29,7 +29,6 @@ process.options = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         '/store/data/Run2017C/Tau/MINIAOD/PromptReco-v3/000/300/742/00000/0E5F8738-757E-E711-B464-02163E01441B.root',
-#       '/store/mc/RunIISummer16MiniAODv2/ChargedHiggs_HplusTB_HplusToTauNu_M-200_13TeV_amcatnlo_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/066DC28C-02CB-E611-B4F0-5065F382B2D1.root'
     )
 )
 
