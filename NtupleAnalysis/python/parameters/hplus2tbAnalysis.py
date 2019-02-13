@@ -52,10 +52,10 @@ metFilter = PSet(
 eVeto = PSet(
     electronPtCut     = 10.0,    # [default: 10.0]
     electronEtaCut    = 2.4,     # [default: 2.4]
-    electronIDType    = "MVA",   # [default: "MVA] (options: "default", "MVA")
-    electronID        = "cutBasedElectronID_Spring15_25ns_V1_standalone_veto",
-    electronMVA       = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-    electronMVACut    = "Loose", # [default: "Loose"]
+    electronID        = "cutBasedElectronID-Fall17-94X-V2-veto",
+    #electronIDType   = "MVA",   # [default: "MVA] (options: "default", "MVA")
+    #electronMVA      = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+    #electronMVACut   = "Loose", # [default: "Loose"]
     electronIsolation = "veto",  # [default: "veto"] (options: "veto", "tight")
     electronIsolType  = "mini",  # [default: "mini"] (options: "mini", "default")
     )

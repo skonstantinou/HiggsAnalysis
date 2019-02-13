@@ -21,8 +21,8 @@ ElectronSelection::ElectronSelection(const ParameterSet& config, EventCounter& e
   fMiniIsoCut(-1.0),
   fVetoMode(false),
   fMiniIsol(false),
-  fElectronMVA(false),
-  fElectronMVACut(config.getParameter<string>("electronMVACut")),
+  //fElectronMVA(false),
+  //fElectronMVACut(config.getParameter<string>("electronMVACut")),
   // Event counter for passing selection
   cPassedElectronSelection(fEventCounter.addCounter("passed e selection ("+postfix+")")),
   // Sub counters
@@ -43,8 +43,8 @@ ElectronSelection::ElectronSelection(const ParameterSet& config, const std::stri
   fMiniIsoCut(-1.0),
   fVetoMode(false),
   fMiniIsol(false),
-  fElectronMVA(false),
-  fElectronMVACut(config.getParameter<string>("electronMVACut")),
+  //fElectronMVA(false),
+  //fElectronMVACut(config.getParameter<string>("electronMVACut")),
   // Event counter for passing selection
   cPassedElectronSelection(fEventCounter.addCounter("passed e selection ("+postfix+")")),
   // Sub counters
@@ -116,13 +116,13 @@ void ElectronSelection::initialize(const ParameterSet& config, const std::string
      throw hplus::Exception("config") << "Invalid electronIsolType option '" << isolTypeString << "'! Options: 'default', 'mini'";
    }
   
-  std::string idTypeString = config.getParameter<std::string>("electronIDType");
-  if (idTypeString == "default") fElectronMVA = false;
-  else if (idTypeString == "MVA") fElectronMVA = true;
-  else
-    {
-      throw hplus::Exception("config") << "Invalid electronIDType option '" << idTypeString << "'! Options: 'default', 'MVA'";
-    }
+  //std::string idTypeString = config.getParameter<std::string>("electronIDType");
+  //if (idTypeString == "default") fElectronMVA = false;
+  //else if (idTypeString == "MVA") fElectronMVA = true;
+  //else
+  //  {
+  //    throw hplus::Exception("config") << "Invalid electronIDType option '" << idTypeString << "'! Options: 'default', 'MVA'";
+  //  }
   
   return;
 }
@@ -208,14 +208,17 @@ ElectronSelection::Data ElectronSelection::privateAnalyze(const Event& event) {
     passedEta = true;
 
     //=== Apply cut on electron ID
-    bool passedCutBasedID = electron.electronIDDiscriminator();
-    bool passedMVA        = false;
-    if(fElectronMVA) passedMVA = getMVADecision(electron, fElectronMVACut); 
-    bool passedIDCut      = false;
-    if (fElectronMVA) passedIDCut = passedMVA;
-    else passedIDCut = passedCutBasedID;
+    bool passedIDCut = electron.electronIDDiscriminator();
     if (!passedIDCut) continue;
     passedID = true;
+    /*
+      bool passedCutBasedID = electron.electronIDDiscriminator();
+      bool passedMVA        = false;
+      if(fElectronMVA) passedMVA = getMVADecision(electron, fElectronMVACut); 
+      bool passedIDCut      = false;
+      if (fElectronMVA) passedIDCut = passedMVA;
+      else passedIDCut = passedCutBasedID;
+    */
     
     // Fill histograms before isolation cut
     hIsolPtBefore->Fill(electron.pt());
@@ -295,6 +298,7 @@ ElectronSelection::Data ElectronSelection::privateAnalyze(const Event& event) {
   return output;
 }
 
+/* OBSOLETE
 bool ElectronSelection::getMVADecision(const Electron& ele, const std::string mvaCut){
 
   if (mvaCut == "loose" || mvaCut == "Loose")
@@ -317,3 +321,4 @@ bool ElectronSelection::getMVADecision(const Electron& ele, const std::string mv
     }
   return false;
 }
+*/
