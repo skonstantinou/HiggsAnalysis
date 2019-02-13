@@ -15,9 +15,16 @@ histogramAmbientLevel = "Debug"  # (options: "Systematics", "Vital", "Informativ
 #================================================================================================
 trigger = PSet(
     triggerOR = [
-        "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056",
-        "HLT_PFHT450_SixJet40_BTagCSV_p056",       
-        "HLT_PFJet450", #for trg eff recovery in 2016H
+        "HLT_PFHT380_SixPFJet32_DoublePFBTagCSV_2p2",
+        "HLT_PFHT380_SixJet32_DoubleBTagCSV_p075",
+        "HLT_PFHT380_SixPFJet32_DoublePFBTagDeepCSV_2p2",
+        "HLT_PFHT430_SixPFJet40_PFBTagCSV_1p5",
+        "HLT_PFHT430_SixJet40_BTagCSV_p080",
+        "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_TriplePFBTagCSV_3p0",
+        "HLT_HT300PT30_QuadJet_75_60_45_40_TripeCSV_p07",
+        "HLT_PFJet500",
+        "HLT_PFJet550",
+        "HLT_PFHT1050",
         ],
     triggerOR2 = [],
     )
