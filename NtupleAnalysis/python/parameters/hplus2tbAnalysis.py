@@ -34,14 +34,16 @@ trigger = PSet(
 #================================================================================================
 metFilter = PSet(
     discriminators = [
+        "Flag_goodVertices",
+        "Flag_globalSuperTightHalo2016Filter",
         "Flag_HBHENoiseFilter",
         "Flag_HBHENoiseIsoFilter",
         "Flag_EcalDeadCellTriggerPrimitiveFilter",
+        "Flag_BadPFMuonFilter",
+        "Flag_BadChargedCandidateFilter",
         "Flag_eeBadScFilter",
-        "Flag_goodVertices",
-        "Flag_globalTightHalo2016Filter",
-        "badPFMuonFilter",
-        "badChargedCandidateFilter"]
+        "ecalBadCalibFilter", 
+        ]
     )
 
 #================================================================================================
