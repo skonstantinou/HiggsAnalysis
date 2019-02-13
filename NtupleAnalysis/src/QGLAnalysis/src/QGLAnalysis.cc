@@ -458,7 +458,7 @@ void QGLAnalysis::process(Long64_t entry) {
     
     if (jetPartonFlavour != 21 && jetPartonFlavour != 1 && jetPartonFlavour != 2 && jetPartonFlavour != 3) continue;
     
-    double QGL = jet.QGTaggerAK4PFCHSqgLikelihood();
+    double QGL = jet.QGTaggerqgLikelihood();
     double pt  = jet.pt();
     
     hJetsQGL -> Fill(QGL);

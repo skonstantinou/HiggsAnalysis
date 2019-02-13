@@ -1334,20 +1334,20 @@ void TopRecoTree::process(Long64_t entry) {
       
       hLdgJetCvsL         -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).pfCombinedCvsLJetTags());
       hSubldgJetCvsL      -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).pfCombinedCvsLJetTags());
-      hLdgJetPtD          -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSptD());
-      hSubldgJetPtD       -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSptD());
-      hLdgJetAxis2        -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSaxis2());
-      hSubldgJetAxis2     -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSaxis2());
-      hLdgJetMult         -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSmult());
-      hSubldgJetMult      -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSmult());
+      hLdgJetPtD          -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).ptD());
+      hSubldgJetPtD       -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).ptD());
+      hLdgJetAxis2        -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).axis2());
+      hSubldgJetAxis2     -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).axis2());
+      hLdgJetMult         -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).mult());
+      hSubldgJetMult      -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).mult());
 
-      hLdgJetQGLikelihood    -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSqgLikelihood());
-      hSubldgJetQGLikelihood -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSqgLikelihood());
+      hLdgJetQGLikelihood    -> Fill(isGenuineTop, TopCandidates.Jet1.at(i).QGTaggerqgLikelihood());
+      hSubldgJetQGLikelihood -> Fill(isGenuineTop, TopCandidates.Jet2.at(i).QGTaggerqgLikelihood());
 
       hBJetCvsL           -> Fill(isGenuineTop, TopCandidates.BJet.at(i).pfCombinedCvsLJetTags());
-      hBJetPtD            -> Fill(isGenuineTop, TopCandidates.BJet.at(i).QGTaggerAK4PFCHSptD());
-      hBJetAxis2          -> Fill(isGenuineTop, TopCandidates.BJet.at(i).QGTaggerAK4PFCHSaxis2());
-      hBJetMult           -> Fill(isGenuineTop, TopCandidates.BJet.at(i).QGTaggerAK4PFCHSmult());
+      hBJetPtD            -> Fill(isGenuineTop, TopCandidates.BJet.at(i).ptD());
+      hBJetAxis2          -> Fill(isGenuineTop, TopCandidates.BJet.at(i).axis2());
+      hBJetMult           -> Fill(isGenuineTop, TopCandidates.BJet.at(i).mult());
       
       hTrijetPtDrVsTrijetMass        -> Fill(isGenuineTop, TopCandidates.TrijetP4.at(i).Pt()* ROOT::Math::VectorUtil::DeltaR(TopCandidates.DijetP4.at(i),TopCandidates.BJet.at(i).p4()),TopCandidates.TrijetP4.at(i).M());
       hTrijetPtDrVsBjetLdgJetMass    -> Fill(isGenuineTop, TopCandidates.TrijetP4.at(i).Pt()* ROOT::Math::VectorUtil::DeltaR(TopCandidates.DijetP4.at(i),TopCandidates.BJet.at(i).p4()),(TopCandidates.BJet.at(i).p4()+TopCandidates.Jet1.at(i).p4()).M());
@@ -1376,15 +1376,15 @@ void TopRecoTree::process(Long64_t entry) {
 
 	trijetLdgJetCvsL_S        = TopCandidates.Jet1.at(i).pfCombinedCvsLJetTags();
 	trijetSubldgJetCvsL_S     = TopCandidates.Jet2.at(i).pfCombinedCvsLJetTags();
-	trijetLdgJetPtD_S         = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSptD();
-	trijetSubldgJetPtD_S      = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSptD();
-	trijetLdgJetAxis2_S       = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSaxis2();
-	trijetSubldgJetAxis2_S    = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSaxis2();
-	trijetLdgJetMult_S        = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSmult();
-	trijetSubldgJetMult_S     = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSmult();
+	trijetLdgJetPtD_S         = TopCandidates.Jet1.at(i).ptD();
+	trijetSubldgJetPtD_S      = TopCandidates.Jet2.at(i).ptD();
+	trijetLdgJetAxis2_S       = TopCandidates.Jet1.at(i).axis2();
+	trijetSubldgJetAxis2_S    = TopCandidates.Jet2.at(i).axis2();
+	trijetLdgJetMult_S        = TopCandidates.Jet1.at(i).mult();
+	trijetSubldgJetMult_S     = TopCandidates.Jet2.at(i).mult();
 
-	trijetLdgJetQGLikelihood_S        = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSqgLikelihood();
-	trijetSubldgJetQGLikelihood_S     = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSqgLikelihood();
+	trijetLdgJetQGLikelihood_S        = TopCandidates.Jet1.at(i).QGTaggerqgLikelihood();
+	trijetSubldgJetQGLikelihood_S     = TopCandidates.Jet2.at(i).QGTaggerqgLikelihood();
       
       
 	treeS -> Fill();
@@ -1408,15 +1408,15 @@ void TopRecoTree::process(Long64_t entry) {
 
 	trijetLdgJetCvsL_B        = TopCandidates.Jet1.at(i).pfCombinedCvsLJetTags();
 	trijetSubldgJetCvsL_B     = TopCandidates.Jet2.at(i).pfCombinedCvsLJetTags();
-	trijetLdgJetPtD_B         = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSptD();
-	trijetSubldgJetPtD_B      = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSptD();
-	trijetLdgJetAxis2_B       = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSaxis2();
-	trijetSubldgJetAxis2_B    = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSaxis2();
-	trijetLdgJetMult_B        = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSmult();
-	trijetSubldgJetMult_B     = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSmult();
+	trijetLdgJetPtD_B         = TopCandidates.Jet1.at(i).ptD();
+	trijetSubldgJetPtD_B      = TopCandidates.Jet2.at(i).ptD();
+	trijetLdgJetAxis2_B       = TopCandidates.Jet1.at(i).axis2();
+	trijetSubldgJetAxis2_B    = TopCandidates.Jet2.at(i).axis2();
+	trijetLdgJetMult_B        = TopCandidates.Jet1.at(i).mult();
+	trijetSubldgJetMult_B     = TopCandidates.Jet2.at(i).mult();
 
-	trijetLdgJetQGLikelihood_B        = TopCandidates.Jet1.at(i).QGTaggerAK4PFCHSqgLikelihood();
-	trijetSubldgJetQGLikelihood_B     = TopCandidates.Jet2.at(i).QGTaggerAK4PFCHSqgLikelihood();
+	trijetLdgJetQGLikelihood_B        = TopCandidates.Jet1.at(i).QGTaggerqgLikelihood();
+	trijetSubldgJetQGLikelihood_B     = TopCandidates.Jet2.at(i).QGTaggerqgLikelihood();
 	
 	treeB -> Fill();
 	
@@ -1436,14 +1436,13 @@ void TopRecoTree::process(Long64_t entry) {
     
     for (auto& jet: jetData.getSelectedJets()){
       hAllJetCvsL         -> Fill(true, jet.pfCombinedCvsLJetTags());
-      hAllJetPtD          -> Fill(true, jet.QGTaggerAK4PFCHSptD());
-      hAllJetAxis2        -> Fill(true, jet.QGTaggerAK4PFCHSaxis2());
-      hAllJetMult         -> Fill(true, jet.QGTaggerAK4PFCHSmult());
+      hAllJetPtD          -> Fill(true, jet.ptD());
+      hAllJetAxis2        -> Fill(true, jet.axis2());
+      hAllJetMult         -> Fill(true, jet.mult());
       hAllJetBdisc        -> Fill(true, jet.bjetDiscriminator());
-      hAllJetQGLikelihood -> Fill(true, jet.QGTaggerAK4PFCHSqgLikelihood());
+      hAllJetQGLikelihood -> Fill(true, jet.QGTaggerqgLikelihood());
     }
-  
-
+    
     vector<genParticle> GenCharm = GetGenParticles(fEvent.genparticles().getGenParticles(), 4);
     vector<Jet> CJets;
 
@@ -1466,9 +1465,9 @@ void TopRecoTree::process(Long64_t entry) {
       }
       if (dRmin < dRcut){
 	hCJetCvsL         -> Fill(true, mcMatched_CJet.pfCombinedCvsLJetTags());
-	hCJetPtD          -> Fill(true, mcMatched_CJet.QGTaggerAK4PFCHSptD());
-	hCJetAxis2        -> Fill(true, mcMatched_CJet.QGTaggerAK4PFCHSaxis2());
-	hCJetMult         -> Fill(true, mcMatched_CJet.QGTaggerAK4PFCHSmult());
+	hCJetPtD          -> Fill(true, mcMatched_CJet.ptD());
+	hCJetAxis2        -> Fill(true, mcMatched_CJet.axis2());
+	hCJetMult         -> Fill(true, mcMatched_CJet.mult());
 	hCJetBdisc        -> Fill(true, mcMatched_CJet.bjetDiscriminator());
       }
     }
