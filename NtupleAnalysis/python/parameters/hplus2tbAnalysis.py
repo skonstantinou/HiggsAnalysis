@@ -97,7 +97,7 @@ jetSelection = PSet(
     jetEtaCuts               = [2.4],     # [default: [2.4]]
     numberOfJetsCutValue     = 7,         # [default: 7]
     numberOfJetsCutDirection = ">=",      # [default: ">="] (options: ==, !=, <, <=, >, >=)
-    jetIDDiscr               = "IDloose", # [default: "IDloose"] (options: IDloose, IDtight, IDtightLeptonVeto)
+    jetIDDiscr               = "IDtight", # [default: "IDtight"] (options: IDtight, IDtightLeptonVeto)
     jetPUIDDiscr             = "",        # [default: ""]
     tauMatchingDeltaR        = 0.4,       # [default: 0.4] (does nothing for h2tb)
     HTCutValue               = 500.0,     # [default: 500.0]
