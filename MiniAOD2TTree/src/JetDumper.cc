@@ -173,7 +173,7 @@ void JetDumper::book(TTree* tree){
     tree->Branch((name+"_mult").c_str(),  &mult[i]);
     tree->Branch((name+"_pullRap").c_str(), &pullRap[i]);
     tree->Branch((name+"_pullPhi").c_str(), &pullPhi[i]);
-    tree->Branch((name+"_charge").c_str(), &charge[i]);
+    tree->Branch((name+"_pfcharge").c_str(), &charge[i]);
   }
 }
 
