@@ -551,7 +551,7 @@ TopRecoAnalysis::TopRecoAnalysis(const ParameterSet& config, const TH1* skimCoun
     // cfg_PrelimTopFitChiSqr(config, "FakeBMeasurement.prelimTopFitChiSqrCut"),
     // cfg_PrelimTopMVACut(config, "FakeBMeasurement.prelimTopMVACut"),
     //cfg_PrelimTopMVACut(config, "FakeBMeasurement.minTopMVACut"),
-    cfg_PrelimTopMVACut(config, "TopSelectionBDT.MVACut"),
+    cfg_PrelimTopMVACut(config, "TopSelectionBDT.TopMVACut"),
     fCommonPlots(config.getParameter<ParameterSet>("CommonPlots"), CommonPlots::kHplus2tbAnalysis, fHistoWrapper),
     cAllEvents(fEventCounter.addCounter("all events")),
     cTrigger(fEventCounter.addCounter("passed trigger")),
