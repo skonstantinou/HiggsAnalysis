@@ -24,7 +24,7 @@ void JetGeneratedCollection::setupBranches(BranchManager& mgr) {
   mgr.book(prefix()+"_axis2", &fAxis2);
   mgr.book(prefix()+"_caloJetMapemEnergyFraction", &fCaloJetMapemEnergyFraction);
   mgr.book(prefix()+"_caloJetMappt", &fCaloJetMappt);
-  mgr.book(prefix()+"_charge", &fCharge);
+  //mgr.book(prefix()+"_pfcharge", &fPfcharge);
   mgr.book(prefix()+"_pileupJetIdfullDiscriminant", &fPileupJetIdfullDiscriminant);
   mgr.book(prefix()+"_ptD", &fPtD);
   mgr.book(prefix()+"_pullPhi", &fPullPhi);

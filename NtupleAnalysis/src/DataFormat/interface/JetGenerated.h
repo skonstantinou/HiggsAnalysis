@@ -53,7 +53,7 @@ protected:
   const Branch<std::vector<double>> *fAxis2;
   const Branch<std::vector<double>> *fCaloJetMapemEnergyFraction;
   const Branch<std::vector<double>> *fCaloJetMappt;
-  const Branch<std::vector<double>> *fCharge;
+  //const Branch<std::vector<double>> *fPfcharge;
   const Branch<std::vector<double>> *fPileupJetIdfullDiscriminant;
   const Branch<std::vector<double>> *fPtD;
   const Branch<std::vector<double>> *fPullPhi;
@@ -140,7 +140,7 @@ public:
   double axis2() const { return this->fCollection->fAxis2->value()[this->index()]; }
   double caloJetMapemEnergyFraction() const { return this->fCollection->fCaloJetMapemEnergyFraction->value()[this->index()]; }
   double caloJetMappt() const { return this->fCollection->fCaloJetMappt->value()[this->index()]; }
-  double charge() const { return this->fCollection->fCharge->value()[this->index()]; }
+  //double charge() const { return this->fCollection->fPfcharge->value()[this->index()]; }
   double pileupJetIdfullDiscriminant() const { return this->fCollection->fPileupJetIdfullDiscriminant->value()[this->index()]; }
   double ptD() const { return this->fCollection->fPtD->value()[this->index()]; }
   double pullPhi() const { return this->fCollection->fPullPhi->value()[this->index()]; }
