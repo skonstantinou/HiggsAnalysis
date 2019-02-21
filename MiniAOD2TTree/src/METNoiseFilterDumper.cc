@@ -27,7 +27,7 @@ void METNoiseFilterDumper::book(TTree* tree){
   theTree = tree;
   booked = true;
   
-  bFilters = new bool[fFilters.size()+5];
+  bFilters = new bool[fFilters.size()+3];
   
   for (size_t i = 0; i < fFilters.size(); ++i) {
     theTree->Branch(("METFilter_"+fFilters[i]).c_str(), &bFilters[i]);
@@ -35,7 +35,7 @@ void METNoiseFilterDumper::book(TTree* tree){
   theTree->Branch("METFilter_hbheNoiseTokenRun2Loose",  &bFilters[fFilters.size()]);
   theTree->Branch("METFilter_hbheNoiseTokenRun2Tight",  &bFilters[fFilters.size()+1]);
   theTree->Branch("METFilter_hbheIsoNoiseToken",        &bFilters[fFilters.size()+2]);
-  theTree->Branch("METFilter_ecalBadCalibFilter",       &bFilters[fFilters.size()+5]);
+  theTree->Branch("METFilter_ecalBadCalibFilter",       &bFilters[fFilters.size()+3]);
 }
 
 bool METNoiseFilterDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){

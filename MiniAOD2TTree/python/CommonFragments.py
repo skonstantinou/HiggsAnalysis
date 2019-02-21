@@ -186,6 +186,7 @@ def reproduceMETNoiseFilters(process):
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
     '''
     print "=== Customisation: reproducing ECAL Bad Calibration filter"
+    process.load('RecoMET.METFilters.ecalBadCalibFilter_cfi')
     baddetEcallist = cms.vuint32(
         [872439604,872422825,872420274,872423218,
          872423215,872416066,872435036,872439336,
