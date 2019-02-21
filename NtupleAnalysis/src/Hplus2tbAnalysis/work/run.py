@@ -63,7 +63,7 @@ import ROOT
 #================================================================================================
 prefix      = "Hplus2tbAnalysis"
 postfix     = ""
-dataEras    = ["2016"]
+dataEras    = ["2017"]
 searchModes = ["80to1000"]
 
 ROOT.gErrorIgnoreLevel = 0 
