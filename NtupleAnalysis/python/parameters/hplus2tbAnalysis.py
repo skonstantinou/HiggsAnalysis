@@ -42,7 +42,7 @@ metFilter = PSet(
         "Flag_BadPFMuonFilter",
         "Flag_BadChargedCandidateFilter",
         "Flag_eeBadScFilter",
-        "ecalBadCalibFilter", 
+#        "ecalBadCalibFilter", 
         ]
     )
 
@@ -52,7 +52,7 @@ metFilter = PSet(
 eVeto = PSet(
     electronPtCut     = 10.0,    # [default: 10.0]
     electronEtaCut    = 2.4,     # [default: 2.4]
-    electronID        = "cutBasedElectronID-Fall17-94X-V2-veto",
+    electronID        = "cutBasedElectronID_Fall17_94X_V2_veto",
     #electronIDType   = "MVA",   # [default: "MVA] (options: "default", "MVA")
     #electronMVA      = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
     #electronMVACut   = "Loose", # [default: "Loose"]
@@ -66,7 +66,7 @@ eVeto = PSet(
 muVeto = PSet(
     muonPtCut         = 10.0,        # [default: 10.0]
     muonEtaCut        = 2.4,         # [default: 2.4]
-    muonID            = "muIDLoose", # [default: "muIDLoose"] (options: "muIDLoose", "muIDMedium", "muIDTight")
+    muonID            = "isCutBasedIDLoose", # [default: "muIDLoose"] (options: "muIDLoose", "muIDMedium", "muIDTight")
     muonIsolation     = "veto",      # [default: "veto"] (options: "veto", "tight")
     muonIsolType      = "mini",      # [default: "mini"] (options: "mini", "default")
 )
