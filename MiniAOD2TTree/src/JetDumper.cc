@@ -9,7 +9,9 @@
 #include "HiggsAnalysis/MiniAOD2TTree/interface/NtupleAnalysis_fwd.h"
 
 JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<edm::ParameterSet>& psets)
-: genParticleToken(iConsumesCollector.consumes<reco::GenParticleCollection>(edm::InputTag("prunedGenParticles"))) {
+  : genParticleToken(iConsumesCollector.consumes<reco::GenParticleCollection>(edm::InputTag("prunedGenParticles"))),
+    qgTaggingVariables(new QGTaggingVariables)
+{
     inputCollections = psets;
     booked           = false;
 
@@ -19,7 +21,7 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
     eta = new std::vector<double>[inputCollections.size()];    
     phi = new std::vector<double>[inputCollections.size()];    
     e   = new std::vector<double>[inputCollections.size()];    
-
+    
     //p4 = new std::vector<reco::Candidate::LorentzVector>[inputCollections.size()];
     pdgId = new std::vector<short>[inputCollections.size()];
     hadronFlavour = new std::vector<int>[inputCollections.size()];
@@ -61,11 +63,9 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
         if(param) useFilter = true;
     }
 
-    jetIDloose = new std::vector<bool>[inputCollections.size()];
     jetIDtight = new std::vector<bool>[inputCollections.size()];
     jetIDtightLeptonVeto = new std::vector<bool>[inputCollections.size()];
 
-    jetPUIDloose = new std::vector<bool>[inputCollections.size()];
     jetPUIDmedium = new std::vector<bool>[inputCollections.size()];
     jetPUIDtight = new std::vector<bool>[inputCollections.size()];
     
@@ -82,6 +82,24 @@ JetDumper::JetDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<ed
       systJERup = new FourVectorDumper[inputCollections.size()];
       systJERdown = new FourVectorDumper[inputCollections.size()];
     }
+    
+    // DeepCSV b-tagger
+    pfDeepCSVBJetTags = new std::vector<float>[inputCollections.size()];
+    
+    // DeepCSV charm tagger
+    pfDeepCSVCvsLJetTags = new std::vector<float>[inputCollections.size()];
+    pfDeepCSVCvsBJetTags = new std::vector<float>[inputCollections.size()];
+    
+    // DeepFlavour b-tagger
+    pfDeepFlavourBJetTags = new std::vector<float>[inputCollections.size()];
+    
+    axis1 = new std::vector<double>[inputCollections.size()];
+    axis2 = new std::vector<double>[inputCollections.size()];
+    ptD   = new std::vector<double>[inputCollections.size()];
+    mult  = new std::vector<int>[inputCollections.size()];
+    pullRap = new std::vector<double>[inputCollections.size()];
+    pullPhi = new std::vector<double>[inputCollections.size()];
+    charge = new std::vector<double>[inputCollections.size()];
 }
 
 JetDumper::~JetDumper(){}
@@ -99,10 +117,19 @@ void JetDumper::book(TTree* tree){
     tree->Branch((name+"_pdgId").c_str(),&pdgId[i]);
     tree->Branch((name+"_hadronFlavour").c_str(),&hadronFlavour[i]);
     tree->Branch((name+"_partonFlavour").c_str(),&partonFlavour[i]);
+    tree->Branch((name+"_pfDeepCSVBJetTags").c_str(), &pfDeepCSVBJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVCvsLJetTags").c_str(), &pfDeepCSVCvsLJetTags[i]);
+    tree->Branch((name+"_pfDeepCSVCvsBJetTags").c_str(), &pfDeepCSVCvsBJetTags[i]);
+    tree->Branch((name+"_pfDeepFlavourBJetTags").c_str(), &pfDeepFlavourBJetTags[i]);
     
     std::vector<std::string> discriminatorNames = inputCollections[i].getParameter<std::vector<std::string> >("discriminators");
     for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
-      tree->Branch((name+"_"+discriminatorNames[iDiscr]).c_str(),&discriminators[inputCollections.size()*iDiscr+i]);
+      std::string branch_name = discriminatorNames[iDiscr];
+      size_t pos_semicolon = branch_name.find(":");
+      if (pos_semicolon!=std::string::npos){
+        branch_name = branch_name.erase(pos_semicolon,1);
+      }
+      tree->Branch((name+"_"+branch_name).c_str(),&discriminators[inputCollections.size()*iDiscr+i]);
     }
     std::vector<std::string> userfloatNames = inputCollections[i].getParameter<std::vector<std::string> >("userFloats");
     for(size_t iDiscr = 0; iDiscr < userfloatNames.size(); ++iDiscr) {
@@ -119,11 +146,9 @@ void JetDumper::book(TTree* tree){
       tree->Branch((name+"_"+branch_name).c_str(),&userints[inputCollections.size()*iDiscr+i]);
     }
 
-    tree->Branch((name+"_IDloose").c_str(),&jetIDloose[i]);
     tree->Branch((name+"_IDtight").c_str(),&jetIDtight[i]);
     tree->Branch((name+"_IDtightLeptonVeto").c_str(),&jetIDtightLeptonVeto[i]);
 
-    tree->Branch((name+"_PUIDloose").c_str(),&jetPUIDloose[i]);
     tree->Branch((name+"_PUIDmedium").c_str(),&jetPUIDmedium[i]);
     tree->Branch((name+"_PUIDtight").c_str(),&jetPUIDtight[i]);
     
@@ -141,6 +166,14 @@ void JetDumper::book(TTree* tree){
       systJERup[i].book(tree, name, "JERup");
       systJERdown[i].book(tree, name, "JERdown");
     }
+    
+    tree->Branch((name+"_axis1").c_str(), &axis1[i]);    
+    tree->Branch((name+"_axis2").c_str(), &axis2[i]);    
+    tree->Branch((name+"_ptD").c_str(),   &ptD[i]);    
+    tree->Branch((name+"_mult").c_str(),  &mult[i]);
+    tree->Branch((name+"_pullRap").c_str(), &pullRap[i]);
+    tree->Branch((name+"_pullPhi").c_str(), &pullPhi[i]);
+    tree->Branch((name+"_pfcharge").c_str(), &charge[i]);
   }
 }
 
@@ -197,11 +230,26 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 e[ic].push_back(obj.p4().energy());
 
 		//p4[ic].push_back(obj.p4());
-
+		
+		qgTaggingVariables->compute(&obj, true);
+                axis1[ic].push_back(qgTaggingVariables->getAxis1());
+		axis2[ic].push_back(qgTaggingVariables->getAxis2());
+                ptD[ic].push_back(qgTaggingVariables->getPtD());
+		mult[ic].push_back(qgTaggingVariables->getMult());
+		pullRap[ic].push_back(qgTaggingVariables->getPullRap());
+                pullPhi[ic].push_back(qgTaggingVariables->getPullPhi());
+		charge[ic].push_back(qgTaggingVariables->getCharge());
+		
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << discriminatorNames[iDiscr] << std::endl;
 		    discriminators[inputCollections.size()*iDiscr+ic].push_back(obj.bDiscriminator(discriminatorNames[iDiscr]));
 		}
+		
+		pfDeepCSVBJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probb") + obj.bDiscriminator("pfDeepCSVJetTags:probbb"));
+		pfDeepCSVCvsLJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probc") / (obj.bDiscriminator("pfDeepCSVJetTags:probc") + obj.bDiscriminator("pfDeepCSVJetTags:probudsg")));
+		pfDeepCSVCvsBJetTags[ic].push_back( obj.bDiscriminator("pfDeepCSVJetTags:probc") / (obj.bDiscriminator("pfDeepCSVJetTags:probc") + obj.bDiscriminator("pfDeepCSVJetTags:probb") + obj.bDiscriminator("pfDeepCSVJetTags:probbb")));
+		pfDeepFlavourBJetTags[ic].push_back(obj.bDiscriminator("pfDeepFlavourJetTags:probb")+obj.bDiscriminator("pfDeepFlavourJetTags:probbb")+obj.bDiscriminator("pfDeepFlavourJetTags:problepb"));
+		
                 for(size_t iDiscr = 0; iDiscr < userfloatNames.size(); ++iDiscr) {
                     //std::cout << inputCollections[ic].getUntrackedParameter<std::string>("branchname","") << " / " << userfloatNames[iDiscr] << std::endl;
                     userfloats[inputCollections.size()*iDiscr+ic].push_back(obj.userFloat(userfloatNames[iDiscr]));
@@ -220,8 +268,7 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 		partonFlavour[ic].push_back(obj.partonFlavour());
 
                 // Jet ID
-                jetIDloose[ic].push_back(passJetID(kJetIDLoose, obj));
-                jetIDtight[ic].push_back(passJetID(kJetIDTight, obj));
+		jetIDtight[ic].push_back(passJetID(kJetIDTight, obj));
                 jetIDtightLeptonVeto[ic].push_back(passJetID(kJetIDTightLepVeto, obj));
 
 		// Jet PU ID
@@ -232,7 +279,6 @@ bool JetDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
  		  PUID = obj.userFloat("pileupJetId:fullDiscriminant");
  		}
                 int puIDflag = static_cast<int>(PUID);
-		jetPUIDloose[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kLoose));
 		jetPUIDmedium[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kMedium));
 		jetPUIDtight[ic].push_back(PileupJetIdentifier::passJetId(puIDflag, PileupJetIdentifier::kTight));
                 
@@ -381,11 +427,9 @@ void JetDumper::reset(){
 	hadronFlavour[ic].clear();
 	partonFlavour[ic].clear();
 
-        jetIDloose[ic].clear();
-        jetIDtight[ic].clear();
+	jetIDtight[ic].clear();
         jetIDtightLeptonVeto[ic].clear();
 
-        jetPUIDloose[ic].clear();
 	jetPUIDmedium[ic].clear();
 	jetPUIDtight[ic].clear();
         
@@ -403,6 +447,19 @@ void JetDumper::reset(){
           systJERup[ic].reset();
           systJERdown[ic].reset();
 	}
+	
+	pfDeepCSVBJetTags[ic].clear();
+	pfDeepCSVCvsLJetTags[ic].clear();
+	pfDeepCSVCvsBJetTags[ic].clear();
+	pfDeepFlavourBJetTags[ic].clear();
+	
+	axis1[ic].clear();
+	axis2[ic].clear();
+        ptD[ic].clear();
+	mult[ic].clear();
+	pullRap[ic].clear();
+        pullPhi[ic].clear();
+        charge[ic].clear();
     }
     for(size_t ic = 0; ic < inputCollections.size()*nDiscriminators; ++ic){
         discriminators[ic].clear();
@@ -416,22 +473,23 @@ void JetDumper::reset(){
 }
 
 bool JetDumper::passJetID(int id, const pat::Jet& jet) {
-  // Recipy taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID (read on 14.08.2015)
-  // Recipy taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016 (28.3.2018)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID (read on 14.08.2015)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016 (28.3.2018)
+  // Recipe taken from https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017 (5.12.2018)
   double eta = fabs(jet.eta());
-  if (eta < 2.7) {
-    // PF Jet ID       Loose   Tight   TightLepVeto
-    // Neutral Hadron Fraction < 0.99  < 0.90  < 0.90
-    // Neutral EM Fraction     < 0.99  < 0.90  < 0.90
-    // Number of Constituents  > 1     > 1     > 1
-    // Muon Fraction           -       -       < 0.8
-    int nConstituents = jet.chargedMultiplicity() + jet.electronMultiplicity()
-      + jet.muonMultiplicity() + jet.neutralMultiplicity();
-    if (id == kJetIDLoose) {
-      if (!(jet.neutralHadronEnergyFraction() < 0.99)) return false;
-      if (!(jet.neutralEmEnergyFraction()     < 0.99)) return false;
-      if (!(nConstituents                     > 1   )) return false;
-    } else if (id == kJetIDTight) {
+  if (eta < 2.7) {     
+    
+    // Valid For AK4CHS and PUPPI
+    
+    // PF Jet ID                 Tight   TightLepVeto
+    // Neutral Hadron Fraction   < 0.90    < 0.90
+    // Neutral EM Fraction       < 0.90    < 0.90
+    // Number of Constituents    > 1       > 1 
+    // Muon Fraction             -         < 0.8
+    
+    int nConstituents = jet.chargedMultiplicity() + jet.neutralMultiplicity();
+    
+    if (id == kJetIDTight) {
       if (!(jet.neutralHadronEnergyFraction() < 0.90)) return false;
       if (!(jet.neutralEmEnergyFraction()     < 0.90)) return false;
       if (!(nConstituents                     > 1   )) return false;      
@@ -441,47 +499,78 @@ bool JetDumper::passJetID(int id, const pat::Jet& jet) {
       if (!(nConstituents                     > 1   )) return false;      
       if (!(jet.muonEnergyFraction()          < 0.80)) return false;
     }
-
+    
     if (eta < 2.4) {
-      if (id == kJetIDLoose) {
+      
+      // Valid For AK4CHS and PUPPI
+      
+      // Additionally apply:
+      // PF Jet ID                 Tight   TightLepVeto
+      // Charged Hadron Fraction   > 0.00    > 0.00
+      // Charged Multiplicity      > 0.00    > 0.00
+      // Neutral EM Fraction       -         < 0.80
+      
+      if (id == kJetIDTight) {
         if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
         if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.99)) return false;
-      } else if (id == kJetIDTight) {
-        if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
-        if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.99)) return false;
       } else if (id == kJetIDTightLepVeto) {
         if (!(jet.chargedHadronEnergyFraction() > 0.))   return false;
         if (!(jet.chargedMultiplicity()         > 0))    return false;
-        if (!(jet.chargedEmEnergyFraction()     < 0.90)) return false;
+        if (!(jet.chargedEmEnergyFraction()     < 0.80)) return false;
       }
-
     }
-
   } else {
-    if (eta < 3.0) {
-      if (id == kJetIDLoose) {
-        if (!(jet.neutralEmEnergyFraction()     > 0.01)) return false;
-        if (!(jet.neutralHadronEnergyFraction() < 0.98)) return false;
-        if (!(jet.neutralMultiplicity()         > 2))    return false;
-      } else {
-        if (!(jet.neutralEmEnergyFraction()     > 0.01)) return false;
-        if (!(jet.neutralHadronEnergyFraction() < 0.98)) return false;
+    if (eta <= 3.0) {
+      
+      // Valid For AK4CHS
+      
+      // PF Jet ID                    Tight
+      // Neutral EM Fraction          > 0.02 and <0.99
+      // Number of Neutral Particles  > 2
+      if (id == kJetIDTight) {
+        if (!(jet.neutralEmEnergyFraction()     > 0.02)) return false;
+        if (!(jet.neutralEmEnergyFraction()     < 0.99)) return false;
         if (!(jet.neutralMultiplicity()         > 2))    return false;
       }
+      
+      //  // Valid For AK4 PUPPI
+      //
+      //  // PF Jet ID                    Tight
+      //  // Neutral Hadron Fraction      < 0.99
+      //
+      //  if (id == kJetIDTight) {
+      // if (!(jet.neutralHadronEnergyFraction() < 0.99)) return false;
+      ///  }
+      
     }else{
-      //     PF Jet ID                   Loose   Tight
-      //     Neutral EM Fraction         < 0.90  < 0.90
-      //     Number of Neutral Particles > 10    >10 
-      if (id == kJetIDLoose) {
+      
+      // Valid For AK4CHS
+      
+      // PF Jet ID                   Tight
+      // Neutral EM Fraction         < 0.90
+      // Neutral Hadron Fraction     > 0.02
+      // Number of Neutral Particles > 10
+      if (id == kJetIDTight) {
         if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
-        if (!(jet.neutralMultiplicity()     > 10  )) return false;    
-      } else {
-        if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
-        if (!(jet.neutralMultiplicity()     > 10  )) return false;    
+        if (!(jet.neutralHadronEnergyFraction() > 0.02)) return false;
+	if (!(jet.neutralMultiplicity()     > 10  )) return false;    
       }
-    } 
+      
+      //  // Valid For AK4 PUPPI
+      //
+      //  // PF Jet ID                    Tight
+      //  // Neutral EM Fraction          < 0.90
+      //  // Neutral Hadron Fraction      > 0.02
+      //  // Number of Neutral Particles  > 2 and < 15
+      // 
+      //  if (id == kJetIDTight) {
+      //        if (!(jet.neutralEmEnergyFraction() < 0.90)) return false;
+      //if (!(jet.neutralHadronEnergyFraction() > 0.02)) return false;
+      //if (!(jet.neutralMultiplicity() > 2 )) return false;
+      //if (!(jet.neutralMultiplicity() < 15 )) return false;
+      //  } 
+      
+    }
   }
   return true;
 }

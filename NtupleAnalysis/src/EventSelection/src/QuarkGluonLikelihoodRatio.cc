@@ -215,7 +215,7 @@ QuarkGluonLikelihoodRatio::Data QuarkGluonLikelihoodRatio::privateAnalyze(const 
   for(const Jet& jet: selectedJets){
     
     // All jets not identified as b-jets QGL
-    hAllJetsNonBJetsQGL -> Fill(jet.QGTaggerAK4PFCHSqgLikelihood());
+    hAllJetsNonBJetsQGL -> Fill(jet.QGTaggerqgLikelihood());
     
     if (iEvent.isMC())
       {
@@ -233,13 +233,13 @@ QuarkGluonLikelihoodRatio::Data QuarkGluonLikelihoodRatio::privateAnalyze(const 
 	if (jetPartonFlavour == 21)
 	  {
 	    output.fGluonJets.push_back(jet);
-	    hGluonJetQGL->Fill(jet.QGTaggerAK4PFCHSqgLikelihood());
+	    hGluonJetQGL->Fill(jet.QGTaggerqgLikelihood());
 	  }
 	// Light Jets
 	if (jetPartonFlavour == 1 || jetPartonFlavour == 2 || jetPartonFlavour == 3)
 	  {
 	    output.fLightJets.push_back(jet);
-	    hLightJetQGL->Fill(jet.QGTaggerAK4PFCHSqgLikelihood());
+	    hLightJetQGL->Fill(jet.QGTaggerqgLikelihood());
 	  }
       } 
     else 
@@ -329,7 +329,7 @@ double QuarkGluonLikelihoodRatio::calculateL(const Event& iEvent, const std::vec
 	{
 	  int index    = v.at(q);
 	  Jet QuarkJet = iEvent.jets()[index];
-	  double QGL   = QuarkJet.QGTaggerAK4PFCHSqgLikelihood();
+	  double QGL   = QuarkJet.QGTaggerqgLikelihood();
 	  double pt    = QuarkJet.pt();
 	  
 	  productQuark *= fProb.getInputValue("Light", QGL, pt);
@@ -341,7 +341,7 @@ double QuarkGluonLikelihoodRatio::calculateL(const Event& iEvent, const std::vec
 	{
 	  int index    = v.at(g);
 	  Jet GluonJet = iEvent.jets()[index];
-	  double QGL   = GluonJet.QGTaggerAK4PFCHSqgLikelihood();
+	  double QGL   = GluonJet.QGTaggerqgLikelihood();
 	  double pt    = GluonJet.pt();
 	  
 	  productGluon *= fProb.getInputValue("Gluon", QGL, pt);

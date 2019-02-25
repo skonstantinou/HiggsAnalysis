@@ -23,7 +23,6 @@
 #include "FWCore/Framework/interface/TriggerNamesService.h"
 #include "DataFormats/Common/interface/TriggerResults.h"
 
-#include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
 
@@ -31,6 +30,7 @@
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/MuonReco/interface/MuonSelectors.h"
 
 #include "DataFormats/Common/interface/View.h"
 #include "DataFormats/Common/interface/Ptr.h"
@@ -68,11 +68,9 @@ private:
   const int cfg_nJets;
 
   edm::EDGetTokenT<edm::View<pat::PackedCandidate> > cfg_pfcandsToken;
-  edm::EDGetTokenT<edm::View<reco::Vertex> > cfg_vertexToken;
   edm::EDGetTokenT<pat::ElectronCollection> cfg_electronToken;
   edm::EDGetTokenT<double> cfg_rhoToken;
   std::string cfg_electronID;
-  edm::EDGetTokenT<edm::ValueMap<float> > cfg_electronMVAToken;
   const double cfg_electronMiniRelIsoEA;
   const double cfg_electronPtCut;
   const double cfg_electronEtaCut;
@@ -108,12 +106,9 @@ Hplus2tbAnalysisSkim::Hplus2tbAnalysisSkim(const edm::ParameterSet& iConfig)
     
     cfg_pfcandsToken(consumes<edm::View<pat::PackedCandidate> >(iConfig.getParameter<edm::InputTag>("PackedCandidatesCollection"))),
     
-    cfg_vertexToken(consumes<edm::View<reco::Vertex> >(iConfig.getParameter<edm::InputTag>("VertexCollection"))),
-    
     cfg_electronToken(consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("ElectronCollection"))),
     cfg_rhoToken(consumes<double>(iConfig.getParameter<edm::InputTag>("ElectronRhoSource"))),
     cfg_electronID(iConfig.getParameter<std::string>("ElectronID")),
-    cfg_electronMVAToken(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ElectronMVA"))),
     cfg_electronMiniRelIsoEA(iConfig.getParameter<double>("ElectronMiniRelIsoEA")),
     cfg_electronPtCut(iConfig.getParameter<double>("ElectronPtCut")),
     cfg_electronEtaCut(iConfig.getParameter<double>("ElectronEtaCut")),
@@ -251,9 +246,6 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
     edm::Handle<pat::ElectronCollection>  electronHandle;
     iEvent.getByToken(cfg_electronToken, electronHandle);
     int nElectrons = 0;
-
-    edm::Handle<edm::ValueMap<float> > electronMVAHandle;
-    iEvent.getByToken(cfg_electronMVAToken, electronMVAHandle);
     
     // Packed Candidates
     edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
@@ -275,28 +267,11 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
         // Calculate Mini relative isolation for the electron with effective area
         double miniRelIsoEA = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
 	
-        float mvaValue = (*electronMVAHandle)[ref];
-        float AbsEta = fabs(obj.p4().eta());
-	
-        bool isLoose = false;
-        if (AbsEta <= 0.8 and mvaValue >= -0.041)
-          {
-            isLoose = true;
-          }
-        if (AbsEta > 0.8 and AbsEta < 1.479 and mvaValue >= 0.383)
-          {
-            isLoose = true;
-          }
-	if (AbsEta >= 1.479 and mvaValue >= -0.515)
-	  {
-	    isLoose = true;
-	  }
-	
 	// Apply acceptance cuts
-	if (!isLoose)                                  continue;
-	if (miniRelIsoEA  > cfg_electronMiniRelIsoEA)  continue;
 	if (obj.p4().pt() < cfg_electronPtCut)         continue;
 	if (fabs(obj.p4().eta()) > cfg_electronEtaCut) continue;
+	if (miniRelIsoEA  > cfg_electronMiniRelIsoEA)  continue;
+	if (obj.electronID(cfg_electronID) == false)   continue;
 	
 	nElectrons++;
       }
@@ -306,10 +281,6 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
     if (cfg_verbose) std::cout << "=== nElectrons:\n\t" << nElectrons << " < " << cfg_electronNCut << std::endl;
     
     // Muons
-    // Vertex (for Muon ID)
-    edm::Handle<edm::View<reco::Vertex> > vertexHandle;
-    iEvent.getByToken(cfg_vertexToken, vertexHandle);
-    
     edm::Handle<edm::View<pat::Muon> > muonHandle;
     iEvent.getByToken(cfg_muonToken, muonHandle);
 
@@ -324,18 +295,10 @@ bool Hplus2tbAnalysisSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSe
         const pat::Muon& obj = muonHandle->at(i);
 	
         // bool isGlobal = obj.isGlobalMuon();
-        bool isLoose  = obj.isLooseMuon();
-        bool isMedium = obj.isMediumMuon();
-        bool isTight  = false;
-        if (vertexHandle->size() == 0)
-          {
-            isTight = false;
-          }
-        else
-          {
-            isTight = obj.isTightMuon(vertexHandle->at(0));
-          }
-	
+        bool isLoose  = obj.passed(reco::Muon::CutBasedIdLoose);
+        bool isMedium = obj.passed(reco::Muon::CutBasedIdMedium);
+        bool isTight  = obj.passed(reco::Muon::CutBasedIdTight);
+		
 	// Apply muon selections
         double miniRelIsoEA = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
 	

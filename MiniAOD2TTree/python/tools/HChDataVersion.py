@@ -245,14 +245,14 @@ config = {
         "triggerProcess": "HLT",
         "recoProcess": "RECO",                                       
         "metFilteringProcess": "RECO",
-        "globalTag": "94X_dataRun2_ReReco_EOY17_v2",
+        "globalTag": "94X_dataRun2_v11",
     },
     "94Xmc": {
         "simProcess": "SIM",
         "triggerProcess": "HLT",
         "recoProcess": "RECO",
         "metFilteringProcess": "PAT",
-        "globalTag": "94X_mc2017_realistic_v10",
+        "globalTag": "94X_mc2017_realistic_v17",
         "signalTrigger": "",
     }
 }

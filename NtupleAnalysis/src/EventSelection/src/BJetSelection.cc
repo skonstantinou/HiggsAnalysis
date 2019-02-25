@@ -389,39 +389,57 @@ const double BJetSelection::getDiscriminatorWP(const std::string sAlgorithm, con
     throw hplus::Exception("logic") << "b-tagging algorithm working point '" << sWorkingPoint
 				    << "' is not valid!\nValid values are: Loose, Medium, Tight";
 
-  // https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco (Moriond17)
+  // 2016: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco (Moriond17)
+  // 2017: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
   if (sAlgorithm == "pfCombinedInclusiveSecondaryVertexV2BJetTags") 
     {
-      if (sWorkingPoint == "Loose") return +0.5426;
-      else if (sWorkingPoint == "Medium") return +0.8484;
-      else if (sWorkingPoint == "Tight") return +0.9535;
+      if (sWorkingPoint == "Loose") return +0.5803;
+      else if (sWorkingPoint == "Medium") return +0.8838;
+      else if (sWorkingPoint == "Tight") return +0.9693;
     } 
-  else if (sAlgorithm == "pfCombinedMVAV2BJetTags") 
+  else if (sAlgorithm == "pfDeepCSVBJetTags")
     {
-      if (sWorkingPoint == "Loose") return -0.5884;
-      else if (sWorkingPoint == "Medium") return +0.4432;
-      else if (sWorkingPoint == "Tight") return +0.9432;
+      if (sWorkingPoint == "Loose") return +0.1522;
+      else if (sWorkingPoint == "Medium") return +0.4941;
+      else if (sWorkingPoint == "Tight") return +0.8001;
+    }
+  else if (sAlgorithm == "pfDeepFlavourBJetTags")
+    {
+      if (sWorkingPoint == "Loose") return +0.0521;
+      else if (sWorkingPoint == "Medium") return +0.3033;
+      else if (sWorkingPoint == "Tight") return +0.7489;
+    }
+  else if (sAlgorithm == "pfDeepCSVCvsLJetTags")
+    {
+      if (sWorkingPoint == "Loose") return +0.05;
+      else if (sWorkingPoint == "Medium") return +0.15;
+      else if (sWorkingPoint == "Tight") return +0.8;
+    }
+  else if (sAlgorithm == "pfDeepCSVCvsBJetTags")
+    {
+      if (sWorkingPoint == "Loose") return 0.33;
+      else if (sWorkingPoint == "Medium") return +0.28;
+      else if (sWorkingPoint == "Tight") return +0.1;
     }
   else if (sAlgorithm == "pfCombinedCvsLJetTags") 
     {
-      if (sWorkingPoint == "Loose") return -0.48;
-      else if (sWorkingPoint == "Medium") return -0.1;
-      else if (sWorkingPoint == "Tight") return +0.69;    
-    } 
+      if (sWorkingPoint == "Loose") return -0.53;
+      else if (sWorkingPoint == "Medium") return +0.07;
+      else if (sWorkingPoint == "Tight") return +0.87;
+    }
   else if (sAlgorithm == "pfCombinedCvsBJetTags") 
     {
       // Note: Events selected by the Tight WP are not a subsample of the events selected by the Medium WP, but it is because they WP definition have different goals:
       // Loose to reduce b jets
       // Medium to reduce both b and light jets
       // Tight to reduce light jets
-      if (sWorkingPoint == "Loose") return -0.17;
-      else if (sWorkingPoint == "Medium") return +0.08;
-      else if (sWorkingPoint == "Tight") return -0.45; 
+      if (sWorkingPoint == "Loose") return -0.26;
+      else if (sWorkingPoint == "Medium") return -0.10;
+      else if (sWorkingPoint == "Tight") return -0.3;
     }
-
   throw hplus::Exception("logic") << "Invalid b-tagging algorithm  '" << sAlgorithm << "' with working point (WP) '" << sWorkingPoint << "'."
 				  << "\nValid WP values are: Loose, Medium, Tight." 
-				  << "\nValid algorithms are: pfCombinedInclusiveSecondaryVertexV2BJetTags, pfCombinedMVAV2BJetTags, pfCombinedCvsLJetTags, pfCombinedCvsBJetTags";
+				  << "\nValid algorithms are: pfCombinedInclusiveSecondaryVertexV2BJetTags, pfDeepCSVBJetTags, pfDeepFlavourBJetTags, pfDeepCSVCvsLJetTags, pfDeepCSVCvsBJetTags, pfCombinedCvsLJetTags, pfCombinedCvsBJetTags";
   return -1e6;
 }
 

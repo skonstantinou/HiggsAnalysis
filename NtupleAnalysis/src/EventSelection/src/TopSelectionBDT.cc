@@ -496,12 +496,12 @@ TopSelectionBDT::Data TopSelectionBDT::privateAnalyze(const Event& event, const 
 	      TrijetSoftDrop_n2       = softDrop_n2;
 	      TrijetLdgJetCvsL        = jet1.pfCombinedCvsLJetTags();
 	      TrijetSubldgJetCvsL     = jet2.pfCombinedCvsLJetTags();
-	      TrijetLdgJetPtD         = jet1.QGTaggerAK4PFCHSptD();
-	      TrijetSubldgJetPtD      = jet2.QGTaggerAK4PFCHSptD();
-	      TrijetLdgJetAxis2       = jet1.QGTaggerAK4PFCHSaxis2();
-	      TrijetSubldgJetAxis2    = jet2.QGTaggerAK4PFCHSaxis2();
-	      TrijetLdgJetMult        = jet1.QGTaggerAK4PFCHSmult();
-	      TrijetSubldgJetMult     = jet2.QGTaggerAK4PFCHSmult();
+	      TrijetLdgJetPtD         = jet1.ptD();
+	      TrijetSubldgJetPtD      = jet2.ptD();
+	      TrijetLdgJetAxis2       = jet1.axis2();
+	      TrijetSubldgJetAxis2    = jet2.axis2();
+	      TrijetLdgJetMult        = jet1.mult();
+	      TrijetSubldgJetMult     = jet2.mult();
 
 	      // Evaluate the MVA discriminator value
 	      float MVAoutput = reader->EvaluateMVA("BTDG method");

@@ -20,7 +20,9 @@
 #include "HiggsAnalysis/MiniAOD2TTree/interface/FourVectorDumper.h"
 
 #include "DataFormats/PatCandidates/interface/Jet.h"
+#include "HiggsAnalysis/MiniAOD2TTree/interface/QGTaggingVariables.h"
 
+class QGTaggingVariables;
 
 class JetDumper : public BaseDumper {
     public:
@@ -54,11 +56,9 @@ class JetDumper : public BaseDumper {
         std::vector<int> *hadronFlavour;
         std::vector<int> *partonFlavour;
 
-        std::vector<bool> *jetIDloose;
-        std::vector<bool> *jetIDtight;
+	std::vector<bool> *jetIDtight;
         std::vector<bool> *jetIDtightLeptonVeto;
-
-        std::vector<bool> *jetPUIDloose;
+	
 	std::vector<bool> *jetPUIDmedium;
 	std::vector<bool> *jetPUIDtight;
 
@@ -78,5 +78,22 @@ class JetDumper : public BaseDumper {
         FourVectorDumper *systJESdown;
         FourVectorDumper *systJERup;
         FourVectorDumper *systJERdown;	
+	
+	std::vector<float> *pfDeepCSVBJetTags;
+	std::vector<float> *pfDeepCSVCvsLJetTags;
+	std::vector<float> *pfDeepCSVCvsBJetTags;
+	std::vector<float> *pfDeepFlavourBJetTags;
+	
+	// QGTagging variables
+	std::vector<double> *axis1;
+	std::vector<double> *axis2;
+	std::vector<double> *ptD;
+	std::vector<int> *mult;
+	std::vector<double> *pullRap;
+	std::vector<double> *pullPhi;
+	std::vector<double> *charge;
+ 
+ protected:
+        QGTaggingVariables* qgTaggingVariables;
 };
 #endif

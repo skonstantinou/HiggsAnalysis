@@ -15,9 +15,16 @@ histogramAmbientLevel = "Debug"  # (options: "Systematics", "Vital", "Informativ
 #================================================================================================
 trigger = PSet(
     triggerOR = [
-        "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056",
-        "HLT_PFHT450_SixJet40_BTagCSV_p056",       
-        "HLT_PFJet450", #for trg eff recovery in 2016H
+        "HLT_PFHT380_SixPFJet32_DoublePFBTagCSV_2p2",
+        "HLT_PFHT380_SixJet32_DoubleBTagCSV_p075",
+        "HLT_PFHT380_SixPFJet32_DoublePFBTagDeepCSV_2p2",
+        "HLT_PFHT430_SixPFJet40_PFBTagCSV_1p5",
+        "HLT_PFHT430_SixJet40_BTagCSV_p080",
+        "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_TriplePFBTagCSV_3p0",
+        "HLT_HT300PT30_QuadJet_75_60_45_40_TripeCSV_p07",
+        "HLT_PFJet500",
+        "HLT_PFJet550",
+        "HLT_PFHT1050",
         ],
     triggerOR2 = [],
     )
@@ -27,14 +34,16 @@ trigger = PSet(
 #================================================================================================
 metFilter = PSet(
     discriminators = [
+        "Flag_goodVertices",
+        "Flag_globalSuperTightHalo2016Filter",
         "Flag_HBHENoiseFilter",
         "Flag_HBHENoiseIsoFilter",
         "Flag_EcalDeadCellTriggerPrimitiveFilter",
+        "Flag_BadPFMuonFilter",
+        "Flag_BadChargedCandidateFilter",
         "Flag_eeBadScFilter",
-        "Flag_goodVertices",
-        "Flag_globalTightHalo2016Filter",
-        "badPFMuonFilter",
-        "badChargedCandidateFilter"]
+#        "ecalBadCalibFilter", 
+        ]
     )
 
 #================================================================================================
@@ -43,10 +52,10 @@ metFilter = PSet(
 eVeto = PSet(
     electronPtCut     = 10.0,    # [default: 10.0]
     electronEtaCut    = 2.4,     # [default: 2.4]
-    electronIDType    = "MVA",   # [default: "MVA] (options: "default", "MVA")
-    electronID        = "cutBasedElectronID_Spring15_25ns_V1_standalone_veto",
-    electronMVA       = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-    electronMVACut    = "Loose", # [default: "Loose"]
+    electronID        = "cutBasedElectronID_Fall17_94X_V2_veto",
+    #electronIDType   = "MVA",   # [default: "MVA] (options: "default", "MVA")
+    #electronMVA      = "ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+    #electronMVACut   = "Loose", # [default: "Loose"]
     electronIsolation = "veto",  # [default: "veto"] (options: "veto", "tight")
     electronIsolType  = "mini",  # [default: "mini"] (options: "mini", "default")
     )
@@ -57,7 +66,7 @@ eVeto = PSet(
 muVeto = PSet(
     muonPtCut         = 10.0,        # [default: 10.0]
     muonEtaCut        = 2.4,         # [default: 2.4]
-    muonID            = "muIDLoose", # [default: "muIDLoose"] (options: "muIDLoose", "muIDMedium", "muIDTight")
+    muonID            = "isCutBasedIDLoose", # [default: "muIDLoose"] (options: "muIDLoose", "muIDMedium", "muIDTight")
     muonIsolation     = "veto",      # [default: "veto"] (options: "veto", "tight")
     muonIsolType      = "mini",      # [default: "mini"] (options: "mini", "default")
 )
@@ -88,7 +97,7 @@ jetSelection = PSet(
     jetEtaCuts               = [2.4],     # [default: [2.4]]
     numberOfJetsCutValue     = 7,         # [default: 7]
     numberOfJetsCutDirection = ">=",      # [default: ">="] (options: ==, !=, <, <=, >, >=)
-    jetIDDiscr               = "IDloose", # [default: "IDloose"] (options: IDloose, IDtight, IDtightLeptonVeto)
+    jetIDDiscr               = "IDtight", # [default: "IDtight"] (options: IDtight, IDtightLeptonVeto)
     jetPUIDDiscr             = "",        # [default: ""]
     tauMatchingDeltaR        = 0.4,       # [default: 0.4] (does nothing for h2tb)
     HTCutValue               = 500.0,     # [default: 500.0]

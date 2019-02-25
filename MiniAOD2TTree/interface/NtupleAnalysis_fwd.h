@@ -41,8 +41,7 @@ enum WDecayMode {
 };
 
 enum JetIDType {
-  kJetIDLoose = 0,
-  kJetIDTight,
+  kJetIDTight = 0,
   kJetIDTightLepVeto
 };
 

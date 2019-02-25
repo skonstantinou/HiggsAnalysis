@@ -11,12 +11,13 @@ METNoiseFilter = cms.PSet(
         "Flag_EcalDeadCellTriggerPrimitiveFilter",
         "Flag_goodVertices",
         "Flag_eeBadScFilter",
-        "Flag_globalTightHalo2016Filter",
-    ),
+        "Flag_globalSuperTightHalo2016Filter",
+        "Flag_BadPFMuonFilter",
+        "Flag_BadChargedCandidateFilter",
+        ),
     hbheNoiseTokenRun2LooseSource   = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResultRun2Loose'),
     hbheNoiseTokenRun2TightSource   = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResultRun2Tight'),
     hbheIsoNoiseTokenSource         = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
-    badPFMuonFilterSource           = cms.InputTag('BadPFMuonFilter'),
-    badChargedCandidateFilterSource = cms.InputTag('BadChargedCandidateFilter'),
+    ecalBadCalibReducedFilterSource = cms.InputTag('ecalBadCalibReducedMINIAODFilter'),
 )
 
