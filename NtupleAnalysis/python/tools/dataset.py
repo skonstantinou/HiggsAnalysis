@@ -4180,35 +4180,50 @@ class DatasetManager:
 
         table   = []
         table.append("")
-        align   = "{:<3} {:<50} {:>20} {:<7}"
-        hLine   = "="*80
-        header  = align.format("#", "Dataset", "Luminosity", "")
+        align   = "{:<3} {:<17} {:<45} {:>20} {:<7}"
+
+        header  = align.format("#", "Primary Dataset",  "Dataset", "Luminosity", "")
+        hLine   = "="*95
         table.append(hLine)
         table.append(header)
         table.append(hLine)
         
-        index    = 0
-        intLumi  = 0
         lumiUnit = "pb-1"
-
-        # For-loop: All datasets
+        
+        # Check if more than one primary dataset is present
+        primDatasets = []
         for d in self.datasets:
             if d.isMC():
                 continue
             
-            index += 1
-            name   = d.getName()
-            lumi   = d.getLuminosity()
-            line = align.format(index, name, "%.3f"%lumi, lumiUnit) 
-            table.append(line)
-            intLumi+= lumi
+            if d.getName().split("_")[0] not in primDatasets:
+                primDatasets.append(d.getName().split("_")[0])
+        
+        for p in primDatasets:
+            index    = 0
+            intLumi  = 0
+            
+            # For-loop: All datasets
+            for d in self.datasets:
+                if d.isMC():
+                    continue
+                if d.getName().split("_")[0] not in p:
+                    continue
 
-        # Finalise the table
-        lastLine = align.format("", "", "%.3f"%intLumi, lumiUnit) 
-        table.append(hLine)
-        table.append(lastLine)
-        table.append("")
+                index += 1
+                
+                name = d.getName()
+                lumi = d.getLuminosity()
+                line = align.format(index, p, name, "%.3f"%lumi, lumiUnit) 
+                table.append(line)
+                intLumi+= lumi
 
+            # Finalise the table
+            lastLine = align.format("", p, "", "%.3f"%intLumi, lumiUnit) 
+            table.append(hLine)
+            table.append(lastLine)
+            table.append("")
+                
         # For loop: All rows
         for row in table:
             Print(row, False)
