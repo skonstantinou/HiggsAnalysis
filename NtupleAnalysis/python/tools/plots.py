@@ -1005,12 +1005,17 @@ def UpdatePlotStyleFill(styleMap, namesToFilled):
 # Finally orders the datasets as specified in plots._datasetOrder. The
 # datasets not in the plots._datasetOrder list are left at the end in
 # the same order they were originally.
-def mergeRenameReorderForDataMC(datasetMgr, keepSourcesMC=False):
+def mergeRenameReorderForDataMC(datasetMgr, keepSourcesMC=False, keepPrimaryDatasets=False):
     # print cross sections
 #    print "Merging data with mergeRenameReorderForDataMC method. The cross sections in use are:"
 #    datasetMgr.PrintCrossSections()
-    # merge data
-    datasetMgr.mergeData(allowMissingDatasets=True)
+
+    if keepPrimaryDatasets:
+        datasetMgr.mergePrimaryDatasets(allowMissingDatasets=True)
+    else:
+        # merge data
+        datasetMgr.mergeData(allowMissingDatasets=True)
+    
     # check that _ext* datasets are defined to be added in _physicalMcAdd
     for datasetName in datasetMgr.getAllDatasetNames():
         if "_ext" in datasetName and datasetName not in _physicalMcAdd.keys():

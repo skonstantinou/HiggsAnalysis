@@ -3923,6 +3923,25 @@ class DatasetManager:
     # \param kwargs  Keyword arguments (forwarded to merge())
     def mergeData(self, *args, **kwargs):
         self.merge("Data", self.getDataDatasetNames(), *args, **kwargs)
+        
+    ## Merge all primary datasets available
+    #
+    # \param args    Positional arguments (forwarded to merge())
+    # \param kwargs  Keyword arguments (forwarded to merge())
+    def mergePrimaryDatasets(self, *args, **kwargs):
+        
+        # Get a dictionary of all the primary datasets available
+        primaryDatasets = {}
+                
+        for x in self.getDataDatasetNames():
+            if x.split("_")[0] not in primaryDatasets.keys():
+                primaryDatasets[x.split("_")[0]] = [x]
+            else:
+                primaryDatasets[x.split("_")[0]].append(x)
+            
+        for i in primaryDatasets.keys():
+            self.merge(i, primaryDatasets.get(i), *args, **kwargs)
+        return
 
     ## Merge all MC dataset.Datasetobjects to one with a name 'MC'.
     #
