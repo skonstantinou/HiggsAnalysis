@@ -11,7 +11,7 @@ from WMCore.Configuration import Configuration
 from CRABClient.UserUtilities import getUsernameFromSiteDB
 
 # Definitions
-jecDB = ['Summer16_23Sep2016AllV4_DATA_JEC.db','Summer16_23Sep2016V4_MC_JEC.db','Summer16_25nsV1_80X_MC_JER.db']
+jecDB = ['Fall17_17Nov2017_V32_94X_DATA_JEC.db','Fall17_17Nov2017_V32_94X_MC_JEC.db','Fall17_V3_94X_MC_JER.db']
 
 #================================================================================================
 # General Section: The user specifies generic parameters about the request (e.g. request name).

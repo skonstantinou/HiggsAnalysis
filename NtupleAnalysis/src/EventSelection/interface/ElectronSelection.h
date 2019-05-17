@@ -83,8 +83,8 @@ private:
   float fMiniIsoCut;
   bool fVetoMode;
   bool fMiniIsol;
-  bool fElectronMVA;
-  const std::string fElectronMVACut;
+  //bool fElectronMVA;
+  //const std::string fElectronMVACut;
   
   // Event counter for passing selection
   Count cPassedElectronSelection;

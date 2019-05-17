@@ -499,8 +499,8 @@ void TopBDTTaggerMistagRate::process(Long64_t entry) {
       bool keepTopCandidate = false;
       for(AK8Jet fatJet: fEvent.ak8jets()){
 	//Fatjets: definitions
-	double tau_21 = fatJet.NjettinessAK8tau2()/fatJet.NjettinessAK8tau1();
-	double tau_32 = fatJet.NjettinessAK8tau3()/fatJet.NjettinessAK8tau2();
+	double tau_21 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
+	double tau_32 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2();
 	//Skip if fat jet does not pass the selection criteria
 
 	//=== Apply cut on jet ID

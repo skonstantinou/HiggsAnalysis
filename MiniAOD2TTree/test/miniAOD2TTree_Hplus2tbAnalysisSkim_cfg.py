@@ -12,39 +12,25 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 #================================================================================================  
 # Options
 #================================================================================================  
-maxEvents    = 100
+maxEvents    = 500
 maxWarnings  = 100
 reportEvery  = 100
 testWithData = False
 if testWithData:
-    dataVersion  = "80Xdata"
+    dataVersion  = "94Xdata"
     datasetFiles = [
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/000C9243-5634-E711-A2A8-0CC47A7C3612.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/04BFE78E-5D34-E711-BCA5-0025905A48D8.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/0A3F8104-6434-E711-9E9A-0CC47A4D76C6.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/0C95C3F7-3534-E711-8FBB-0CC47A7C3612.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/1032026F-4334-E711-84CE-0CC47A4C8E3C.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/10898316-5034-E711-8167-0CC47A4D7644.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12062AF2-3A34-E711-BA6A-003048FFD79E.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12A273CE-2235-E711-A7C7-0025905A605E.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/12CED57A-4334-E711-961B-003048FFD734.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/14BEF0C3-4234-E711-B811-0025905A48E4.root',
-        '/store/data/Run2016C/JetHT/MINIAOD/18Apr2017-v1/100000/16E75845-5634-E711-915E-0025905A60DE.root'
+        "/store/data/Run2017D/JetHT/MINIAOD/31Mar2018-v1/90000/DA9E7A45-4439-E811-AAA9-0025905A60B2.root",
+        "/store/data/Run2017D/JetHT/MINIAOD/31Mar2018-v1/90000/D62DA569-5139-E811-84D7-0CC47A7452D0.root",
+        "/store/data/Run2017D/JetHT/MINIAOD/31Mar2018-v1/90000/D064F63B-3939-E811-A73C-0CC47A4C8E96.root",
         ]
 else:
-    dataVersion  = "80Xmc" 
+    dataVersion  = "94Xmc" 
     datasetFiles = [
-        #'/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/0693E0E7-97BE-E611-B32F-0CC47A78A3D8.root',
-        #'/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/0806AB92-99BE-E611-9ECD-0025905A6138.root',
-        #'/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/165F54A0-A3BE-E611-B3F7-0025905A606A.root',
-        #'/store/mc/RunIISummer16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/18E31463-B3BE-E611-B6A3-0CC47A4D7678.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/0055B499-54B6-E611-9F86-FA163E1F94C5.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/02B77462-7CB5-E611-A061-0025905B8568.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/02CDB360-51B5-E611-A568-002590747E0E.root',
-        # '/store/mc/RunIISummer16MiniAODv2/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/110000/0486046D-0BB6-E611-B533-002590D9D8C0.root',
-        '/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/16DC0526-F4FA-E611-938E-6CC2173BBA40.root',
-        '/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/18DFBF7B-B5FC-E611-80D2-002481DE49B6.root',
-        '/store/mc/RunIISummer16MiniAODv2/ZJetsToQQ_HT600toInf_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/110000/20C84FF5-11FB-E611-AA3C-C4346BC70B58.root'
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/FE3E8889-9342-E811-898F-008CFAF724BE.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F819F9EE-5142-E811-BC28-7845C4FC3C7D.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4DCCD39-A542-E811-9E16-008CFAF225DC.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4C04DD1-9042-E811-A933-008CFAF747AA.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F445F408-C442-E811-88B5-7CD30AD0A15C.root',
         ]
     
 # For debugging purposes
@@ -55,7 +41,6 @@ EvtNum_1    = 240
 RunNum_2    = 1
 LumiBlock_2 = 2
 EvtNum_2    = 260
-
 
 #================================================================================================  
 # Setup the Process
@@ -103,7 +88,6 @@ process.source = cms.Source("PoolSource",
                             #eventsToProcess = cms.untracked.VEventRange('%s:%s:%s-%s:%s:%s' % (RunNum_1, LumiBlock_1, EvtNum_1, RunNum_2, LumiBlock_2, EvtNum_2) ), 
                             )
 
-
 #================================================================================================  
 # Get Dataset version and Global tag
 #================================================================================================  
@@ -141,7 +125,8 @@ process.load("HiggsAnalysis/MiniAOD2TTree/MET_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/METNoiseFilter_cfi")
 
 process.METNoiseFilter.triggerResults = cms.InputTag("TriggerResults::"+str(dataVersion.getMETFilteringProcess())) 
-print "check tau",process.Taus_TauPOGRecommendation[0]
+print "check tau", process.Taus_TauPOGRecommendation[0]#.src.moduleLabel
+
 process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     OutputFileName      = cms.string("miniaod2tree.root"),
     PUInfoInputFileName = process.PUInfo.OutputFileName,
@@ -164,24 +149,64 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     Trigger = cms.PSet(
 	TriggerResults = cms.InputTag("TriggerResults::"+str(dataVersion.getTriggerProcess())),
 	TriggerBits    = cms.vstring(
-            "HLT_PFHT300_v",
+            # Triggers in 2017: https://fwyzard.web.cern.ch/fwyzard/hlt/2017/summary.html            
+            # Triggers in 2018: https://ndaci.web.cern.ch/ndaci/hlt/2018/summary
+            "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_v",
+            "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_TriplePFBTagCSV_3p0_v",
+            "HLT_PFHT380_SixPFJet32_DoublePFBTagCSV_2p2_v",
+            "HLT_PFHT380_SixPFJet32_DoublePFBTagDeepCSV_2p2_v",
+            "HLT_PFHT380_SixPFJet32_v",
+            "HLT_PFHT430_SixPFJet40_PFBTagCSV_1p5_v",
+            "HLT_PFHT430_SixPFJet40_v",
             "HLT_PFHT350_v",
-            "HLT_PFHT400_v",
-            #"HLT_PFHT475_v",
-            #"HLT_PFHT600_v",
-            #"HLT_PFHT650_v",
-            "HLT_PFJet450_v", # for efficiency recovery in 2016H
-            "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056_v",
-            "HLT_PFHT450_SixJet40_BTagCSV_p056_v",
-            "HLT_PFHT400_SixJet30_v",
-            "HLT_PFHT450_SixJet40_v",
-        ),
+            "HLT_HT300PT30_QuadJet_75_60_45_40_v",
+            "HLT_HT300PT30_QuadJet_75_60_45_40_TripeCSV_p07_v",
+            "HLT_PFHT380_SixJet32_DoubleBTagCSV_p075_v",
+            "HLT_PFHT430_SixJet40_BTagCSV_p080_v",
+            #"HLT_PFJet320_v",
+            "HLT_PFJet400_v",
+            "HLT_PFJet450_v",
+            "HLT_PFJet500_v",
+            "HLT_PFJet550_v",
+            #"HLT_PFHT250_v",
+            "HLT_PFHT370_v",
+            "HLT_PFHT430_v",
+            "HLT_PFHT510_v",
+            "HLT_PFHT590_v",
+            "HLT_PFHT680_v",
+            "HLT_PFHT780_v",
+            "HLT_PFHT890_v",
+            "HLT_PFHT1050_v",
+            "HLT_PFHT380_SixJet32_v",
+            "HLT_PFHT430_SixJet40_v",
+            #"HLT_QuadPFJet98_83_71_15_DoubleBTagCSV_p013_p08_VBF1_v",
+            #"HLT_QuadPFJet103_88_75_15_v",
+            #"HLT_QuadPFJet105_88_76_15_v",
+            #"HLT_QuadPFJet111_90_80_15_v",
+            # AK8 Paths
+            #"HLT_AK8PFHT750_TrimMass50_v",
+            #"HLT_AK8PFHT800_TrimMass50_v",
+            #"HLT_AK8PFHT850_TrimMass50_v",
+            #"HLT_AK8PFHT900_TrimMass50_v",
+            #"HLT_AK8PFJet330_PFAK8BTagCSV_p1_v",
+            #"HLT_AK8PFJet330_PFAK8BTagCSV_p17_v",
+            #"HLT_AK8PFJet360_TrimMass30_v",
+            #"HLT_AK8PFJet380_TrimMass30_v",
+            #"HLT_AK8PFJet400_v",
+            #"HLT_AK8PFJet400_TrimMass30_v",
+            #"HLT_AK8PFJet420_TrimMass30_v",
+            #"HLT_AK8PFJet450_v",
+            #"HLT_AK8PFJet500_v",
+            #"HLT_AK8PFJet550_v",
+            #"HLT_DoublePFJets100_CaloBTagCSV_p33_v",
+            #"HLT_DoublePFJets200_CaloBTagCSV_p33_v",
+            #"HLT_DoublePFJets350_CaloBTagCSV_p33_v",
+            #"HLT_DoublePFJets40_CaloBTagCSV_p33_v",
+            ),
 	L1Extra        = cms.InputTag("l1extraParticles:MET"),
 	TriggerObjects = cms.InputTag("selectedPatTrigger"),
         TriggerMatch   = cms.untracked.vstring(
-            "HLT_PFHT400_SixJet30_DoubleBTagCSV_p056_v",
-            "HLT_PFHT450_SixJet40_BTagCSV_p056_v",
-        ),
+            ),
 	filter = cms.untracked.bool(False)
     ),
     METNoiseFilter = process.METNoiseFilter,
@@ -250,22 +275,50 @@ from HiggsAnalysis.MiniAOD2TTree.CommonFragments import produceAK8Customisations
 produceAK8Customisations(process, dataVersion.isData())   # This produces process.AK8CustomisationsSequence which needs to be included to path
 
 
-# Set up electron MVA ID for Skimming
-# https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
+#===== EGamma IDs
+from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
-print "=== Adding Electron MVA: ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
-
-for idmod in ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']:
+my_id_modules = [
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+    ]
+for idmod in my_id_modules:
     setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
+
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+setupEgammaPostRecoSeq(process,
+                       runVID=True,
+                       era='2017-Nov17ReReco')
+
+
+#===== Setup tau ID
+print "\n=== Rerunning Tau MVA ID (2017v2) \n" 
+from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
+na = TauIDEmbedder(process, cms,
+    debug=True,
+    toKeep = ["newDM2017v2", "2017v2", "dR0p32017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
+)
+na.runTauID()
+
+
 
 #================================================================================================ 
 # Module execution
 #================================================================================================ 
 process.runEDFilter = cms.Path(process.PUInfo*
                                process.TopPtProducer*
+                               # Produce Tau MVA ID prior skimming
+                               process.rerunMvaIsolationSequence*
+                               process.NewTauIDsEmbedded*
+                               # Produce Electron IDs prior skimming
+                               process.egammaPostRecoSeq*
                                process.egmGsfElectronIDSequence*
+                               # Apply the skimming
                                process.skimCounterAll*
                                process.skim*
                                process.skimCounterPassed*

@@ -23,7 +23,10 @@
 #include "HiggsAnalysis/MiniAOD2TTree/interface/FourVectorDumper.h"
 
 #include "DataFormats/PatCandidates/interface/Jet.h"
+#include "HiggsAnalysis/MiniAOD2TTree/interface/QGTaggingVariables.h"
 //#include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
+
+class QGTaggingVariables;
 
 class FatJetDumper : public BaseDumper {
     public:
@@ -34,10 +37,6 @@ class FatJetDumper : public BaseDumper {
 	bool fill(edm::Event&, const edm::EventSetup&);
         void reset();
 
-    private:
-        /// Returns true, if the jet passes the specified jetID
-        bool passJetID(int id, const pat::Jet& jet);
-        
     private:
 	edm::EDGetTokenT<reco::GenParticleCollection> genParticleToken;
         edm::EDGetTokenT<edm::View<pat::Jet>> *jetToken;
@@ -57,19 +56,9 @@ class FatJetDumper : public BaseDumper {
 	int nUserints;
 	std::vector<double> *groomedmasses;
 	int nGroomedMasses;
-	std::vector<double> *userfloats_Puppi;
-	int nUserfloats_Puppi;
 	
         std::vector<int> *hadronFlavour;
         std::vector<int> *partonFlavour;
-
-        std::vector<bool> *jetIDloose;
-        std::vector<bool> *jetIDtight;
-        std::vector<bool> *jetIDtightLeptonVeto;
-
-        std::vector<bool> *jetPUIDloose;
-	std::vector<bool> *jetPUIDmedium;
-	std::vector<bool> *jetPUIDtight;
 
         // 4-vector for generator jet
         FourVectorDumper *MCjet;
@@ -80,8 +69,6 @@ class FatJetDumper : public BaseDumper {
         FourVectorDumper *systJESdown;
         FourVectorDumper *systJERup;
         FourVectorDumper *systJERdown;
-	
-	bool fillPuppi;
 	
 	std::string mcjecPath;
 	std::string datajecPath;
@@ -98,28 +85,24 @@ class FatJetDumper : public BaseDumper {
 	std::vector<double> *sdsubjet1_phi;
 	std::vector<double> *sdsubjet1_mass;
 	std::vector<double> *sdsubjet1_csv;
+	std::vector<double> *sdsubjet1_deepcsv;
+	std::vector<double> *sdsubjet1_axis1;
+	std::vector<double> *sdsubjet1_axis2;
+	std::vector<double> *sdsubjet1_ptD;
+	std::vector<int> *sdsubjet1_mult;
 	
 	std::vector<double> *sdsubjet2_pt;
 	std::vector<double> *sdsubjet2_eta;
 	std::vector<double> *sdsubjet2_phi;
 	std::vector<double> *sdsubjet2_mass;
 	std::vector<double> *sdsubjet2_csv;
+	std::vector<double> *sdsubjet2_deepcsv;
+	std::vector<double> *sdsubjet2_axis1;
+	std::vector<double> *sdsubjet2_axis2;
+	std::vector<double> *sdsubjet2_ptD;
+	std::vector<int> *sdsubjet2_mult;
 	
-	// PUPPI 
-	std::vector<double> *corrPrunedMass_PUPPI;
-	std::vector<double> *softdropMass_PUPPI;
-	std::vector<int> *nSubjets_PUPPI;
-	std::vector<double> *sdsubjet1_PUPPI_pt;
-	std::vector<double> *sdsubjet1_PUPPI_eta;
-	std::vector<double> *sdsubjet1_PUPPI_phi;
-	std::vector<double> *sdsubjet1_PUPPI_mass;
-	std::vector<double> *sdsubjet1_PUPPI_csv;
-	
-	std::vector<double> *sdsubjet2_PUPPI_pt;
-	std::vector<double> *sdsubjet2_PUPPI_eta;
-	std::vector<double> *sdsubjet2_PUPPI_phi;
-	std::vector<double> *sdsubjet2_PUPPI_mass;
-	std::vector<double> *sdsubjet2_PUPPI_csv;
-	
+ protected:
+	QGTaggingVariables* qgTaggingVariables;
 };
 #endif

@@ -19,9 +19,35 @@ MuonDumper::MuonDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<
     //p4  = new std::vector<reco::Candidate::LorentzVector>[inputCollections.size()];
     //pdgId = new std::vector<short>[inputCollections.size()];
     isGlobalMuon = new std::vector<bool>[inputCollections.size()];
-    isLooseMuon = new std::vector<bool>[inputCollections.size()];
-    isMediumMuon = new std::vector<bool>[inputCollections.size()];
-    isTightMuon = new std::vector<bool>[inputCollections.size()];
+    
+    isCutBasedIdLoose = new std::vector<bool>[inputCollections.size()];
+    isCutBasedIdMedium = new std::vector<bool>[inputCollections.size()];
+    isCutBasedIdMediumPrompt = new std::vector<bool>[inputCollections.size()];
+    isCutBasedIdTight = new std::vector<bool>[inputCollections.size()];
+    isCutBasedIdGlobalHighPt = new std::vector<bool>[inputCollections.size()];
+    isCutBasedIdTrkHighPt = new std::vector<bool>[inputCollections.size()];
+    isPFIsoVeryLoose = new std::vector<bool>[inputCollections.size()];
+    isPFIsoLoose = new std::vector<bool>[inputCollections.size()];
+    isPFIsoMedium = new std::vector<bool>[inputCollections.size()];
+    isPFIsoTight = new std::vector<bool>[inputCollections.size()];
+    isPFIsoVeryTight = new std::vector<bool>[inputCollections.size()];
+    //isPFIsoVeryVeryTight = new std::vector<bool>[inputCollections.size()];                                                                                                               
+    isTkIsoLoose = new std::vector<bool>[inputCollections.size()];
+    isTkIsoTight = new std::vector<bool>[inputCollections.size()];
+    isSoftCutBasedId = new std::vector<bool>[inputCollections.size()];
+    // isSoftMvaId = new std::vector<bool>[inputCollections.size()];                                                                                                               
+    isMvaLoose = new std::vector<bool>[inputCollections.size()];
+    isMvaMedium = new std::vector<bool>[inputCollections.size()];
+    isMvaTight = new std::vector<bool>[inputCollections.size()];
+    isMiniIsoLoose = new std::vector<bool>[inputCollections.size()];
+    isMiniIsoMedium = new std::vector<bool>[inputCollections.size()];
+    isMiniIsoTight = new std::vector<bool>[inputCollections.size()];
+    isMiniIsoVeryTight = new std::vector<bool>[inputCollections.size()];
+    //isTriggerIdLoose = new std::vector<bool>[inputCollections.size()];
+    //isInTimeMuon = new std::vector<bool>[inputCollections.size()];
+    //isMultiIsoLoose = new std::vector<bool>[inputCollections.size()];
+    //isMultiIsoMedium = new std::vector<bool>[inputCollections.size()];    
+    
     relIsoDeltaBetaCorrected03 = new std::vector<float>[inputCollections.size()];
     relIsoDeltaBetaCorrected04 = new std::vector<float>[inputCollections.size()];
 
@@ -31,24 +57,20 @@ MuonDumper::MuonDumper(edm::ConsumesCollector&& iConsumesCollector, std::vector<
     discriminators = new std::vector<bool>[inputCollections.size()*nDiscriminators];
     
     muonToken = new edm::EDGetTokenT<edm::View<pat::Muon>>[inputCollections.size()];
-    // Marina - start
     rhoToken = new edm::EDGetTokenT<double>[inputCollections.size()];
     pfcandsToken      = new edm::EDGetTokenT<edm::View<pat::PackedCandidate> >[inputCollections.size()];
     relMiniIso        = new std::vector<float>[inputCollections.size()];
     effAreaMiniIso    = new std::vector<float>[inputCollections.size()];
-    // Marina - end
     
     for(size_t i = 0; i < inputCollections.size(); ++i){
       edm::InputTag inputtag = inputCollections[i].getParameter<edm::InputTag>("src");
       muonToken[i] = iConsumesCollector.consumes<edm::View<pat::Muon>>(inputtag);
     
-      // Marina - Start                                                  
       edm::InputTag rhoSource = inputCollections[i].getParameter<edm::InputTag>("rhoSource");
       rhoToken[i] = iConsumesCollector.consumes<double>(rhoSource);
       
       edm::InputTag pfcandinputtag = inputCollections[i].getParameter<edm::InputTag>("pfcands");
       pfcandsToken[i] = iConsumesCollector.consumes<edm::View<pat::PackedCandidate>>(pfcandinputtag);
-      // Marina - end
     }
     
     useFilter = false;
@@ -73,16 +95,40 @@ void MuonDumper::book(TTree* tree){
         tree->Branch((name+"_charge").c_str(),&q[i]);
 
         tree->Branch((name+"_isGlobalMuon").c_str(),&isGlobalMuon[i]);
-        tree->Branch((name+"_muIDLoose").c_str(),&isLooseMuon[i]);
-        tree->Branch((name+"_muIDMedium").c_str(),&isMediumMuon[i]);
-        tree->Branch((name+"_muIDTight").c_str(),&isTightMuon[i]);
-        tree->Branch((name+"_relIsoDeltaBeta03").c_str(),&relIsoDeltaBetaCorrected03[i]); // cone 0.3
+	
+	tree->Branch((name+"_isCutBasedIDLoose").c_str(), &isCutBasedIdLoose[i]);
+	tree->Branch((name+"_isCutBasedIDMedium").c_str(), &isCutBasedIdMedium[i]);
+	tree->Branch((name+"_isCutBasedIDMediumPrompt").c_str(), &isCutBasedIdMediumPrompt[i]);
+	tree->Branch((name+"_isCutBasedIDTight").c_str(), &isCutBasedIdTight[i]);
+	tree->Branch((name+"_isCutBasedIDGlobalHighPt").c_str(), &isCutBasedIdGlobalHighPt[i]);
+	tree->Branch((name+"_isCutBasedIDTrkHighPt").c_str(), &isCutBasedIdTrkHighPt[i]);
+	tree->Branch((name+"_isPFIsoVeryLoose").c_str(), &isPFIsoVeryLoose[i]);
+	tree->Branch((name+"_isPFIsoLoose").c_str(), &isPFIsoLoose[i]);
+	tree->Branch((name+"_isPFIsoMedium").c_str(), &isPFIsoMedium[i]);
+	tree->Branch((name+"_isPFIsoTight").c_str(), &isPFIsoTight[i]);
+	tree->Branch((name+"_isPFIsoVeryTight").c_str(), &isPFIsoVeryTight[i]);
+	//tree->Branch((name+"_isPFIsoVeryVeryTight")c_str(), &isPFIsoVeryVeryTight[i]);
+	tree->Branch((name+"_isTkIsoLoose").c_str(), &isTkIsoLoose[i]);
+	tree->Branch((name+"_isTkIsoTight").c_str(), &isTkIsoTight[i]);
+	tree->Branch((name+"_isSoftCutBasedId").c_str(), &isSoftCutBasedId[i]);
+	//tree->Branch((name+"_isSoftMvaId").c_str(), &isSoftMvaId[i]);
+	tree->Branch((name+"_isMvaLoose").c_str(), &isMvaLoose[i]);
+	tree->Branch((name+"_isMvaMedium").c_str(), &isMvaMedium[i]);
+	tree->Branch((name+"_isMvaTight").c_str(), &isMvaTight[i]);
+	tree->Branch((name+"_isMiniIsoLoose").c_str(), &isMiniIsoLoose[i]);
+	tree->Branch((name+"_isMiniIsoMedium").c_str(), &isMiniIsoMedium[i]);
+	tree->Branch((name+"_isMiniIsoTight").c_str(), &isMiniIsoTight[i]);
+	tree->Branch((name+"_isMiniIsoVeryTight").c_str(), &isMiniIsoVeryTight[i]);
+	//tree->Branch((name+"_isTriggerIdLoose").c_str(), &isTriggerIdLoose[i]);
+        //tree->Branch((name+"_isInTimeMuon").c_str(), &isInTimeMuon[i]);
+        //tree->Branch((name+"_isMultiIsoLoose").c_str(), &isMultiIsoLoose[i]);
+        //tree->Branch((name+"_isMultiIsoMedium").c_str(), &isMultiIsoMedium[i]);
+        
+	tree->Branch((name+"_relIsoDeltaBeta03").c_str(),&relIsoDeltaBetaCorrected03[i]); // cone 0.3
         tree->Branch((name+"_relIsoDeltaBeta04").c_str(),&relIsoDeltaBetaCorrected04[i]); // cone 0.4
 	
-	// Marina - start
         tree->Branch((name+"_relMiniIso").c_str(), &relMiniIso[i]);
         tree->Branch((name+"_effAreaMiniIso").c_str(), &effAreaMiniIso[i]);
-        // Marina - end
 	
         MCmuon[i].book(tree, name, "MCmuon");
         
@@ -110,18 +156,14 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	edm::Handle<edm::View<pat::Muon>> muonHandle;
         iEvent.getByToken(muonToken[ic], muonHandle);
 
-	// Marina - start
 	edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
         iEvent.getByToken(pfcandsToken[ic], pfcandHandle);
-	// Marina - end
 	
 	if(muonHandle.isValid()){
 	  
-	    // Marina - start
 	    // Setup handles for rho
 	    edm::Handle<double> rhoHandle;
 	    iEvent.getByToken(rhoToken[ic], rhoHandle);
-	    // Marina - end
 	  
             for(size_t i=0; i<muonHandle->size(); ++i) {
     		const pat::Muon& obj = muonHandle->at(i);
@@ -130,20 +172,41 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 eta[ic].push_back(obj.p4().eta());
                 phi[ic].push_back(obj.p4().phi());
                 e[ic].push_back(obj.p4().energy());
-
+		
                 q[ic].push_back(obj.charge());
                 
 		isGlobalMuon[ic].push_back(obj.isGlobalMuon());
-
-                // For the discriminators see: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2
-
-                isLooseMuon[ic].push_back(obj.isLooseMuon());
-                isMediumMuon[ic].push_back(obj.isMediumMuon());
-                if (vertexHandle->size() == 0) {
-                  isTightMuon[ic].push_back(false);
-                } else {
-                  isTightMuon[ic].push_back(obj.isTightMuon(vertexHandle->at(0)));
-                }
+		
+		// Muon Selectors: https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Muon_selectors_Since_9_4_X
+		isCutBasedIdLoose[ic].push_back(obj.passed(reco::Muon::CutBasedIdLoose));
+		isCutBasedIdMedium[ic].push_back(obj.passed(reco::Muon::CutBasedIdMedium));
+		isCutBasedIdMediumPrompt[ic].push_back(obj.passed(reco::Muon::CutBasedIdMediumPrompt));
+		isCutBasedIdTight[ic].push_back(obj.passed(reco::Muon::CutBasedIdTight));
+		isCutBasedIdGlobalHighPt[ic].push_back(obj.passed(reco::Muon::CutBasedIdGlobalHighPt));
+		isCutBasedIdTrkHighPt[ic].push_back(obj.passed(reco::Muon::CutBasedIdTrkHighPt));
+		isPFIsoVeryLoose[ic].push_back(obj.passed(reco::Muon::PFIsoVeryLoose));
+		isPFIsoLoose[ic].push_back(obj.passed(reco::Muon::PFIsoLoose));
+		isPFIsoMedium[ic].push_back(obj.passed(reco::Muon::PFIsoMedium));
+		isPFIsoTight[ic].push_back(obj.passed(reco::Muon::PFIsoTight));
+		isPFIsoVeryTight[ic].push_back(obj.passed(reco::Muon::PFIsoVeryTight));
+		//isPFIsoVeryVeryTight[ic].push_back(obj.passed(reco::Muon::PFIsoVeryVeryTight));                                                                                                    
+		isTkIsoLoose[ic].push_back(obj.passed(reco::Muon::TkIsoLoose));
+		isTkIsoTight[ic].push_back(obj.passed(reco::Muon::TkIsoTight));
+		isSoftCutBasedId[ic].push_back(obj.passed(reco::Muon::SoftCutBasedId));
+		// isSoftMvaId[ic].push_back(obj.passed(reco::Muon::SoftMvaId));                                                                                            
+		isMvaLoose[ic].push_back(obj.passed(reco::Muon::MvaLoose));
+		isMvaMedium[ic].push_back(obj.passed(reco::Muon::MvaMedium));
+		isMvaTight[ic].push_back(obj.passed(reco::Muon::MvaTight));
+		isMiniIsoLoose[ic].push_back(obj.passed(reco::Muon::MiniIsoLoose));
+		isMiniIsoMedium[ic].push_back(obj.passed(reco::Muon::MiniIsoMedium));
+		isMiniIsoTight[ic].push_back(obj.passed(reco::Muon::MiniIsoTight));
+		isMiniIsoVeryTight[ic].push_back(obj.passed(reco::Muon::MiniIsoVeryTight));
+		//isTriggerIdLoose[ic].push_back(obj.passed(reco::Muon::TriggerIdLoose));                                                                                          
+		//isInTimeMuon[ic].push_back(obj.passed(reco::Muon::InTimeMuon));                                                                                        
+		//isMultiIsoLoose[ic].push_back(obj.passed(reco::Muon::MultiIsoLoose));                                                                                                       
+		//isMultiIsoMedium[ic].push_back(obj.passed(reco::Muon::MultiIsoMedium));
+		
+		
                 // Calculate relative isolation in cone of DeltaR=0.3
                 double isolation03 = (obj.pfIsolationR03().sumChargedHadronPt
                   + std::max(obj.pfIsolationR03().sumNeutralHadronEt
@@ -152,7 +215,7 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 double relIso03 = isolation03 / obj.pt();
                 relIsoDeltaBetaCorrected03[ic].push_back(relIso03);
 
-                // Calculate relative isolation in cone of DeltaR=0.3
+                // Calculate relative isolation in cone of DeltaR=0.4
                 double isolation04 = (obj.pfIsolationR04().sumChargedHadronPt
 		  + std::max(obj.pfIsolationR04().sumNeutralHadronEt
 		  + obj.pfIsolationR04().sumPhotonEt
@@ -160,17 +223,9 @@ bool MuonDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
                 double relIso04 = isolation04 / obj.pt();
                 relIsoDeltaBetaCorrected04[ic].push_back(relIso04);
 
-
-		// Marina - start
-                //double relIsoMini = getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false);
-		//double relIsoMiniEffArea = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
-		
-		//std::cout<<"Relative Isolation (Delta Bet) = "<<relIsoMini<<std::endl;
-		//std::cout<<"Relative Isolation (Effective Area) = "<<relIsoMiniEffArea<<std::endl;
-		  
+		// Calculate Mini-Isolation
 		relMiniIso[ic].push_back(getMiniIsolation_DeltaBeta(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false));
 		effAreaMiniIso[ic].push_back(getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle));
-		// Marina - end
 		
 		//p4[ic].push_back(obj.p4());
 		for(size_t iDiscr = 0; iDiscr < discriminatorNames.size(); ++iDiscr) {
@@ -217,16 +272,40 @@ void MuonDumper::reset(){
         q[ic].clear();
 
         isGlobalMuon[ic].clear();
-        isLooseMuon[ic].clear();
-        isMediumMuon[ic].clear();
-        isTightMuon[ic].clear();
+
+	isCutBasedIdLoose[ic].clear();
+	isCutBasedIdMedium[ic].clear();
+	isCutBasedIdMediumPrompt[ic].clear();
+	isCutBasedIdTight[ic].clear();
+	isCutBasedIdGlobalHighPt[ic].clear();
+	isCutBasedIdTrkHighPt[ic].clear();
+	isPFIsoVeryLoose[ic].clear();
+	isPFIsoLoose[ic].clear();
+	isPFIsoMedium[ic].clear();
+	isPFIsoTight[ic].clear();
+	isPFIsoVeryTight[ic].clear();
+        //isPFIsoVeryVeryTight[ic].clear();                                                                                                                                                    
+	isTkIsoLoose[ic].clear();
+	isTkIsoTight[ic].clear();
+	isSoftCutBasedId[ic].clear();
+        // isSoftMvaId[ic].clear();                                                                                                                                                    
+	isMvaLoose[ic].clear();
+	isMvaMedium[ic].clear();
+	isMvaTight[ic].clear();
+	isMiniIsoLoose[ic].clear();
+	isMiniIsoMedium[ic].clear();
+	isMiniIsoTight[ic].clear();
+	isMiniIsoVeryTight[ic].clear();
+        //isTriggerIdLoose[ic].clear();                                                                                                                                                  
+        //isInTimeMuon[ic].clear();                                                                                                                                                  
+        //isMultiIsoLoose[ic].clear();                                                                                                                                                      
+        //isMultiIsoMedium[ic].clear();
+	
         relIsoDeltaBetaCorrected03[ic].clear();
 	relIsoDeltaBetaCorrected04[ic].clear();
 	
-	// Marina - start
 	relMiniIso[ic].clear();
 	effAreaMiniIso[ic].clear();
-	// Marina - end 
 	
         MCmuon[ic].reset();
       }

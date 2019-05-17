@@ -6,18 +6,32 @@ Electrons = cms.VPSet(
         src = cms.InputTag("slimmedElectrons"),
         rhoSource = cms.InputTag("fixedGridRhoFastjetAll"), # for PU mitigation in isolation
 #        IDprefix = cms.string("egmGsfElectronIDs"),
-#        discriminators = cms.vstring()
-	discriminators = cms.vstring("cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
-                                     "cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
-                                     "cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
-                                     "cutBasedElectronID-Spring15-25ns-V1-standalone-tight",
-                                     ),
-#        discriminators = cms.vstring("mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80",
-#                                     "mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90")
-        # Marina
+	discriminators = cms.vstring(
+            "cutBasedElectronID-Fall17-94X-V2-veto",
+            "cutBasedElectronID-Fall17-94X-V2-loose",
+            "cutBasedElectronID-Fall17-94X-V2-medium",
+            "cutBasedElectronID-Fall17-94X-V2-tight",
+            
+            'mvaEleID-Fall17-iso-V1-wp80',
+            'mvaEleID-Fall17-iso-V1-wp90',
+            'mvaEleID-Fall17-iso-V1-wpLoose',
+            'mvaEleID-Fall17-noIso-V1-wp80',
+            'mvaEleID-Fall17-noIso-V1-wp90',
+            'mvaEleID-Fall17-noIso-V1-wpLoose',
+            
+            'mvaEleID-Fall17-iso-V2-wp80',
+            'mvaEleID-Fall17-iso-V2-wp90',
+            'mvaEleID-Fall17-iso-V2-wpHZZ',
+            'mvaEleID-Fall17-iso-V2-wpLoose',
+            'mvaEleID-Fall17-noIso-V2-wp80',
+            'mvaEleID-Fall17-noIso-V2-wp90',
+            'mvaEleID-Fall17-noIso-V2-wpLoose',
+            ),
+        
+        # For Mini-Isolation
+        # see: https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#ID_IP_ISO_AN1
         pfcands     = cms.InputTag("packedPFCandidates"),
-        ElectronMVA = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-        rhoSourceMiniIso = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
+        rhoSourceMiniIso = cms.InputTag("fixedGridRhoFastjetAll"),
     )
 )
 

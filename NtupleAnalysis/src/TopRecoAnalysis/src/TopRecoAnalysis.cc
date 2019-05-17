@@ -551,7 +551,7 @@ TopRecoAnalysis::TopRecoAnalysis(const ParameterSet& config, const TH1* skimCoun
     // cfg_PrelimTopFitChiSqr(config, "FakeBMeasurement.prelimTopFitChiSqrCut"),
     // cfg_PrelimTopMVACut(config, "FakeBMeasurement.prelimTopMVACut"),
     //cfg_PrelimTopMVACut(config, "FakeBMeasurement.minTopMVACut"),
-    cfg_PrelimTopMVACut(config, "TopSelectionBDT.MVACut"),
+    cfg_PrelimTopMVACut(config, "TopSelectionBDT.TopMVACut"),
     fCommonPlots(config.getParameter<ParameterSet>("CommonPlots"), CommonPlots::kHplus2tbAnalysis, fHistoWrapper),
     cAllEvents(fEventCounter.addCounter("all events")),
     cTrigger(fEventCounter.addCounter("passed trigger")),
@@ -1509,9 +1509,9 @@ bool TopRecoAnalysis::FoundFatWjet_fatJetSelections(Jet Jet1, Jet Jet2, Jet Bjet
     {
       if (fatJet.pt() <= 200) continue;
       if (std::abs(fatJet.eta()) >= 2.4) continue;
-      double tau_21 = fatJet.NjettinessAK8tau2()/fatJet.NjettinessAK8tau1();
+      double tau_21 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
       if (tau_21 > 0.6) continue;
-      if (fatJet.ak8PFJetsCHSSoftDropMass() < 65 || fatJet.ak8PFJetsCHSSoftDropMass() > 105) continue;
+      if (fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() < 65 || fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() > 105) continue;
       
       // math::XYZTLorentzVector W_p4;
       // W_p4 = jet1.p4() + jet2.p4();
@@ -1534,7 +1534,7 @@ bool TopRecoAnalysis::FoundFatWjet_fatJetSelections(genParticle W,  const BJetSe
   bool isFatW = false;
   for(AK8Jet fatJet: fEvent.ak8jets())
     {
-      double tau_21 = fatJet.NjettinessAK8tau2()/fatJet.NjettinessAK8tau1();
+      double tau_21 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
 
       bool btagged = false;
       for (auto& bjet: bjetData.getSelectedBJets()){
@@ -1545,7 +1545,7 @@ bool TopRecoAnalysis::FoundFatWjet_fatJetSelections(genParticle W,  const BJetSe
       bool passPt = fatJet.pt() > 200;
       bool passEta = std::abs(fatJet.eta()) < 2.4;
       bool passTau_21 = tau_21 < 0.6;
-      bool passSDmass = fatJet.ak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSSoftDropMass() <= 105;
+      bool passSDmass = fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() <= 105;
 
       bool pass = passBtagging*passPt*passEta*passTau_21*passSDmass;
       if (!pass) continue;
@@ -1562,7 +1562,7 @@ bool TopRecoAnalysis::Pass_fatWJetSelections(const BJetSelection::Data& bjetData
 
   for(AK8Jet fatJet: fEvent.ak8jets())
     {
-      double tau_21 = fatJet.NjettinessAK8tau2()/fatJet.NjettinessAK8tau1();
+      double tau_21 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
       
       bool btagged = false;
       // for (auto& bjet: bjetData.getSelectedBJets()){
@@ -1573,7 +1573,7 @@ bool TopRecoAnalysis::Pass_fatWJetSelections(const BJetSelection::Data& bjetData
       bool passPt = fatJet.pt() > 200;
       bool passEta = std::abs(fatJet.eta()) < 2.4;
       bool passTau_21 = tau_21 < 0.6;
-      bool passSDmass = fatJet.ak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSSoftDropMass() <= 105;
+      bool passSDmass = fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() <= 105;
       
       bool pass = passBtagging*passPt*passEta*passTau_21*passSDmass;
       if (pass) return true;
@@ -1583,7 +1583,7 @@ bool TopRecoAnalysis::Pass_fatWJetSelections(const BJetSelection::Data& bjetData
 
 bool TopRecoAnalysis::Pass_fatWJetSelections(const BJetSelection::Data& bjetData, const AK8Jet& fatJet){
 
-  double tau_21 = fatJet.NjettinessAK8tau2()/fatJet.NjettinessAK8tau1();
+  double tau_21 = fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/fatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
   
   bool btagged = false;
   for (auto& bjet: bjetData.getSelectedBJets()){
@@ -1594,7 +1594,7 @@ bool TopRecoAnalysis::Pass_fatWJetSelections(const BJetSelection::Data& bjetData
   bool passPt = fatJet.pt() > 200;
   bool passEta = std::abs(fatJet.eta()) < 2.4;
   bool passTau_21 = tau_21 < 0.6;
-  bool passSDmass = fatJet.ak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSSoftDropMass() <= 105;
+  bool passSDmass = fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() >= 65 && fatJet.ak8PFJetsCHSValueMapak8PFJetsCHSSoftDropMass() <= 105;
   
   bool pass = passBtagging*passPt*passEta*passTau_21*passSDmass;
   if (pass) return true;
@@ -1777,26 +1777,26 @@ void TopRecoAnalysis::process(Long64_t entry) {
   if (haveLdgFatJet)
     {
       hLdgFatJetPt_beforeTopSelection     -> Fill(LdgFatJet.pt());
-      hLdgFatJet_tau21_beforeTopSelection -> Fill(LdgFatJet.NjettinessAK8tau2()/LdgFatJet.NjettinessAK8tau1());
-      hLdgFatJet_tau32_beforeTopSelection -> Fill(LdgFatJet.NjettinessAK8tau3()/LdgFatJet.NjettinessAK8tau2());
+      hLdgFatJet_tau21_beforeTopSelection -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+      hLdgFatJet_tau32_beforeTopSelection -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 
       if (haveSubldgFatJet)
 	{
 	  hSubldgFatJetPt_beforeTopSelection     -> Fill(SubldgFatJet.pt());
-	  hSubldgFatJet_tau21_beforeTopSelection -> Fill(SubldgFatJet.NjettinessAK8tau2()/SubldgFatJet.NjettinessAK8tau1());
-	  hSubldgFatJet_tau32_beforeTopSelection -> Fill(SubldgFatJet.NjettinessAK8tau3()/SubldgFatJet.NjettinessAK8tau2());
+	  hSubldgFatJet_tau21_beforeTopSelection -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	  hSubldgFatJet_tau32_beforeTopSelection -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	}
       if (HT_modif > 900)
 	{
 	  hLdgFatJetPt_ht900_beforeTopSelection     -> Fill(LdgFatJet.pt());
-	  hLdgFatJet_tau21_ht900_beforeTopSelection -> Fill(LdgFatJet.NjettinessAK8tau2()/LdgFatJet.NjettinessAK8tau1());
-	  hLdgFatJet_tau32_ht900_beforeTopSelection -> Fill(LdgFatJet.NjettinessAK8tau3()/LdgFatJet.NjettinessAK8tau2());
+	  hLdgFatJet_tau21_ht900_beforeTopSelection -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	  hLdgFatJet_tau32_ht900_beforeTopSelection -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	  
 	  if (haveSubldgFatJet)
 	    {
 	      hSubldgFatJetPt_ht900_beforeTopSelection     -> Fill(SubldgFatJet.pt());
-	      hSubldgFatJet_tau21_ht900_beforeTopSelection -> Fill(SubldgFatJet.NjettinessAK8tau2()/SubldgFatJet.NjettinessAK8tau1());
-	      hSubldgFatJet_tau32_ht900_beforeTopSelection -> Fill(SubldgFatJet.NjettinessAK8tau3()/SubldgFatJet.NjettinessAK8tau2());
+	      hSubldgFatJet_tau21_ht900_beforeTopSelection -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	      hSubldgFatJet_tau32_ht900_beforeTopSelection -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	    }
 	}
     }
@@ -2372,26 +2372,26 @@ void TopRecoAnalysis::process(Long64_t entry) {
   if (haveLdgFatJet)
     {
       hLdgFatJetPt     -> Fill(LdgFatJet.pt());
-      hLdgFatJet_tau21 -> Fill(LdgFatJet.NjettinessAK8tau2()/LdgFatJet.NjettinessAK8tau1());
-      hLdgFatJet_tau32 -> Fill(LdgFatJet.NjettinessAK8tau3()/LdgFatJet.NjettinessAK8tau2());
+      hLdgFatJet_tau21 -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+      hLdgFatJet_tau32 -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 
       if (haveSubldgFatJet)
 	{
 	  hSubldgFatJetPt     -> Fill(SubldgFatJet.pt());
-	  hSubldgFatJet_tau21 -> Fill(SubldgFatJet.NjettinessAK8tau2()/SubldgFatJet.NjettinessAK8tau1());
-	  hSubldgFatJet_tau32 -> Fill(SubldgFatJet.NjettinessAK8tau3()/SubldgFatJet.NjettinessAK8tau2());
+	  hSubldgFatJet_tau21 -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	  hSubldgFatJet_tau32 -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	}
       if (HT_modif > 900)
 	{
 	  hLdgFatJetPt_ht900     -> Fill(LdgFatJet.pt());
-	  hLdgFatJet_tau21_ht900 -> Fill(LdgFatJet.NjettinessAK8tau2()/LdgFatJet.NjettinessAK8tau1());
-	  hLdgFatJet_tau32_ht900 -> Fill(LdgFatJet.NjettinessAK8tau3()/LdgFatJet.NjettinessAK8tau2());
+	  hLdgFatJet_tau21_ht900 -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	  hLdgFatJet_tau32_ht900 -> Fill(LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/LdgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	  
 	  if (haveSubldgFatJet)
 	    {	  
 	      hSubldgFatJetPt_ht900     -> Fill(SubldgFatJet.pt());
-	      hSubldgFatJet_tau21_ht900 -> Fill(SubldgFatJet.NjettinessAK8tau2()/SubldgFatJet.NjettinessAK8tau1());
-	      hSubldgFatJet_tau32_ht900 -> Fill(SubldgFatJet.NjettinessAK8tau3()/SubldgFatJet.NjettinessAK8tau2());
+	      hSubldgFatJet_tau21_ht900 -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1());
+	      hSubldgFatJet_tau32_ht900 -> Fill(SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/SubldgFatJet.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2());
 	    }
 	}
     }
@@ -3048,8 +3048,8 @@ void TopRecoAnalysis::process(Long64_t entry) {
       else if (SubldgFatJet.index() == FatJet_ldgFatTop.index()) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther -> Fill("Subldg", 1);
       else if ((LdgFatJet.index() != FatJet_ldgFatTop.index())&&(SubldgFatJet.index() != FatJet_ldgFatTop.index())) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther->Fill("Other", 1);
  
-      double tau21 = FatJet_ldgFatTop.NjettinessAK8tau2()/FatJet_ldgFatTop.NjettinessAK8tau1();
-      double tau32 = FatJet_ldgFatTop.NjettinessAK8tau3()/FatJet_ldgFatTop.NjettinessAK8tau2();
+      double tau21 = FatJet_ldgFatTop.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/FatJet_ldgFatTop.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
+      double tau32 = FatJet_ldgFatTop.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/FatJet_ldgFatTop.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2();
       
       hFatTop_LdgTrijet_tau21 -> Fill(LdgTopIsTopFromH, tau21);
       hFatTop_LdgTrijet_tau32 -> Fill(LdgTopIsTopFromH, tau32);
@@ -3087,8 +3087,8 @@ void TopRecoAnalysis::process(Long64_t entry) {
       else if (SubldgFatJet.index() == FatJet_ldgFatW.index()) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther -> Fill("Subldg", 1);
       else if ((LdgFatJet.index() != FatJet_ldgFatW.index()) && (SubldgFatJet.index() != FatJet_ldgFatTop.index())) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther -> Fill("Other", 1);
 
-      double tau21 = FatJet_ldgFatW.NjettinessAK8tau2()/FatJet_ldgFatW.NjettinessAK8tau1();
-      double tau32 = FatJet_ldgFatW.NjettinessAK8tau3()/FatJet_ldgFatW.NjettinessAK8tau2();
+      double tau21 = FatJet_ldgFatW.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/FatJet_ldgFatW.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
+      double tau32 = FatJet_ldgFatW.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/FatJet_ldgFatW.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2();
        
       hFatW_LdgTrijet_tau21  -> Fill(LdgTopIsTopFromH, tau21);
       hFatW_LdgTrijet_tau32  -> Fill(LdgTopIsTopFromH, tau32);
@@ -3127,8 +3127,8 @@ void TopRecoAnalysis::process(Long64_t entry) {
       else if (SubldgFatJet.index() == FatJet_ldgFatJB.index()) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther -> Fill("Subldg", 1);
       else if ((LdgFatJet.index() != FatJet_ldgFatJB.index()) && (SubldgFatJet.index() != FatJet_ldgFatTop.index())) hCEvts_LdgTrijetMatchedtoFatJet_LdgSbldgOther->Fill("Other", 1);
 
-      double tau21 = FatJet_ldgFatJB.NjettinessAK8tau2()/FatJet_ldgFatJB.NjettinessAK8tau1();
-      double tau32 = FatJet_ldgFatJB.NjettinessAK8tau3()/FatJet_ldgFatJB.NjettinessAK8tau2();
+      double tau21 = FatJet_ldgFatJB.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2()/FatJet_ldgFatJB.ak8PFJetsCHSValueMapNjettinessAK8CHSTau1();
+      double tau32 = FatJet_ldgFatJB.ak8PFJetsCHSValueMapNjettinessAK8CHSTau3()/FatJet_ldgFatJB.ak8PFJetsCHSValueMapNjettinessAK8CHSTau2();
 
       hFatJB_LdgTrijet_tau21 -> Fill(LdgTopIsTopFromH, tau21);
       hFatJB_LdgTrijet_tau32 -> Fill(LdgTopIsTopFromH, tau32);
