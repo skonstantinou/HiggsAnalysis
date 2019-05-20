@@ -99,7 +99,7 @@ def produceJets(process, isData):
     jetToolbox( process, 'ak4', 'ak4JetSubs', 'out',
                 updateCollection='cleanedPatJetsModifiedMET', 
                 JETCorrLevels = JEC, JETCorrPayload="AK4PFchs", 
-                bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags',
+                bTagDiscriminators = ['pfCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedMVAV2BJetTags', 'pfCombinedCvsLJetTags', 'pfCombinedCvsBJetTags',
                                       'pfDeepCSVJetTags:probb', 'pfDeepCSVJetTags:probc', 'pfDeepCSVJetTags:probudsg', 'pfDeepCSVJetTags:probbb',
                                       'pfDeepFlavourJetTags:probb', 'pfDeepFlavourJetTags:probbb', 'pfDeepFlavourJetTags:problepb', 'pfDeepFlavourJetTags:probc',
                                       'pfDeepFlavourJetTags:probuds', 'pfDeepFlavourJetTags:probg'],
@@ -347,7 +347,9 @@ def reproduceMET(process,isdata):
                                fixEE2017Params = {'userawPt': True, 'ptThreshold':50.0, 'minEtaThreshold':2.65, 'maxEtaThreshold': 3.139},
                                postfix = "ModifiedMET"
                                )
-    process.CustomisationsSequence += process.fullPatMetSequenceModifiedMET
+
+    # Commented out due to running errors
+    #process.CustomisationsSequence += process.fullPatMetSequenceModifiedMET
     
 #    process.selectedPatJetsForMetT1T2Corr.src = cms.InputTag("cleanedPatJets")
 #    process.patPFMetT1.src = cms.InputTag("slimmedMETs")

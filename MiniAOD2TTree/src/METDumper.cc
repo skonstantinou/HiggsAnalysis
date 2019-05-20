@@ -62,7 +62,7 @@ bool METDumper::fill(edm::Event& iEvent, const edm::EventSetup& iSetup){
 	    // Member ftion caloMETPt() returns caloMET only for slimmedMETs, for MET_Type1_NoHF and Puppi it seems to return the PFMET.
 	    // Fixed by hard coding the caloMET to use slimmedMETs
 	    // 05112015/SL
-	    if(inputCollections[i].getParameter<edm::InputTag>("src").label() == "slimmedMETs" && handle->ptrAt(0)->caloMETPt()){
+	    if(inputCollections[i].getParameter<edm::InputTag>("src").label() == "slimmedMETsModifiedMET" && handle->ptrAt(0)->caloMETPt()){
               caloMET_x = handle->ptrAt(0)->caloMETPt() * TMath::Cos(handle->ptrAt(0)->caloMETPhi());
               caloMET_y = handle->ptrAt(0)->caloMETPt() * TMath::Sin(handle->ptrAt(0)->caloMETPhi());
             }
