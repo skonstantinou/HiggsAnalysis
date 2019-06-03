@@ -31,7 +31,7 @@ AK4Jets = cms.PSet(
     srcJERdown = cms.InputTag("shiftedPatSmearedJetResDownModifiedMET"),
 #        jecPayload = JECpayloadAK4PFchs.payload,
 
-    discriminators = cms.vstring( #https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation80X
+    discriminators = cms.vstring( #https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation94X
         "pfJetBProbabilityBJetTags",
         "pfJetProbabilityBJetTags",
         "pfTrackCountingHighEffBJetTags",

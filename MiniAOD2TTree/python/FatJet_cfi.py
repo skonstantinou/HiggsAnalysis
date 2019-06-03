@@ -13,7 +13,19 @@ AK8Jets = cms.PSet(
     srcJERdown = cms.InputTag("shiftedPatSmearedJetResDown"),
         
     discriminators = cms.vstring(
-        "pfBoostedDoubleSecondaryVertexAK8BJetTags",
+        'pfBoostedDoubleSecondaryVertexAK8BJetTags',
+        'pfMassIndependentDeepDoubleBvLJetTags:probQCD',
+        'pfMassIndependentDeepDoubleBvLJetTags:probHbb',
+        'pfMassIndependentDeepDoubleCvLJetTags:probQCD',
+        'pfMassIndependentDeepDoubleCvLJetTags:probHcc',
+        'pfMassIndependentDeepDoubleCvBJetTags:probHbb',
+        'pfMassIndependentDeepDoubleCvBJetTags:probHcc',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:bbvsLight',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:ccvsLight',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:TvsQCD',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:ZHccvsQCD',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:WvsQCD',
+        'pfMassDecorrelatedDeepBoostedDiscriminatorsJetTags:ZHbbvsQCD',
         ),
     userFloats = cms.vstring(
         "ak8PFJetsCHSValueMap:NjettinessAK8CHSTau1",
