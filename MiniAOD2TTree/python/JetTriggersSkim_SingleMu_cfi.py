@@ -9,6 +9,7 @@ skim = cms.EDFilter("JetTriggersSkim",
         "HLT_IsoMu27_v",
         "HLT_IsoMu30_v",
         ),
+
     # Jets (https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID#Recommendations_for_13_TeV_data)
     JetCollection  = cms.InputTag("slimmedJets"),
     JetUserFloats  = cms.vstring(
@@ -26,9 +27,9 @@ skim = cms.EDFilter("JetTriggersSkim",
 
     # Electrons (https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2)
     ElectronCollection   = cms.InputTag("slimmedElectrons"),
-    ElectronID           = cms.string("cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
-    ElectronMVA          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-    ElectronRhoSource    = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
+    ElectronID           = cms.string("cutBasedElectronID-Fall17-94X-V2-veto"),
+    # ElectronMVA          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
+    ElectronRhoSource    = cms.InputTag("fixedGridRhoFastjetAll"),
     ElectronMiniRelIsoEA = cms.double(0.2), # MIT cut is at 0.40. Allow wiggle room by cutting at LOWER value
     ElectronPtCut        = cms.double(10.0),
     ElectronEtaCut       = cms.double(2.1),
@@ -46,7 +47,7 @@ skim = cms.EDFilter("JetTriggersSkim",
     TauCollection     = cms.InputTag("slimmedTaus"),
     TauDiscriminators = cms.vstring(
         "decayModeFinding",
-        "byVLooseIsolationMVArun2v1DBoldDMwLT",
+        "byVLooseIsolationMVArun2017v2DBoldDMwLT2017",
         ),
     TauPtCut  = cms.double(20),
     TauEtaCut = cms.double(2.3),

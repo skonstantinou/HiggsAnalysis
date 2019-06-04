@@ -74,7 +74,7 @@ private:
   edm::EDGetTokenT<pat::ElectronCollection> cfg_electronToken;
   edm::EDGetTokenT<double> cfg_rhoToken;
   std::string cfg_electronID;
-  edm::EDGetTokenT<edm::ValueMap<float> > cfg_electronMVAToken;
+  //edm::EDGetTokenT<edm::ValueMap<float> > cfg_electronMVAToken;
   const double cfg_electronMiniRelIsoEA;
   const double cfg_electronPtCut;
   const double cfg_electronEtaCut;
@@ -111,7 +111,7 @@ JetTriggersSkim::JetTriggersSkim(const edm::ParameterSet& iConfig)
     cfg_electronToken(consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("ElectronCollection"))),
     cfg_rhoToken(consumes<double>(iConfig.getParameter<edm::InputTag>("ElectronRhoSource"))),
     cfg_electronID(iConfig.getParameter<std::string>("ElectronID")),
-    cfg_electronMVAToken(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ElectronMVA"))),
+    //cfg_electronMVAToken(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ElectronMVA"))),
     cfg_electronMiniRelIsoEA(iConfig.getParameter<double>("ElectronMiniRelIsoEA")),
     cfg_electronPtCut(iConfig.getParameter<double>("ElectronPtCut")),
     cfg_electronEtaCut(iConfig.getParameter<double>("ElectronEtaCut")),
@@ -250,8 +250,8 @@ bool JetTriggersSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSetup )
     iEvent.getByToken(cfg_electronToken, electronHandle);
     int nElectrons = 0;
 
-    edm::Handle<edm::ValueMap<float> > electronMVAHandle;
-    iEvent.getByToken(cfg_electronMVAToken, electronMVAHandle);
+    //edm::Handle<edm::ValueMap<float> > electronMVAHandle;
+    //iEvent.getByToken(cfg_electronMVAToken, electronMVAHandle);
 
     // Packed Candidates
     edm::Handle<edm::View<pat::PackedCandidate> > pfcandHandle;
@@ -269,28 +269,31 @@ bool JetTriggersSkim::filter(edm::Event& iEvent, const edm::EventSetup& iSetup )
 
         iEle++;
 	edm::RefToBase<pat::Electron> ref ( edm::Ref<pat::ElectronCollection >(electronHandle, iEle));
-
-        // Calculate Mini relative isolation for the electron with effective area
+	
+	// Calculate Mini relative isolation for the electron with effective area
         double miniRelIsoEA = getMiniIsolation_EffectiveArea(pfcandHandle, dynamic_cast<const reco::Candidate *>(&obj), 0.05, 0.2, 10., false, false, *rhoHandle);
 
-        float mvaValue = (*electronMVAHandle)[ref];
-        float AbsEta = fabs(obj.p4().eta());
+        /*
+	  float mvaValue = (*electronMVAHandle)[ref];
+	  float AbsEta = fabs(obj.p4().eta());
 
-        bool isLoose = false;
-        if (AbsEta <= 0.8 and mvaValue >= -0.041)
+	  bool isLoose = false;
+	  if (AbsEta <= 0.8 and mvaValue >= -0.041)
           {
-            isLoose = true;
+	  isLoose = true;
           }
-        if (AbsEta > 0.8 and AbsEta < 1.479 and mvaValue >= 0.383)
+	  if (AbsEta > 0.8 and AbsEta < 1.479 and mvaValue >= 0.383)
           {
-            isLoose = true;
+	  isLoose = true;
           }
-	if (AbsEta >= 1.479 and mvaValue >= -0.515)
+	  if (AbsEta >= 1.479 and mvaValue >= -0.515)
 	  {
-	    isLoose = true;
+	  isLoose = true;
 	  }
-	// Apply acceptance cuts
-	if (!isLoose)                                  continue;
+	  
+	  // Apply acceptance cuts
+	  if (!isLoose)                                  continue;
+	*/
 	if (miniRelIsoEA  > cfg_electronMiniRelIsoEA)  continue;
 	if (obj.p4().pt() < cfg_electronPtCut)         continue;
 	if (fabs(obj.p4().eta()) > cfg_electronEtaCut) continue;
