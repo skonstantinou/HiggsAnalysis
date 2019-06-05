@@ -80,9 +80,9 @@ skim = cms.EDFilter("Hplus2tbAnalysisSkim",
 
     # Electrons (https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2)
     ElectronCollection   = cms.InputTag("slimmedElectrons"),
-    ElectronID           = cms.string("cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
-    ElectronMVA          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-    ElectronRhoSource    = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
+    ElectronID           = cms.string("cutBasedElectronID-Fall17-94X-V2-veto"),
+    #ElectronMVA          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
+    ElectronRhoSource    = cms.InputTag("fixedGridRhoFastjetAll"),
     ElectronMiniRelIsoEA = cms.double(0.2), # MIT cut is at 0.40. Allow wiggle room by cutting at LOWER value
     ElectronPtCut        = cms.double(10.0),
     ElectronEtaCut       = cms.double(2.1),
@@ -97,10 +97,10 @@ skim = cms.EDFilter("Hplus2tbAnalysisSkim",
     MuonNCut         = cms.int32(0),
     
     # Taus
-    TauCollection     = cms.InputTag("slimmedTaus"),
+    TauCollection     = cms.InputTag("NewTauIDsEmbedded"),
     TauDiscriminators = cms.vstring(
         "decayModeFinding",
-        "byVLooseIsolationMVArun2v1DBoldDMwLT",
+        "byVLooseIsolationMVArun2017v2DBoldDMwLT2017",
         ),
     TauPtCut  = cms.double(20),
     TauEtaCut = cms.double(2.3),

@@ -12,9 +12,9 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 #================================================================================================  
 # Options
 #================================================================================================  
-DataSet = "SingleMu" # Options = ["SingleMu", "JetHT"]
+DataSet = "JetHT"#SingleMu" # Options = ["SingleMu", "JetHT"]
 
-maxEvents    = 1000
+maxEvents    = 2000
 maxWarnings  = 100
 reportEvery  = 100
 testWithData = False
@@ -33,25 +33,22 @@ if testWithData:
         #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/0E6724B9-013A-E811-962C-0025905B8606.root',
         #'/store/data/Run2017B/JetHT/MINIAOD/31Mar2018-v1/00000/12479445-673A-E811-89D8-0CC47A4C8E82.root',
         #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/EE28F64A-9F37-E811-AE35-008CFAC91B70.root',
-        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/EC952E5C-7237-E811-BFB8-008CFAC9405C.root',
-        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/E6F15B74-7237-E811-B46D-008CFAC94068.root',
-        #'/store/data/Run2017E/JetHT/MINIAOD/31Mar2018-v1/90001/DEFCBB4C-6E37-E811-B2EF-008CFAC91C58.root',
         ]
 else:
     dataVersion  = "94Xmc"
     datasetFiles = [
-        # TTToHadronic
-        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/FE3E8889-9342-E811-898F-008CFAF724BE.root',
-        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F819F9EE-5142-E811-BC28-7845C4FC3C7D.root',
-        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4DCCD39-A542-E811-9E16-008CFAF225DC.root',
-        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F4C04DD1-9042-E811-A933-008CFAF747AA.root',
-        '/store/mc/RunIIFall17MiniAODv2/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/F445F408-C442-E811-88B5-7CD30AD0A15C.root',
+        # TTToSemiLeptonic
+        '/store/mc/RunIIFall17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/120000/8259BB6F-7BBB-E811-AE83-F02FA768CF8A.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/120000/8222C5CB-38BB-E811-A0EB-00259021A39E.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/120000/80804FC7-E3BA-E811-810B-0653BC0002AE.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/120000/801EF619-10BB-E811-974D-0CC47A4DEDF6.root',
+        '/store/mc/RunIIFall17MiniAODv2/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/120000/7CFA3AB6-BBBA-E811-80D9-E0071B697BF1.root',
         # HPlusToTB
-        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/FA3778BB-1BAE-E711-86C7-0025905B85CC.root',
-        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/C6B567EC-29B3-E711-8B60-002590DE6E78.root',
-        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B4FB980E-2AB3-E711-8F79-FA163E1B2305.root',
-        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B2EFA52E-C3B4-E711-8B38-3417EBE70003.root',
-        '/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/9846934D-50AC-E711-AC34-003048FFD7A4.root',
+        #'/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/FA3778BB-1BAE-E711-86C7-0025905B85CC.root',
+        #'/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/C6B567EC-29B3-E711-8B60-002590DE6E78.root',
+        #'/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B4FB980E-2AB3-E711-8F79-FA163E1B2305.root',
+        #'/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/B2EFA52E-C3B4-E711-8B38-3417EBE70003.root',
+        #'/store/mc/RunIISummer17MiniAOD/ChargedHiggs_HplusTB_HplusToTB_M-500_13TeV_amcatnlo_pythia8/MINIAODSIM/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v1/150000/9846934D-50AC-E711-AC34-003048FFD7A4.root',
         ]
     
 # For debugging purposes
@@ -130,8 +127,10 @@ print title
 print "="*len(title)
 print msgAlign.format(dataVersion.version, dataVersion.getGlobalTag(), dataVersion.getMETFilteringProcess(), dataVersion.getTriggerProcess())
 print 
-####
 
+#================================================================================================
+# Load processes
+#================================================================================================
 process.load("HiggsAnalysis/MiniAOD2TTree/PUInfo_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/TopPt_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/Tau_cfi")
@@ -139,12 +138,13 @@ process.load("HiggsAnalysis/MiniAOD2TTree/Electron_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/Muon_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/Jet_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/FatJet_cfi")
+process.load("HiggsAnalysis/MiniAOD2TTree/SecondaryVertex_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/Top_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/MET_cfi")
 process.load("HiggsAnalysis/MiniAOD2TTree/METNoiseFilter_cfi")
 
 process.METNoiseFilter.triggerResults = cms.InputTag("TriggerResults::"+str(dataVersion.getMETFilteringProcess())) 
-print "check tau",process.Taus_TauPOGRecommendation[0]
+
 process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     OutputFileName      = cms.string("miniaod2tree.root"),
     PUInfoInputFileName = process.PUInfo.OutputFileName,
@@ -153,9 +153,9 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
     DataVersion         = cms.string(str(dataVersion.version)),
     CMEnergy            = cms.int32(13),
     Skim = cms.PSet(
-	Counters = cms.VInputTag(
-	    "skimCounterAll",
-            "skimCounterPassed"
+        Counters = cms.VInputTag(
+            cms.InputTag("skimCounterAll","Counter"),
+            cms.InputTag("skimCounterPassed","Counter")
         ),
     ),
     EventInfo = cms.PSet(
@@ -171,7 +171,6 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
             "HLT_IsoMu24_eta2p1_v",
             "HLT_IsoMu27_v",
             "HLT_IsoMu30_v",
-            # Signal Triggers
             "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_v",
             "HLT_PFHT300PT30_QuadPFJet_75_60_45_40_TriplePFBTagCSV_3p0_v",
             "HLT_PFHT380_SixPFJet32_DoublePFBTagCSV_2p2_v",
@@ -184,12 +183,9 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
             "HLT_HT300PT30_QuadJet_75_60_45_40_TripeCSV_p07_v",
             "HLT_PFHT380_SixJet32_DoubleBTagCSV_p075_v",
             "HLT_PFHT430_SixJet40_BTagCSV_p080_v",
-            "HLT_PFJet320_v",
-            "HLT_PFJet400_v",
             "HLT_PFJet450_v",
             "HLT_PFJet500_v",
             "HLT_PFJet550_v",
-            "HLT_PFHT250_v",
             "HLT_PFHT370_v",
             "HLT_PFHT430_v",
             "HLT_PFHT510_v",
@@ -208,10 +204,6 @@ process.dump = cms.EDFilter('MiniAOD2TTreeFilter',
             "HLT_QuadPFJet103_88_75_15_BTagCSV_p013_VBF2_v",
             "HLT_QuadPFJet105_88_76_15_BTagCSV_p013_VBF2_v",
             "HLT_QuadPFJet111_90_80_15_BTagCSV_p013_VBF2_v",
-            "HLT_QuadPFJet98_83_71_15_v",
-            "HLT_QuadPFJet103_88_75_15_v",
-            "HLT_QuadPFJet105_88_76_15_v",
-            "HLT_QuadPFJet111_90_80_15_v",
             "HLT_AK8PFHT750_TrimMass50_v",
             "HLT_AK8PFHT800_TrimMass50_v",
             "HLT_AK8PFHT850_TrimMass50_v",
@@ -304,30 +296,54 @@ produceCustomisations(process,dataVersion.isData()) # This produces process.Cust
 from HiggsAnalysis.MiniAOD2TTree.CommonFragments import produceAK8Customisations
 produceAK8Customisations(process, dataVersion.isData())   # This produces process.AK8CustomisationsSequence which needs to be included to path   
 
-# Set up electron MVA ID for Skimming
-# https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
+
+#===== EGamma IDs
+from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
-print "=== Adding Electron MVA: ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
 switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
-
-for idmod in ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']:
+my_id_modules = [
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
+    'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+    ]
+for idmod in my_id_modules:
     setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
 
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
+setupEgammaPostRecoSeq(process,
+                       runVID=True,
+                       era='2017-Nov17ReReco')
+
+#===== Setup tau ID
+print "\n=== Rerunning Tau MVA ID (2017v2) \n"
+from HiggsAnalysis.MiniAOD2TTree.runTauIdMVA import *
+na = TauIDEmbedder(process, cms,
+    debug=True,
+    toKeep = ["newDM2017v2", "2017v2", "dR0p32017v2"] # pick the one you need: ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
+)
+na.runTauID()
 
 #================================================================================================ 
 # Module execution
 #================================================================================================ 
 process.runEDFilter = cms.Path(process.PUInfo*
                                process.TopPtProducer*
+                               # Produce Tau MVA ID prior skimming
+                               process.rerunMvaIsolationSequence*
+                               process.NewTauIDsEmbedded*
+                               # Produce Electron IDs prior skimming
+                               process.egammaPostRecoSeq*
                                process.egmGsfElectronIDSequence*
+                               # Apply the skimming
                                process.skimCounterAll*
                                process.skim*
                                process.skimCounterPassed*
                                process.CustomisationsSequence*
                                process.AK8CustomisationsSequence*
                                process.dump)
-
 
 #process.output = cms.OutputModule("PoolOutputModule",
 #   outputCommands = cms.untracked.vstring(

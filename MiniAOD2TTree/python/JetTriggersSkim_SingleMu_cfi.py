@@ -44,7 +44,7 @@ skim = cms.EDFilter("JetTriggersSkim",
     MuonNCut         = cms.int32(1),
 
     # Taus
-    TauCollection     = cms.InputTag("slimmedTaus"),
+    TauCollection     = cms.InputTag("NewTauIDsEmbedded"),
     TauDiscriminators = cms.vstring(
         "decayModeFinding",
         "byVLooseIsolationMVArun2017v2DBoldDMwLT2017",
