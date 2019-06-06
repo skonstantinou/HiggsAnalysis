@@ -12,7 +12,7 @@ from HiggsAnalysis.MiniAOD2TTree.tools.HChOptions import getOptionsDataVersion
 #================================================================================================  
 # Options
 #================================================================================================  
-DataSet = "JetHT"#SingleMu" # Options = ["SingleMu", "JetHT"]
+DataSet = "SingleMu" # Options = ["SingleMu", "JetHT"]
 
 maxEvents    = 2000
 maxWarnings  = 100
