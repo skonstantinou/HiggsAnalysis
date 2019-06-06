@@ -177,6 +177,36 @@ das = "https://cmsweb.cern.ch/das/request?view=list&limit=50&instance=prod%2Fglo
 datasetsTopToLeptonic.append(Dataset("/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
 datasetsTopToLeptonic.append(Dataset("/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
 
+
+datasetsTTH = []
+das = "https://cmsweb.cern.ch/das/request?view=list&limit=50&instance=prod%2Fglobal&input=dataset%3D%2FttH*%2FRunIIFall17MiniAODv2-PU2017_12Apr2018*94X*2017*v*%2FMINIAODSIM"
+datasetsTTH.append(Dataset("/ttH_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTH.append(Dataset("/ttH_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTH.append(Dataset("/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTH.append(Dataset("/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTH.append(Dataset("/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTH.append(Dataset("/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTH.append(Dataset("/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTH.append(Dataset("/ttHJetTobb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTH.append(Dataset("/ttHJetTobb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTH.append(Dataset("/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTH.append(Dataset("/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+
+datasetsTTHToTauTau = []
+das = "https://cmsweb.cern.ch/das/request?view=list&limit=50&instance=prod%2Fglobal&input=dataset%3D%2FttH*%2FRunIIFall17MiniAODv2-PU2017_12Apr2018*94X*2017*v*%2FMINIAODSIM"
+datasetsTTHToTauTau.append(Dataset("/ttH_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTHToTauTau.append(Dataset("/ttH_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTHToTauTau.append(Dataset("/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTHToTauTau.append(Dataset("/ttHToTauTau_M125_TuneCP5_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+
+datasetsTTGJets = []
+das = "https://cmsweb.cern.ch/das/request?view=list&limit=50&instance=prod%2Fglobal&input=dataset%3D%2FTTGJets*%2FRunIIFall17MiniAODv2-*%2FMINIAODSIM"
+datasetsTTGJets.append(Dataset("/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTGJets.append(Dataset("/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTGJets.append(Dataset("/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+datasetsTTGJets.append(Dataset("/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+#datasetsTTGJets.append(Dataset("/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v1/MINIAODSIM", dataVersion="94Xmc", dasQuery=das))
+
 datasetsDY = []
 das = "https://cmsweb.cern.ch/das/request?view=plain&limit=50&instance=prod%2Fglobal&input=dataset%3D%2FDY*%2FRunIIFall17MiniAODv2-PU2017_12Apr2018*94X*2017*v*%2FMINIAODSIM"
 datasetsDY.append(Dataset('/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
@@ -339,7 +369,7 @@ datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-120to170_MuEnrichedPt5_TuneCP5_13T
 datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-170to300_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-300to470_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-470to600_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
-# 600to800 not availabe yet
+datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-600to800_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-800to1000_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 datasetsQCDMuEnriched.append(Dataset('/QCD_Pt-1000toInf_MuEnrichedPt5_TuneCP5_13TeV_pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM', dataVersion="94Xmc", dasQuery=das))
 
@@ -490,7 +520,9 @@ hplus2tbAnalysisDatasets.extend(datasetsTop)
 hplus2tbAnalysisDatasets.extend(datasetsTopToSemileptonic)
 hplus2tbAnalysisDatasets.extend(datasetsTopToLeptonic)
 hplus2tbAnalysisDatasets.extend(datasetsTTJets)
-## Minor Backgrounds
+## Backgrounds
+hplus2tbAnalysisDatasets.extend(datasetsTTGJets)
+hplus2tbAnalysisDatasets.extend(datasetsTTH)
 hplus2tbAnalysisDatasets.extend(datasetsTTJets_HT)
 hplus2tbAnalysisDatasets.extend(datasetsTTWJetsToQQ)
 hplus2tbAnalysisDatasets.extend(datasetsTTZToQQ)
