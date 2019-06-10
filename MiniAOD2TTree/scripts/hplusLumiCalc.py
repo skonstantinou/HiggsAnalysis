@@ -25,8 +25,8 @@ It is also assumed that all the software are installed and the $PATH variable se
 Usage:
 1) LXPLUS:
 cd multicrab_AnalysisType_vXYZ_TimeStamp
-export PATH=$HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.0.3/bin:$PATH  (bash)
-setenv PATH ${PATH}:$HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.0.3/bin: (csh)
+export PATH=$HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.1.7/bin:$PATH  (bash)
+setenv PATH ${PATH}:$HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.1.7/bin: (csh)
 hplusLumicalc.py
 or
 hplusLumiCalc.py -i 2016 --transferToEOS --collisions 2016 --offsite
@@ -37,7 +37,8 @@ open two terminals
 for both terminals, ssh to the same machine (e.g. ssh -YK aattikis@cmslpc37.fnal.gov)
 setup CMSSW and CRAB environments
 terminal 1: (ssh tunneling session)
-ssh -N -L 10121:itrac5212-v.cern.ch:10121 <username>@lxplus.cern.ch
+ssh -4 -N -L 10121:itrac5117-v.cern.ch:10121 mkolosov@lxplus.cern.ch #latest oracle server migration
+ssh -N -L 10121:itrac5212-v.cern.ch:10121 <username>@lxplus.cern.ch #invalid after recent cern oracle server migration
 ssh -N -L 10121:itrac50012-v.cern.ch:10121 <username>@lxplus.cern.ch #invalid after recent cern oracle server migration
 
 terminal 2 (while terminal 1 is open):
@@ -301,7 +302,7 @@ def PrintProgressBar(taskName, iteration, total, suffix = ""):
     prefix          = "\t" + taskName
     decimals        = 1
     barLength       = PBARLENGTH
-    txtSize         = 60
+    txtSize         = 80 #60
     formatStr       = "{0:." + str(decimals) + "f}"
     percents        = formatStr.format(100 * (iteration / float(total)))
     filledLength    = int(round(barLength * iteration / float(total)))
@@ -701,7 +702,7 @@ def IsSSHReady(opts):
     if not opts.offsite:
         return
     #cmd_ssh   = "ssh -N -L 10121:itrac50012-v.cern.ch:10121 <username>@lxplus.cern.ch\n\tPress "
-    cmd_ssh   = "ssh -N -L 10121:itrac5212-v.cern.ch:10121 <username>@lxplus.cern.ch\n\tPress "
+    cms_ssh   = "ssh -4 -N -L 10121:itrac5117-v.cern.ch:10121 %s@lxplus.cern.ch" % (getpass.getuser())
     ssh_ready = AskUser("Script executed outside LXPLUS (--offsite enabled). Is the ssh tunneling session ready?\n\t%s" % (cmd_ssh), True)
     if not ssh_ready:
         sys.exit()
